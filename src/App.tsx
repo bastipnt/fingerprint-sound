@@ -3,7 +3,9 @@ import "./App.css";
 function App() {
   return (
     <>
-      <div>Browser Fingerprint Music</div>
+      <div className="main">
+        <h1>Browser Fingerprint Music</h1>
+      </div>
     </>
   );
 }
