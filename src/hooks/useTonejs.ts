@@ -1,9 +1,16 @@
-import MyTone from "../tone";
+import { useRef } from "react";
+import type MyTone from "../tone";
 
 const useTonejs = () => {
-  const myTone = new MyTone();
+  const myToneRef = useRef<MyTone>();
 
-  return myTone;
+  const init = async () => {
+    const MyTone = (await import("../tone")).default;
+    await MyTone.init();
+    myToneRef.current = new MyTone();
+  };
+
+  return { init, myToneRef };
 };
 
 export default useTonejs;
