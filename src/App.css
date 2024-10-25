@@ -8,5 +8,16 @@
 
   .welcome {
     display: grid;
+    gap: 1rem;
+    justify-content: stretch;
+
+    canvas {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin-top: 2rem;
+    }
   }
 }
