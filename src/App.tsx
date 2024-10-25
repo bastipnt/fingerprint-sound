@@ -4,7 +4,7 @@ import "./App.css";
 import useTonejs from "./hooks/useTonejs";
 
 function App() {
-  const { init, myToneRef } = useTonejs();
+  const { init, myToneRef, isLoading } = useTonejs();
   // const fingerprint = useFingerprint();
 
   const [isInitialised, setIsInitialised] = useState(false);
@@ -39,7 +39,7 @@ function App() {
         <section className="welcome">
           <h1>Browser Fingerprint Music</h1>
           <button id="start" onClick={handleClickPlay}>
-            {isPlaying ? "Stop" : "Play"}
+            {isLoading ? "Loading..." : isPlaying ? "Stop" : "Play"}
           </button>
           <canvas ref={fftCanvas}></canvas>
         </section>
