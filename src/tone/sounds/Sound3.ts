@@ -1,7 +1,7 @@
 import BaseSound from "./BaseSound";
 import MyMixer from "../Mixer";
 import { Add, LFO, Multiply, Oscillator } from "tone";
-import { Frequency } from "tone/build/esm/core/type/Units";
+import { Frequency, Time } from "tone/build/esm/core/type/Units";
 
 class Sound3 extends BaseSound {
   saw = new Oscillator("A3", "sawtooth");
@@ -28,8 +28,8 @@ class Sound3 extends BaseSound {
     // this.lfo1.chain(this.scale, this.add, this.mainOsc.frequency);
   }
 
-  play() {
-    this.mainOsc.start(0);
+  play(time: Time) {
+    this.mainOsc.start(time);
     // this.lfo1.start();
     // this.loop.start();
   }

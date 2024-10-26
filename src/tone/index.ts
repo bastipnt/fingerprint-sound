@@ -43,7 +43,7 @@ class MyTone {
 
     await this.samples.init();
     getTransport().start();
-    this.sounds.forEach((sound) => sound.play());
+    this.sounds.forEach((sound) => sound.play(toneNow()));
 
     this.fftVisualisation?.loop();
     this.signalVisualisation?.loop();
