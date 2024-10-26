@@ -1,6 +1,6 @@
 import { FFT, getTransport } from "tone";
 
-class Visualisation {
+class FFTVisualisation {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
   private normalizeCurve = true;
@@ -71,4 +71,4 @@ class Visualisation {
   };
 }
 
-export default Visualisation;
+export default FFTVisualisation;

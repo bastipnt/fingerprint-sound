@@ -1,14 +1,17 @@
 import BaseSound from "./BaseSound";
-import MyMixer from "./Mixer";
-import Sample from "./samples/Sample";
+import MyMixer from "../Mixer";
+import Sample from "../samples/Sample";
+import Samples, { AvailableSamples } from "../Samples";
 
 class Sound2 extends BaseSound {
   private sample?: Sample;
 
-  constructor(mixer: MyMixer, sample?: Sample) {
-    super(mixer);
+  constructor(mixer: MyMixer, samples: Samples) {
+    super(mixer, samples);
 
-    this.sample = sample;
+    this.samples?.useSamples(AvailableSamples.rain);
+    this.sample = this.samples?.samples.get(AvailableSamples.rain);
+
     this.init();
   }
 

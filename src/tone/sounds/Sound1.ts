@@ -1,5 +1,5 @@
 import { Merge, Reverb, Sequence, Synth } from "tone";
-import MyMixer from "./Mixer";
+import MyMixer from "../Mixer";
 import BaseSound from "./BaseSound";
 
 class Sound1 extends BaseSound {

@@ -10,6 +10,7 @@ function App() {
   const [isInitialised, setIsInitialised] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const fftCanvas = useRef<HTMLCanvasElement>(null);
+  const signalCanvas = useRef<HTMLCanvasElement>(null);
 
   const handleClickPlay = async () => {
     if (!isInitialised) {
@@ -23,6 +24,9 @@ function App() {
 
     if (fftCanvas.current !== null)
       myTone.addFFTVisualisation(fftCanvas.current);
+
+    if (signalCanvas.current !== null)
+      myTone.addSignalisualisation(signalCanvas.current);
 
     if (isPlaying) {
       myTone.stop();
@@ -42,6 +46,7 @@ function App() {
             {isLoading ? "Loading..." : isPlaying ? "Stop" : "Play"}
           </button>
           <canvas ref={fftCanvas}></canvas>
+          <canvas ref={signalCanvas}></canvas>
         </section>
       </div>
     </>
