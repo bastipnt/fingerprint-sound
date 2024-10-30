@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-// import useFingerprint from "./hooks/useFingerprint";
+import useFingerprint from "./hooks/useFingerprint";
 import useTonejs from "./hooks/useTonejs";
 
 function App() {
   const { init, myToneRef, isLoading } = useTonejs();
-  // const fingerprint = useFingerprint();
+  const { fingerprint, createFingerprint } = useFingerprint();
 
   const [isInitialised, setIsInitialised] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
@@ -37,11 +37,25 @@ function App() {
     }
   };
 
+  const handleClickCreateFingerprint = () => {
+    createFingerprint();
+  };
+
+  useEffect(() => {
+    if (fingerprint) console.log(fingerprint);
+  }, [fingerprint]);
+
   return (
     <>
       <div className="main">
         <section className="welcome">
           <h1>Browser Fingerprint Music</h1>
+          <button
+            id="create-fingerprint"
+            onClick={handleClickCreateFingerprint}
+          >
+            Create Fingerprint
+          </button>
           <button id="start" onClick={handleClickPlay}>
             {isLoading ? "Loading..." : isPlaying ? "Stop" : "Play"}
           </button>
