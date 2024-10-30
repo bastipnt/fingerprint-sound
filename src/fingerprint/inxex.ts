@@ -53,6 +53,11 @@ class Fingerprint {
       this.getValuesFromFPAttribute(audioDestination, attribute)
     );
 
+    // cleanup audio context
+    audioDestination.disconnect();
+    audioAnalyser.disconnect();
+    audioContext.close();
+
     // Canvas
     const canvas2D = document.createElement("canvas");
     document.body.appendChild(canvas2D);
