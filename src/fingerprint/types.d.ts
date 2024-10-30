@@ -8,6 +8,7 @@ export enum FPAreas {
   AUDIO_ANALYSER = "audio-analyser",
   AUDIO_DESTINATION = "audio-destination",
   CANVAS_2D = "canvas-2D",
+  CANVAS_2D_IMAGE = "canvas-2D-image",
   CANVAS_WEBGL = "canvas-webGL",
   CANVAS_WEBGL2 = "canvas-webGL2",
   DATE = "date",

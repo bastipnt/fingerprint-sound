@@ -1,12 +1,18 @@
+import CanvasFP from "./canvasFP";
 import fpCreationAttributes from "./fpCreationAttributes";
 import { FPAreas, FPAttribute, FPAttributeTypes, FPValue } from "./types.d";
 
 class Fingerprint {
   private creationAttributes = fpCreationAttributes;
   fingerprint = new Map<FPAreas, FPValue[]>();
+  private canvasFP = new CanvasFP();
 
   create() {
     this.createFromAttributes();
+    this.canvasFP.create2D();
+    this.fingerprint.set(FPAreas.CANVAS_2D_IMAGE, [
+      { label: "canvas2D-image", value: this.canvasFP.fingerprint2D },
+    ]);
   }
 
   private createFromAttributes() {
