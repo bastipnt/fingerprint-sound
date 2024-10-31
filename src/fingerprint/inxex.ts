@@ -1,18 +1,44 @@
-import CanvasFP from "./canvasFP";
+import { MD5 } from "object-hash";
+import FPCanvas from "./FPCanvas";
+import FPStore from "./FPStore";
 import fpCreationAttributes from "./fpCreationAttributes";
-import { FPAreas, FPAttribute, FPAttributeTypes, FPValue } from "./types.d";
+import {
+  FPAreas,
+  FPAttribute,
+  FPAttributeTypes,
+  FPStoreItem,
+  FPValue,
+} from "./types.d";
 
 class Fingerprint {
   private creationAttributes = fpCreationAttributes;
-  fingerprint = new Map<FPAreas, FPValue[]>();
-  private canvasFP = new CanvasFP();
+  fingerprint = new Map<FPAreas, FPStoreItem[]>();
+  fingerprintValues = new Map<FPAreas, FPValue[]>();
+  private fpCanvas = new FPCanvas();
+  private fpStore = new FPStore();
 
   create() {
     this.createFromAttributes();
-    this.canvasFP.create2D();
+
+    const canvasFP2D = this.fpCanvas.create2D();
     this.fingerprint.set(FPAreas.CANVAS_2D_IMAGE, [
-      { label: "canvas2D-image", value: this.canvasFP.fingerprint2D },
+      { label: "canvas2D-image", hash: canvasFP2D },
     ]);
+
+    this.fingerprintValues.forEach((fpValues, key) => {
+      const hashedFPValues: FPStoreItem[] = fpValues.map(
+        ({ label, value }) => ({
+          label,
+          hash: value ? MD5(value) : "not-possible",
+        })
+      );
+      this.fingerprint.set(key, hashedFPValues);
+    });
+
+    this.fpStore.saveFP(this.fingerprint);
+    console.log({ comparison: this.fpStore.comparisonMap });
+    console.log("sameness rate:", this.fpStore.samenessRate);
+    console.log("different keys:", this.fpStore.listOfNotSameKeys);
   }
 
   private createFromAttributes() {
@@ -74,7 +100,7 @@ class Fingerprint {
       ].attributes.flatMap((attribute) =>
         this.getValuesFromFPAttribute(ctx2D, attribute)
       );
-      this.fingerprint.set(FPAreas.CANVAS_2D, canvas2DValues);
+      this.fingerprintValues.set(FPAreas.CANVAS_2D, canvas2DValues);
     }
 
     const canvasWebGL = document.createElement("canvas");
@@ -86,7 +112,7 @@ class Fingerprint {
       ].attributes.flatMap((attribute) =>
         this.getValuesFromFPAttribute(ctxwebGL, attribute)
       );
-      this.fingerprint.set(FPAreas.CANVAS_WEBGL, canvasWebGLValues);
+      this.fingerprintValues.set(FPAreas.CANVAS_WEBGL, canvasWebGLValues);
     }
 
     const canvasWebGL2 = document.createElement("canvas");
@@ -98,17 +124,20 @@ class Fingerprint {
       ].attributes.flatMap((attribute) =>
         this.getValuesFromFPAttribute(ctxwebGL2, attribute)
       );
-      this.fingerprint.set(FPAreas.CANVAS_WEBGL2, canvasWebGL2Values);
+      this.fingerprintValues.set(FPAreas.CANVAS_WEBGL2, canvasWebGL2Values);
     }
 
-    this.fingerprint.set(FPAreas.DOCUMENT, documentValues);
-    this.fingerprint.set(FPAreas.MATH, mathValues);
-    this.fingerprint.set(FPAreas.NAVIGATOR, navigatorValues);
-    this.fingerprint.set(FPAreas.WINDOW, windowValues);
-    this.fingerprint.set(FPAreas.SCREEN, screenValues);
-    this.fingerprint.set(FPAreas.AUDIO_CONTEXT, audioContextValues);
-    this.fingerprint.set(FPAreas.AUDIO_ANALYSER, audioAnalyserValues);
-    this.fingerprint.set(FPAreas.AUDIO_DESTINATION, audioDestinationValues);
+    this.fingerprintValues.set(FPAreas.DOCUMENT, documentValues);
+    this.fingerprintValues.set(FPAreas.MATH, mathValues);
+    this.fingerprintValues.set(FPAreas.NAVIGATOR, navigatorValues);
+    this.fingerprintValues.set(FPAreas.WINDOW, windowValues);
+    this.fingerprintValues.set(FPAreas.SCREEN, screenValues);
+    this.fingerprintValues.set(FPAreas.AUDIO_CONTEXT, audioContextValues);
+    this.fingerprintValues.set(FPAreas.AUDIO_ANALYSER, audioAnalyserValues);
+    this.fingerprintValues.set(
+      FPAreas.AUDIO_DESTINATION,
+      audioDestinationValues
+    );
   }
 
   private getValuesFromFPAttribute<T extends object>(

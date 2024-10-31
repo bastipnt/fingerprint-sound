@@ -3,7 +3,7 @@ import { MD5 } from "object-hash";
 const WIDTH = 220;
 const HEIGHT = 30;
 
-class CanvasFP {
+class FPCanvas {
   fingerprint2D?: string;
   image2D?: string;
   private canvas2D: HTMLCanvasElement;
@@ -15,14 +15,14 @@ class CanvasFP {
     this.canvas2D.height = HEIGHT;
   }
 
-  create2D() {
+  create2D(): string {
     // Text with lowercase/uppercase/punctuation symbols
     const txt = "BrowserLeaks,com <canvas> 1.0";
 
     document.body.appendChild(this.canvas2D);
     this.ctx2D = this.canvas2D.getContext("2d");
 
-    if (this.ctx2D === null) return;
+    if (this.ctx2D === null) return "not-possible";
 
     this.ctx2D.textBaseline = "top";
     // The most common type
@@ -43,7 +43,9 @@ class CanvasFP {
     // document.body.appendChild(image);
 
     this.fingerprint2D = MD5(this.image2D);
+
+    return this.fingerprint2D;
   }
 }
 
-export default CanvasFP;
+export default FPCanvas;

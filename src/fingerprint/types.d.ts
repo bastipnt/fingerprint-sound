@@ -100,6 +100,17 @@ export type FPValue = {
   value: string | boolean | number | undefined | null;
 };
 
+export type FPStoreItem = {
+  label: string;
+  hash: string;
+};
+
+export type FPCompareItem = {
+  label: string;
+  oldHash: string | null;
+  newHash: string | null;
+};
+
 // type FPResult = {
 //   [key: string]: string | number | boolean | undefined | null;
 // };
