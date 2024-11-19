@@ -8,6 +8,7 @@ const useFingerprint = () => {
 
   const createFingerprint = () => {
     fingerprinter.create();
+    // @ts-ignore
     setFingerprint(fingerprinter.fingerprint);
   };
 

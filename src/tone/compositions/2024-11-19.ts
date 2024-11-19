@@ -5,7 +5,7 @@ import BaseComposition from "./BaseComposition";
 export default class Composition extends BaseComposition {
   scale = "C4 minor";
 
-  private sound1 = new SynthAndPattern1(this.envelope, {
+  sound1 = new SynthAndPattern1(this.envelope, {
     synth: new FMSynth({
       envelope: { attack: 0.001 },
       modulation: { type: "sawtooth" },
@@ -21,7 +21,7 @@ export default class Composition extends BaseComposition {
     on: true,
   });
 
-  private sound2 = new SynthAndPattern1(this.envelope, {
+  sound2 = new SynthAndPattern1(this.envelope, {
     synth: new FMSynth({
       envelope: { attack: 0.001 },
       modulation: { type: "sawtooth" },
@@ -37,7 +37,7 @@ export default class Composition extends BaseComposition {
     on: true,
   });
 
-  private sound3 = new SynthAndPattern1(this.envelope, {
+  sound3 = new SynthAndPattern1(this.envelope, {
     synth: new FMSynth({
       envelope: { attack: 0.001 },
       modulation: { type: "sawtooth" },
