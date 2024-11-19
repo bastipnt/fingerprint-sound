@@ -6,6 +6,7 @@ import FFTVisualisation from "./FFTVisualisation";
 import Samples from "./Samples";
 import BaseSound from "./sounds/BaseSound";
 import Sound3 from "./sounds/Sound3";
+import Sound4 from "./sounds/Sound4";
 import SignalVisualisation from "./SignalVisualisation";
 
 const VISUALISE = true;
@@ -18,7 +19,7 @@ class MyTone {
   private samples: Samples;
   private sounds: BaseSound[] = [];
 
-  private tempo = 120.0;
+  private tempo = 135.0;
   private fftVisualisation?: FFTVisualisation;
   private signalVisualisation?: SignalVisualisation;
   private setIsLoading: (loading: boolean) => void;
@@ -33,7 +34,8 @@ class MyTone {
 
     // this.sounds.push(new Sound1(this.mixer));
     // this.sounds.push(new Sound2(this.mixer, this.samples));
-    this.sounds.push(new Sound3(this.mixer));
+    // this.sounds.push(new Sound3(this.mixer));
+    this.sounds.push(new Sound4(this.mixer, this.samples));
   }
 
   async play() {
@@ -73,9 +75,7 @@ class MyTone {
     if (!VISUALISE) return;
 
     this.signalVisualisation = new SignalVisualisation(signalCanvas);
-    this.mixer[VISUALISATION_CHANNEL]?.connect(
-      this.signalVisualisation.analyser
-    );
+    this.mixer[VISUALISATION_CHANNEL]?.connect(this.signalVisualisation.analyser);
   }
 
   static async init() {

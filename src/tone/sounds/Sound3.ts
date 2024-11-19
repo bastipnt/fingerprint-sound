@@ -21,9 +21,9 @@ class Sound3 extends BaseSound {
 
     getTransport().scheduleRepeat((time) => {
       this.mainOsc.harmonicity.setValueAtTime(0.5, time);
-      // this.mainOsc.harmonicity.linearRampToValueAtTime(2.5, time + 1);
+      this.mainOsc.harmonicity.linearRampToValueAtTime(2.5, time + 1);
       // this.mainOsc.harmonicity.linearRampToValueAtTime(0.5, time + 2);
-      this.mainOsc.harmonicity.setValueAtTime(1.5, time + 1);
+      // this.mainOsc.harmonicity.setValueAtTime(1.5, time + 1);
       this.mainOsc.harmonicity.setValueAtTime(0.25, time + 2);
       this.mainOsc.harmonicity.setValueAtTime(1.75, time + 3);
       this.mainOsc.harmonicity.setValueAtTime(1, time + 4);
