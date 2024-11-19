@@ -4,21 +4,14 @@ class FFTVisualisation {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
   private normalizeCurve = true;
-  private fft: FFT;
+  fftAnalyser = new FFT();
 
-  constructor(canvas: HTMLCanvasElement, fft: FFT) {
+  constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    this.fft = fft;
   }
 
-  private scale(
-    v: number,
-    inMin: number,
-    inMax: number,
-    outMin: number,
-    outMax: number
-  ): number {
+  private scale(v: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
     return ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
   }
 
@@ -37,8 +30,7 @@ class FFTVisualisation {
       const resampled = new Float32Array(maxValuesLength);
       // down sample to maxValuesLength values
       for (let i = 0; i < maxValuesLength; i++) {
-        resampled[i] =
-          values[Math.floor((i / maxValuesLength) * values.length)];
+        resampled[i] = values[Math.floor((i / maxValuesLength) * values.length)];
       }
       values = resampled;
     }
@@ -67,7 +59,7 @@ class FFTVisualisation {
     if (getTransport().state !== "started") return;
 
     requestAnimationFrame(this.loop);
-    this.draw(this.fft.getValue());
+    this.draw(this.fftAnalyser.getValue());
   };
 }
 

@@ -19,20 +19,16 @@ function App() {
     }
 
     const myTone = myToneRef.current;
-
     if (!myTone) return;
 
-    if (fftCanvas.current !== null)
-      myTone.addFFTVisualisation(fftCanvas.current);
-
-    if (signalCanvas.current !== null)
-      myTone.addSignalisualisation(signalCanvas.current);
+    if (fftCanvas.current !== null) myTone.addFFTVisualisation(fftCanvas.current);
+    if (signalCanvas.current !== null) myTone.addSignalisualisation(signalCanvas.current);
 
     if (isPlaying) {
       myTone.stop();
       setPlaying(false);
     } else {
-      myTone.play();
+      myTone.start();
       setPlaying(true);
     }
   };
@@ -50,10 +46,7 @@ function App() {
       <div className="main">
         <section className="welcome">
           <h1>Browser Fingerprint Music</h1>
-          <button
-            id="create-fingerprint"
-            onClick={handleClickCreateFingerprint}
-          >
+          <button id="create-fingerprint" onClick={handleClickCreateFingerprint}>
             Create Fingerprint
           </button>
           <button id="start" onClick={handleClickPlay}>
