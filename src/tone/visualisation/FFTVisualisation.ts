@@ -4,11 +4,35 @@ class FFTVisualisation {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D | null;
   private normalizeCurve = true;
+  private canvasHeight: number;
+  private canvasWidth: number;
+
   fftAnalyser = new FFT();
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
+    const parent = this.canvas.parentElement;
+
+    this.canvasHeight = parent?.offsetWidth || 200;
+    this.canvasWidth = parent?.offsetHeight || 300;
+
+    this.canvas.height = this.canvasHeight;
+    this.canvas.width = this.canvasWidth;
+
+    this.addResizeHandler();
+  }
+
+  private addResizeHandler() {
+    window.addEventListener("resize", () => {
+      const parent = this.canvas.parentElement;
+
+      this.canvasHeight = parent?.offsetWidth || 200;
+      this.canvasWidth = parent?.offsetHeight || 300;
+
+      this.canvas.height = this.canvasHeight;
+      this.canvas.width = this.canvasWidth;
+    });
   }
 
   private scale(v: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
@@ -18,13 +42,7 @@ class FFTVisualisation {
   private draw(values: Float32Array) {
     if (this.ctx === null) return;
 
-    const height = 200;
-    const width = this.canvas.parentElement?.offsetWidth || 300;
-
-    this.canvas.height = height;
-    this.canvas.width = width;
-
-    this.ctx.clearRect(0, 0, width, height);
+    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     const maxValuesLength = 2048;
     if (values.length > maxValuesLength) {
       const resampled = new Float32Array(maxValuesLength);
@@ -42,8 +60,8 @@ class FFTVisualisation {
     this.ctx.beginPath();
     for (let i = 0; i < values.length; i++) {
       const v = values[i];
-      const x = this.scale(i, 0, values.length, lineWidth, width - lineWidth);
-      const y = this.scale(v, max, min, 0, height - lineWidth);
+      const x = this.scale(i, 0, values.length, lineWidth, this.canvasWidth - lineWidth);
+      const y = this.scale(v, max, min, 0, this.canvasHeight - lineWidth);
       if (i === 0) {
         this.ctx.moveTo(x, y);
       } else {
@@ -56,7 +74,10 @@ class FFTVisualisation {
   }
 
   loop = () => {
-    if (getTransport().state !== "started") return;
+    if (getTransport().state !== "started") {
+      if (this.ctx) this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      return;
+    }
 
     requestAnimationFrame(this.loop);
     this.draw(this.fftAnalyser.getValue());
