@@ -1,8 +1,8 @@
 import { Merge, Reverb, Sequence, Synth } from "tone";
 import MyMixer from "../Mixer";
-import BaseSound from "./BaseSound";
+import BaseComposition from "./BaseComposition";
 
-class Sound1 extends BaseSound {
+class Sound1 extends BaseComposition {
   private merge1: Merge;
   private reverb1: Reverb;
 
@@ -53,20 +53,7 @@ class Sound1 extends BaseSound {
       (time, note) => {
         this.synth1.triggerAttackRelease(note, "8n", time);
       },
-      [
-        "E4",
-        "F#4",
-        "B4",
-        "C#5",
-        "D5",
-        "F#4",
-        "E4",
-        "C#5",
-        "B4",
-        "F#4",
-        "D5",
-        "C#5",
-      ],
+      ["E4", "F#4", "B4", "C#5", "D5", "F#4", "E4", "C#5", "B4", "F#4", "D5", "C#5"],
       "8n"
     );
 
@@ -74,20 +61,7 @@ class Sound1 extends BaseSound {
       (time, note) => {
         this.synth2.triggerAttackRelease(note, "8n", time);
       },
-      [
-        "E4",
-        "F#4",
-        "B4",
-        "C#5",
-        "D5",
-        "F#4",
-        "E4",
-        "C#5",
-        "B4",
-        "F#4",
-        "D5",
-        "C#5",
-      ],
+      ["E4", "F#4", "B4", "C#5", "D5", "F#4", "E4", "C#5", "B4", "F#4", "D5", "C#5"],
       "8n"
     ).start("2m");
 

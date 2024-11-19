@@ -1,9 +1,9 @@
-import BaseSound from "./BaseSound";
+import BaseComposition from "./BaseComposition";
 import MyMixer from "../Mixer";
 import Sample from "../samples/Sample";
 import Samples, { AvailableSamples } from "../Samples";
 
-class Sound2 extends BaseSound {
+class Sound2 extends BaseComposition {
   private sample?: Sample;
 
   constructor(mixer: MyMixer, samples: Samples) {

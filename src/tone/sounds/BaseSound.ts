@@ -1,21 +1,28 @@
-import { Synth } from "tone";
-import MyMixer from "../Mixer";
-import Samples from "../Samples";
-import { Time } from "tone/build/esm/core/type/Units";
+import { AmplitudeEnvelope, Gain, type InputNode } from "tone";
+import { Scale } from "tonal";
+import { mapFloor } from "../../util/number";
 
 abstract class BaseSound {
-  protected mixer: MyMixer;
-  protected samples?: Samples;
-  protected synths: Synth[] = [];
+  readonly scale: string;
+  readonly scaleDegrees: (degree: number) => string;
+  effectChain: Gain;
+  protected on: boolean;
 
-  constructor(mixer: MyMixer, samples?: Samples) {
-    this.mixer = mixer;
-    if (samples) this.samples = samples;
+  constructor(envelope: AmplitudeEnvelope, scale: string, effectChain: InputNode[], on?: boolean) {
+    this.scale = scale;
+    this.scaleDegrees = Scale.degrees(this.scale);
+    this.effectChain = new Gain(1).chain(...effectChain, envelope);
+    this.on = on === undefined ? true : on;
   }
 
-  abstract play(time: Time): void;
+  abstract connect: () => void;
+  abstract disconnect: () => void;
 
-  abstract stop(): void;
+  protected getRndNoteFromScale(...range: [number, number]) {
+    let noteDegree = mapFloor(Math.random(), 0, 1, range[0], range[1]);
+    if (noteDegree >= 0) noteDegree += 1;
+    return this.scaleDegrees(noteDegree);
+  }
 }
 
 export default BaseSound;

@@ -1,9 +1,9 @@
-import BaseSound from "./BaseSound";
+import BaseComposition from "./BaseComposition";
 import MyMixer from "../Mixer";
 import { AMOscillator, AutoFilter, LFO, getTransport } from "tone";
 import { Frequency, Time } from "tone/build/esm/core/type/Units";
 
-class Sound3 extends BaseSound {
+class Sound3 extends BaseComposition {
   mainFreq: Frequency = "F2";
   mainOsc = new AMOscillator(this.mainFreq, "sine", "square");
   lfo = new LFO("1m", 2, 27);

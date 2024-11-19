@@ -1,11 +1,11 @@
-import BaseSound from "./BaseSound";
+import BaseComposition from "./BaseComposition";
 import MyMixer from "../Mixer";
 import { Loop, Sampler } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import MSampler from "../samples/MSampler";
 import Samples, { AvailableSamples } from "../Samples";
 
-class Sound4 extends BaseSound {
+class Sound4 extends BaseComposition {
   samples: Samples;
   sampler: Sampler;
 
@@ -25,9 +25,7 @@ class Sound4 extends BaseSound {
     this.samples = samples;
     this.samples.useSamples(AvailableSamples.sampler1);
 
-    this.sampler = (
-      this.samples.samples.get(AvailableSamples.sampler1) as MSampler
-    ).sampler;
+    this.sampler = (this.samples.samples.get(AvailableSamples.sampler1) as MSampler).sampler;
 
     this.init();
   }
