@@ -4,30 +4,49 @@ import type { PatternName } from "tone/build/esm/event/PatternGenerator";
 import type { Time } from "tone/build/esm/core/type/Units";
 import BaseSound, { BaseSoundOptions } from "./BaseSound";
 import { map } from "../../util/number";
+import { Source, SourceOptions } from "tone/build/esm/source/Source";
 
-export type SynthAndPattern1Options<SynthType extends Monophonic<MonophonicOptions>> =
+type SynthType<Options extends MonophonicOptions | SourceOptions> =
+  Options extends MonophonicOptions ? Options & MonophonicOptions : Options & SourceOptions;
+
+export type SynthAndPattern1Options<SynthOptions extends MonophonicOptions | SourceOptions> =
   BaseSoundOptions & {
-    synth: SynthType | NoiseSynth;
+    synthClass: new (options: SynthOptions) => SynthType<SynthOptions>;
+    synthOptions: SynthOptions;
     patternName: PatternName;
     interval: Time;
     duration: Time;
+    iterations?: number;
+    autostart?: boolean;
   };
 
-class SynthAndPattern1<SynthType extends Monophonic<MonophonicOptions>> extends BaseSound {
-  private synth: SynthType | NoiseSynth;
+class SynthAndPattern1<SynthOptions extends MonophonicOptions | SourceOptions> extends BaseSound {
+  private synthClass: new (options: SynthOptions) => SynthType<SynthOptions>;
+  private synthOptions: SynthOptions;
+  private synths: SynthType<SynthOptions>[] = [];
   private pattern: Pattern<number>;
   private patternIndexes: number[] = [];
   private duration: Time;
+  private iterations: number;
+  private autostart: boolean;
 
   private patternValues?: Array<0 | 1>;
   private noteRange?: [number, number];
   private notes?: number[];
 
-  constructor(envelope: AmplitudeEnvelope, options: SynthAndPattern1Options<SynthType>) {
+  constructor(envelope: AmplitudeEnvelope, options: SynthAndPattern1Options<SynthOptions>) {
     super(envelope, options);
 
-    this.synth = options.synth;
+    this.synthClass = options.synthClass;
+    this.synthOptions = options.synthOptions;
     this.duration = options.duration;
+    this.iterations = options.iterations !== undefined ? options.iterations : Infinity;
+    this.autostart = options.autostart !== undefined ? options.autostart : true;
+
+    const numOfSynths = 4;
+    for (let i = 0; i < numOfSynths; i++) {
+      this.synths.push(new this.synthClass(this.synthOptions));
+    }
 
     if ("noteRange" in options) this.noteRange = options.noteRange;
 
@@ -46,9 +65,10 @@ class SynthAndPattern1<SynthType extends Monophonic<MonophonicOptions>> extends 
       interval: options.interval,
       pattern: options.patternName,
       values: this.patternIndexes,
+      iterations: this.iterations,
     });
 
-    this.pattern.start(0);
+    if (this.autostart) this.pattern.start(0);
     this.connect();
   }
 
@@ -60,6 +80,16 @@ class SynthAndPattern1<SynthType extends Monophonic<MonophonicOptions>> extends 
   disconnect = () => {
     this.synth.disconnect(this.effectChain);
   };
+
+  play(time: Time) {
+    // if (this.pattern.state === "started") return;
+    console.log("pressed", this.pattern.state);
+    this.pattern.stop();
+    this.pattern.start(time);
+
+    // this.pattern.stop("+3");
+    // this.pattern.start("+3");
+  }
 
   patternCallback = (time: Time, value?: number) => {
     if (value === undefined) return;

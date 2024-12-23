@@ -2,7 +2,7 @@ import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "to
 
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
-import Composition from "./compositions/2024-11-19";
+import Composition from "./compositions/2024-11-20";
 
 const VISUALISE = true;
 
