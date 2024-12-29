@@ -4,6 +4,8 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout: React.FC<Props> = ({ children }) => <main>{children}</main>;
+const Layout: React.FC<Props> = ({ children }) => {
+  return <main>{children}</main>;
+};
 
 export default Layout;
