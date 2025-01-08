@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import type MyTone from "../tone";
 
 const useTonejs = () => {
-  const myToneRef = useRef<MyTone>();
+  const myToneRef = useRef<MyTone>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const init = async () => {

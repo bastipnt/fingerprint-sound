@@ -1,17 +1,19 @@
-import { type ReactNode } from "react";
+import { PlayState } from "../Fingerprint";
 
 type Props = {
-  children: ReactNode;
-  play: () => void;
-  focus: () => void;
+  play: (attributeKey: keyof PlayState) => void;
+  attributeKey: keyof PlayState;
+  playing: boolean;
+  label: string;
 };
 
-const FPAttribute: React.FC<Props> = ({ children, play, focus }) => {
+const FPAttribute: React.FC<Props> = ({ play, label, attributeKey, playing }) => {
   return (
-    <li>
-      <button onClick={play}>Play</button>
-      <button onClick={focus}>Focus</button>
-      {children}
+    <li
+      className={`box-border h-32 w-32 rounded bg-primary p-4 ${playing ? "bg-opacity-100" : "bg-opacity-50"}`}
+      onClick={() => play(attributeKey)}
+    >
+      {label}
     </li>
   );
 };

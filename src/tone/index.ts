@@ -1,8 +1,8 @@
-import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
+import { AmplitudeEnvelope, Gain, Synth, getTransport, start, now as toneNow } from "tone";
 
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
-import Composition from "./compositions/2024-11-20";
+import Composition from "./compositions/2025-01-08";
 
 const VISUALISE = true;
 
@@ -60,6 +60,9 @@ class MyTone {
 
     this.fftVisualisation?.loop();
     this.signalVisualisation?.loop();
+
+    const synth = new Synth().toDestination();
+    synth.triggerAttackRelease("C4", "8n");
 
     this.setIsLoading(false);
   }
