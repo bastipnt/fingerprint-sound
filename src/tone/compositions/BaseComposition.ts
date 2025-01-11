@@ -1,9 +1,14 @@
 import { Scale } from "tonal";
 import { AmplitudeEnvelope, type Gain } from "tone";
 import type { Frequency, Time } from "tone/build/esm/core/type/Units";
+import { FPAttributeKeys, FPValue } from "../../Fingerprint";
 import { mapFloor } from "../../util/number";
+import BaseSound from "../sounds/BaseSound";
 
 export type PatternValues = Array<Array<0 | 1>>;
+export type FPAttributeValues = {
+  [key in FPAttributeKeys]: FPValue;
+};
 
 abstract class BaseComposition {
   scale = "C4 major";
@@ -12,18 +17,51 @@ abstract class BaseComposition {
   readonly mainGain: Gain;
   protected readonly envelope: AmplitudeEnvelope;
 
+  protected fpAttributeSounds = new Map<FPAttributeKeys, BaseSound>();
+
   constructor(mainGain: Gain, attack = 1, release = 1) {
     this.mainGain = mainGain;
     this.envelope = new AmplitudeEnvelope(attack, undefined, 1, release);
     this.envelope.connect(this.mainGain);
   }
 
-  start(time?: Time) {
+  start(time: Time) {
+    this.fpAttributeSounds.forEach((sound) => sound.play(time));
     this.envelope.triggerAttack(time);
   }
 
   stop(time: Time) {
     this.envelope.triggerRelease(time);
+    this.fpAttributeSounds.forEach((sound) => sound.stop("+2"));
+  }
+
+  /**
+   * Start fp attribute play
+   * Only works when global is playing
+   * @param attributeKey Key of the fingerprint attribute
+   * @param value Value of the fingerprint attribute
+   */
+  async startFPAttribute(attributeKey: FPAttributeKeys) {
+    console.log("Start:", attributeKey);
+
+    this.fpAttributeSounds.get(attributeKey)?.connect();
+  }
+
+  setFPAttributeValues(fpAttributeValues: FPAttributeValues) {
+    Object.entries(fpAttributeValues).forEach(([key, value]) =>
+      this.fpAttributeSounds.get(key as FPAttributeKeys)?.setAttributeValue(value),
+    );
+  }
+
+  /**
+   * Stop fp attribute play
+   * Only works when global is playing
+   * @param attributeKey Key of the fingerprint attribute
+   */
+  async stopFPAttribute(attributeKey: FPAttributeKeys) {
+    console.log("Stop:", attributeKey);
+
+    this.fpAttributeSounds.get(attributeKey)?.disconnect();
   }
 
   get scaleDegrees() {

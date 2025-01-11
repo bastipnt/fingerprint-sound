@@ -1,9 +1,8 @@
-import { AmplitudeEnvelope, Gain, Synth, getTransport, start, now as toneNow } from "tone";
-
+import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
+import { FPAttributeKeys } from "../Fingerprint";
+import Composition from "./compositions/2025-01-08";
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
-import Composition from "./compositions/2025-01-08";
-import { FPAttributeKeys, FPValue } from "../Fingerprint";
 
 const VISUALISE = true;
 
@@ -62,9 +61,6 @@ class MyTone {
     this.fftVisualisation?.loop();
     this.signalVisualisation?.loop();
 
-    const synth = new Synth().toDestination();
-    synth.triggerAttackRelease("C4", "8n");
-
     this.setIsLoading(false);
   }
 
@@ -98,13 +94,11 @@ class MyTone {
    * @param attributeKey Key of the fingerprint attribute
    * @param value Value of the fingerprint attribute
    */
-  async startFPAttribute(attributeKey: FPAttributeKeys, value: FPValue) {
+  async startFPAttribute(attributeKey: FPAttributeKeys) {
     if (!MyTone.initialised) return;
     if (getTransport().state !== "started") return;
 
-    console.log("Start:", attributeKey);
-
-    // TODO: add sounds for fp attributes
+    this.composition.startFPAttribute(attributeKey);
   }
 
   /**
@@ -115,8 +109,7 @@ class MyTone {
   async stopFPAttribute(attributeKey: FPAttributeKeys) {
     if (!MyTone.initialised) return;
 
-    console.log("Stopt:", attributeKey);
-    // TODO: add sounds for fp attributes
+    this.composition.stopFPAttribute(attributeKey);
   }
 
   /**
