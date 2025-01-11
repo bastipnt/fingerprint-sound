@@ -5,13 +5,11 @@ import { FingerprintContext } from "./providers/fingerprintProvider";
 
 export type FPAttributeKeys = keyof typeof fpDescriptions;
 
-type FPAttributes = typeof fpDescriptions & {
-  canvas: { values?: { geometry: string; text: string } };
-} & {
-  [key in Exclude<FPAttributeKeys, "canvas">]: { value?: string };
-};
+export type FPAttributes = typeof fpDescriptions;
 
 type FPAttribute = FPAttributes[FPAttributeKeys];
+
+export type FPValue = string | FPAttributes["canvas"]["values"];
 
 export type PlayState = {
   [key in keyof typeof fpDescriptions]?: boolean;
@@ -19,7 +17,7 @@ export type PlayState = {
 
 type Props = {
   toggleGlobalPlay: () => void;
-  toggleAttributePlay: (attributeKey: FPAttributeKeys, newState: boolean, value: unknown) => void;
+  toggleAttributePlay: (attributeKey: FPAttributeKeys, newState: boolean, value: FPValue) => void;
   globalIsPlaying: boolean;
   globalIsLoading: boolean;
 };
@@ -63,11 +61,10 @@ const Fingerprint: React.FC<Props> = ({
   }, [components]);
 
   const togglePlay = useCallback(
-    (attributeKey: FPAttributeKeys) => {
-      if (!globalIsPlaying) toggleGlobalPlay();
+    (attributeKey: FPAttributeKeys, value: FPValue) => {
       const newAttributePlayState = !playState[attributeKey];
       setPlayState({ ...playState, [attributeKey]: newAttributePlayState });
-      toggleAttributePlay(attributeKey, newAttributePlayState, "TODO:");
+      toggleAttributePlay(attributeKey, newAttributePlayState, value);
     },
     [globalIsPlaying, playState],
   );
@@ -88,14 +85,15 @@ const Fingerprint: React.FC<Props> = ({
         <h1>Hello Visitor {visitorId}!</h1>
         {globalIsLoading && <p>Loading...</p>}
         <ul className="box-border grid grid-cols-3 gap-4 p-4">
-          {Object.entries(fpAttributes).map(([key, desc]) => (
+          {Object.entries(fpAttributes).map(([key, attribute]) => (
             <FPAttribute
               key={key}
               isPlaying={!!playState[key as FPAttributeKeys]}
               togglePlay={togglePlay}
               hover={handleHover}
+              value={"value" in attribute ? attribute.value : attribute.values}
               attributeKey={key as FPAttributeKeys}
-              label={desc.label}
+              label={attribute.label}
             />
           ))}
         </ul>

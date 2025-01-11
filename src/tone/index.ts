@@ -3,6 +3,7 @@ import { AmplitudeEnvelope, Gain, Synth, getTransport, start, now as toneNow } f
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
 import Composition from "./compositions/2025-01-08";
+import { FPAttributeKeys, FPValue } from "../Fingerprint";
 
 const VISUALISE = true;
 
@@ -89,6 +90,33 @@ class MyTone {
     if (!VISUALISE) return;
     this.signalVisualisation = new SignalVisualisation(signalCanvas);
     this.mainEnvelope.connect(this.signalVisualisation.analyser);
+  }
+
+  /**
+   * Start fp attribute play
+   * Only works when global is playing
+   * @param attributeKey Key of the fingerprint attribute
+   * @param value Value of the fingerprint attribute
+   */
+  async startFPAttribute(attributeKey: FPAttributeKeys, value: FPValue) {
+    if (!MyTone.initialised) return;
+    if (getTransport().state !== "started") return;
+
+    console.log("Start:", attributeKey);
+
+    // TODO: add sounds for fp attributes
+  }
+
+  /**
+   * Stop fp attribute play
+   * Only works when global is playing
+   * @param attributeKey Key of the fingerprint attribute
+   */
+  async stopFPAttribute(attributeKey: FPAttributeKeys) {
+    if (!MyTone.initialised) return;
+
+    console.log("Stopt:", attributeKey);
+    // TODO: add sounds for fp attributes
   }
 
   /**

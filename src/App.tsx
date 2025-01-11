@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Fingerprint, { FPAttributeKeys } from "./Fingerprint";
+import Fingerprint, { FPAttributeKeys, FPValue } from "./Fingerprint";
 import useTonejs from "./hooks/useTonejs";
 import Layout from "./Layout";
 // import StoriesWrapper from "./components/StoriesWrapper";
@@ -9,9 +9,9 @@ function App() {
   const { init, myToneRef, isLoading } = useTonejs();
 
   const [isInitialised, setIsInitialised] = useState(false);
-  const [isPlaying, setPlaying] = useState(false);
+  const [globalIsPlaying, setGlobalIsPlaying] = useState(false);
 
-  const handleClickPlay = async () => {
+  const toggleGlobalPlay = async () => {
     if (!isInitialised) {
       await init();
       setIsInitialised(true);
@@ -20,29 +20,37 @@ function App() {
     const myTone = myToneRef.current;
     if (!myTone) return;
 
-    if (isPlaying) {
+    if (globalIsPlaying) {
       myTone.stop();
-      setPlaying(false);
+      setGlobalIsPlaying(false);
     } else {
       myTone.start();
-      setPlaying(true);
+      setGlobalIsPlaying(true);
     }
   };
 
-  const toggleAttributePlay = (
+  const toggleAttributePlay = async (
     attributeKey: FPAttributeKeys,
     newState: boolean,
-    value: unknown,
-  ) => {};
+    value: FPValue,
+  ) => {
+    if (!globalIsPlaying && newState) await toggleGlobalPlay();
+
+    const myTone = myToneRef.current;
+    if (!myTone) return;
+
+    if (newState) myTone.startFPAttribute(attributeKey, value);
+    else myTone.stopFPAttribute(attributeKey);
+  };
 
   return (
     <Provider>
       <Layout>
         {/* <StoriesWrapper /> */}
         <Fingerprint
-          toggleGlobalPlay={handleClickPlay}
+          toggleGlobalPlay={toggleGlobalPlay}
           toggleAttributePlay={toggleAttributePlay}
-          globalIsPlaying={isPlaying}
+          globalIsPlaying={globalIsPlaying}
           globalIsLoading={isLoading}
         />
       </Layout>

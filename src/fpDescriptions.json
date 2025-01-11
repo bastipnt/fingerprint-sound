@@ -1,26 +1,32 @@
 {
   "fonts": {
     "label": "Fonts",
-    "description": "List of installed fonts"
+    "description": "List of installed fonts",
+    "value": ""
   },
   "languages": {
     "label": "Languages",
-    "description": "List of languages used on you computer"
+    "description": "List of languages used on you computer",
+    "value": ""
   },
   "timezone": {
     "label": "Timezone",
-    "description": "List of installed fonts"
+    "description": "List of installed fonts",
+    "value": ""
   },
   "osCpu": {
     "label": "OS CPU",
-    "description": "Your computers CPU"
+    "description": "Your computers CPU",
+    "value": ""
   },
   "canvas": {
     "label": "Canvas fingerprint",
-    "description": "Two images are drawn inside of your browser with the help of html canvas. Rendering images can be different on different computers, due to differences in hardware and software. Thats why this is a good method to distinguish devices."
+    "description": "Two images are drawn inside of your browser with the help of html canvas. Rendering images can be different on different computers, due to differences in hardware and software. Thats why this is a good method to distinguish devices.",
+    "values": { "text": "", "geometry": "" }
   },
   "audio": {
     "label": "Audio fingerprint",
-    "description": "The audio fingerprint uses the Web Audio API to sample a sound. Differences in hardware can lead to different sampling values. This is a good way to distinguish between different devices."
+    "description": "The audio fingerprint uses the Web Audio API to sample a sound. Differences in hardware can lead to different sampling values. This is a good way to distinguish between different devices.",
+    "value": ""
   }
 }
