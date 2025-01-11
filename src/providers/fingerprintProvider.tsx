@@ -1,7 +1,14 @@
 import FingerprintJS, { type GetResult } from "@fingerprintjs/fingerprintjs";
-import { type ReactNode, createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useCallback, useEffect, useState, type ReactNode } from "react";
 
-export type FPComponents = GetResult["components"];
+export type FPComponents = GetResult["components"] & {
+  fonts: { value: string[] };
+  languages: { value: Array<string[]> };
+  timezone: { value: string };
+  osCpu: { value: string };
+  canvas: { value: { winding: boolean; geometry: string; text: string } };
+  audio: { value: number };
+};
 
 type FPComponent = {
   name: string;
@@ -31,7 +38,9 @@ const FingerprintProvider: React.FC<Props> = ({ children }) => {
     components: FPComponents;
   }> => {
     const fingerprintAgent = await FingerprintJS.load();
-    const { components, visitorId } = await fingerprintAgent.get();
+    const results = await fingerprintAgent.get();
+    const components = results.components as FPComponents;
+    const visitorId = results.visitorId;
 
     // console.log(components);
     // console.log(Object.keys(components).length);
@@ -79,7 +88,7 @@ const FingerprintProvider: React.FC<Props> = ({ children }) => {
 
       return attributes;
     },
-    [components]
+    [components],
   );
 
   return (

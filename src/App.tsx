@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Fingerprint from "./Fingerprint";
+import Fingerprint, { FPAttributeKeys } from "./Fingerprint";
 import useTonejs from "./hooks/useTonejs";
 import Layout from "./Layout";
 // import StoriesWrapper from "./components/StoriesWrapper";
@@ -29,14 +29,21 @@ function App() {
     }
   };
 
+  const toggleAttributePlay = (
+    attributeKey: FPAttributeKeys,
+    newState: boolean,
+    value: unknown,
+  ) => {};
+
   return (
     <Provider>
       <Layout>
         {/* <StoriesWrapper /> */}
         <Fingerprint
-          handleClickPlay={handleClickPlay}
-          isPlaying={isPlaying}
-          isLoading={isLoading}
+          toggleGlobalPlay={handleClickPlay}
+          toggleAttributePlay={toggleAttributePlay}
+          globalIsPlaying={isPlaying}
+          globalIsLoading={isLoading}
         />
       </Layout>
     </Provider>
