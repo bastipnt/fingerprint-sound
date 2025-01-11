@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Fingerprint, { FPAttributeKeys, FPValue } from "./Fingerprint";
+import Fingerprint, { FPAttributeKeys } from "./Fingerprint";
 import useTonejs from "./hooks/useTonejs";
 import Layout from "./Layout";
 // import StoriesWrapper from "./components/StoriesWrapper";
@@ -29,17 +29,13 @@ function App() {
     }
   };
 
-  const toggleAttributePlay = async (
-    attributeKey: FPAttributeKeys,
-    newState: boolean,
-    value: FPValue,
-  ) => {
+  const toggleAttributePlay = async (attributeKey: FPAttributeKeys, newState: boolean) => {
     if (!globalIsPlaying && newState) await toggleGlobalPlay();
 
     const myTone = myToneRef.current;
     if (!myTone) return;
 
-    if (newState) myTone.startFPAttribute(attributeKey, value);
+    if (newState) myTone.startFPAttribute(attributeKey);
     else myTone.stopFPAttribute(attributeKey);
   };
 

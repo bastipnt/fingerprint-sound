@@ -115,6 +115,7 @@ const Fingerprint: React.FC<Props> = ({
           </>
         )}
       </section>
+      <button onClick={toggleGlobalPlay}>Play/Pause</button>
     </div>
   );
 };
