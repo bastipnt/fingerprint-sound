@@ -3,13 +3,14 @@ import FPAttribute from "./components/FPAttribute";
 import fpDescriptions from "./fpDescriptions.json";
 import { FingerprintContext } from "./providers/fingerprintProvider";
 
-export type FPAttributeKeys = keyof typeof fpDescriptions;
+// TODO: instead of Partial use Pick
+export type FPAttributes = Partial<typeof fpDescriptions>;
 
-export type FPAttributes = typeof fpDescriptions;
+export type FPAttributeKeys = keyof FPAttributes;
 
 type FPAttribute = FPAttributes[FPAttributeKeys];
 
-export type FPValue = string | FPAttributes["canvas"]["values"];
+export type FPValue = string | (typeof fpDescriptions)["canvas"]["values"];
 
 export type PlayState = {
   [key in keyof typeof fpDescriptions]?: boolean;
@@ -33,7 +34,7 @@ const Fingerprint: React.FC<Props> = ({
     fonts: false,
     languages: false,
     timezone: false,
-    osCpu: false,
+    osCpu: false, // TODO: don't use osCPU as it is dprecated: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/oscpu
     canvas: false,
     audio: false,
   });
@@ -58,6 +59,12 @@ const Fingerprint: React.FC<Props> = ({
       timezone: { ...fpDescriptions.timezone, value: components.timezone.value },
     };
     setFPAttributes(newFPAttributes);
+
+    //     const bla = Object.values(fpDescriptions).map(
+    //       ({ label, description }) => `\\hline
+    // ${label} & ${description} \\\\`,
+    //     );
+    //     console.log(bla.join("\n"));
   }, [components]);
 
   const togglePlay = useCallback(
@@ -99,7 +106,7 @@ const Fingerprint: React.FC<Props> = ({
         </ul>
       </section>
       <section className="border-l">
-        {currAttribute === null ? (
+        {!currAttribute ? (
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         ) : (
           <>
