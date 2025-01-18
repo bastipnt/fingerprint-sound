@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Route, Switch } from "wouter";
+import StoriesWrapper from "./components/StoriesWrapper";
 import Fingerprint, { FPAttributeKeys } from "./Fingerprint";
 import useTonejs from "./hooks/useTonejs";
 import Layout from "./Layout";
@@ -42,13 +44,20 @@ function App() {
   return (
     <Provider>
       <Layout>
-        {/* <StoriesWrapper /> */}
-        <Fingerprint
-          toggleGlobalPlay={toggleGlobalPlay}
-          toggleAttributePlay={toggleAttributePlay}
-          globalIsPlaying={globalIsPlaying}
-          globalIsLoading={isLoading}
-        />
+        <Switch>
+          <Route path="/">
+            <Fingerprint
+              toggleGlobalPlay={toggleGlobalPlay}
+              toggleAttributePlay={toggleAttributePlay}
+              globalIsPlaying={globalIsPlaying}
+              globalIsLoading={isLoading}
+            />
+          </Route>
+
+          <Route path="/stories" component={StoriesWrapper} />
+
+          <Route>404: No such page!</Route>
+        </Switch>
       </Layout>
     </Provider>
   );
