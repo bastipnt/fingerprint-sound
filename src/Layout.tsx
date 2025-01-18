@@ -5,11 +5,7 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children }) => {
-  return (
-    <main className="box-border flex w-screen flex-col items-center justify-center gap-8 p-8">
-      {children}
-    </main>
-  );
+  return <main className="box-border flex h-screen w-screen flex-col gap-8">{children}</main>;
 };
 
 export default Layout;

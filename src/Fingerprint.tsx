@@ -87,8 +87,8 @@ const Fingerprint: React.FC<Props> = ({
   );
 
   return (
-    <div className="grid grid-cols-2">
-      <section>
+    <div className="grid h-screen grid-cols-[1fr_20rem] justify-center">
+      <section className="flex flex-col items-center p-4">
         <h1>Hello Visitor {visitorId}!</h1>
         {globalIsLoading && <p>Loading...</p>}
         <ul className="box-border grid grid-cols-3 gap-4 p-4">
@@ -104,8 +104,9 @@ const Fingerprint: React.FC<Props> = ({
             />
           ))}
         </ul>
+        <button onClick={toggleGlobalPlay}>Play/Pause</button>
       </section>
-      <section className="border-l">
+      <section className="border-l p-4">
         {!currAttribute ? (
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         ) : (
@@ -122,7 +123,6 @@ const Fingerprint: React.FC<Props> = ({
           </>
         )}
       </section>
-      <button onClick={toggleGlobalPlay}>Play/Pause</button>
     </div>
   );
 };
