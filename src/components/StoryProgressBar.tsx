@@ -42,7 +42,7 @@ const StoriesProgressBar: React.FC<Props> = ({ duration, isCurrent, finished, ne
   }, [progress]);
 
   return (
-    <div className="flex h-2 bg-neutral rounded overflow-hidden">
+    <div className="flex h-2 bg-neutral rounded-sm overflow-hidden">
       <span
         className="h-full bg-primary inline-block"
         style={{ width: finished ? "100%" : `${progress}%` }}
