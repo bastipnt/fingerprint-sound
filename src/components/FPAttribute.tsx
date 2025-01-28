@@ -19,7 +19,7 @@ const FPAttribute: React.FC<Props> = ({
 }) => {
   return (
     <li
-      className={`bg-primary box-border h-32 w-32 rounded-sm p-4 ${isPlaying ? "opacity-100" : "opacity-50"}`}
+      className={`box-border h-32 w-32 rounded-sm p-4 ${isPlaying ? "bg-primary text-surface" : "bg-secondary"}`}
       onClick={() => togglePlay(attributeKey, value)}
       onMouseEnter={() => hover(attributeKey)}
       onMouseLeave={() => hover(null)}

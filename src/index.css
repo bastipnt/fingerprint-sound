@@ -1,13 +1,17 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-*: initial;
-  --color-primary: #83c0c1;
-  --color-secondary: #6962ad;
-  --color-neutral: #fff;
-  --color-surface: #161a30;
+  /* --color-primary: #83c0c1; */
+  --color-primary: rgb(178, 75, 246);
+  /* --color-secondary: #6962ad; */
+  --color-secondary: rgb(210, 191, 230);
+  --color-neutral: rgb(25, 22, 25);
+  /* --color-neutral: #fff; */
+  /* --color-surface: #161a30; */
+  --color-surface: rgb(236, 236, 237);
 
   --grid-template-rows-layout: 1fr auto;
 }

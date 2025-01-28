@@ -8,10 +8,11 @@ type Props = {
 const Layout: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <nav>
+      <nav className="fixed top-0 left-0 flex flex-row gap-2 p-2 backdrop-blur-sm">
         <Link to="/" className={(active) => (active ? "active" : "")}>
           Home
         </Link>{" "}
+        |
         <Link to="/stories" className={(active) => (active ? "active" : "")}>
           Info
         </Link>

@@ -87,8 +87,8 @@ const Fingerprint: React.FC<Props> = ({
   );
 
   return (
-    <div className="grid h-screen grid-cols-[1fr_20rem] justify-center">
-      <section className="flex flex-col items-center p-4">
+    <div className="grid h-screen grid-cols-[1fr_40vw] justify-center">
+      <section className="flex flex-col items-center p-4 pt-12">
         <h1>Hello Visitor {visitorId}!</h1>
         {globalIsLoading && <p>Loading...</p>}
         <ul className="box-border grid grid-cols-3 gap-4 p-4">
@@ -104,7 +104,6 @@ const Fingerprint: React.FC<Props> = ({
             />
           ))}
         </ul>
-        <button onClick={toggleGlobalPlay}>Play/Pause</button>
       </section>
       <section className="border-l p-4">
         {!currAttribute ? (
@@ -123,6 +122,12 @@ const Fingerprint: React.FC<Props> = ({
           </>
         )}
       </section>
+      <footer className="bg-neutral text-surface fixed bottom-0 left-0 flex w-screen flex-row items-center justify-end gap-4 p-4">
+        <button className="rounded-md border p-2" onClick={toggleGlobalPlay}>
+          Play/Pause
+        </button>
+        <span>{globalIsPlaying ? "Playing" : "Paused"}</span>
+      </footer>
     </div>
   );
 };
