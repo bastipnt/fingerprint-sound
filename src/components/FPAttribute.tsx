@@ -23,7 +23,7 @@ const FPAttribute: React.FC<Props> = ({
 
   return (
     <li
-      className={`text-surface box-border flex h-32 w-32 flex-col items-center justify-center p-4 text-center`}
+      className={`shaped text-surface box-border flex h-32 w-32 flex-col items-center justify-center p-4 text-center`}
       onClick={() => togglePlay(attributeKey, value)}
       onMouseEnter={() => hover(attributeKey)}
       onMouseLeave={() => hover(null)}

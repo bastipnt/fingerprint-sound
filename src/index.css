@@ -21,3 +21,18 @@
 
   --default-font-family: var(--font-heading);
 }
+
+.shaped {
+  --border-size: 15px;
+  clip-path: polygon(
+    0% var(--border-size),
+    var(--border-size) 0%,
+    calc(100% - var(--border-size)) 0%,
+    100% var(--border-size),
+    100% calc(100% - var(--border-size)),
+    calc(100% - var(--border-size)) 100%,
+    var(--border-size) 100%,
+    0% calc(100% - var(--border-size)),
+    0% var(--border-size)
+  );
+}

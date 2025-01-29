@@ -101,7 +101,7 @@ const Fingerprint: React.FC<Props> = ({
     <div className="grid h-screen grid-rows-[30vh_1fr_30vh] flex-col items-center justify-center">
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
-          className="font-heading bg-primary px-8 py-4"
+          className="shaped font-heading bg-primary px-8 py-4"
           style={{ background: `url(${lightPattern})` }}
         >
           <h1 className="text-2xl">Hello Visitor {visitorId}!</h1>
@@ -142,13 +142,12 @@ const Fingerprint: React.FC<Props> = ({
       </section> */}
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
-          className="bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
+          className="shaped bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
           style={{ background: `url(${darkPattern})` }}
         >
-          <button className="rounded-md border p-2" onClick={toggleGlobalPlay}>
-            Play/Pause
+          <button className="bg-surface text-primary p-2" onClick={toggleGlobalPlay}>
+            {globalIsPlaying ? "Pause" : "Paly"}
           </button>
-          <span>{globalIsPlaying ? "Playing" : "Paused"}</span>
         </div>
       </section>
     </div>
