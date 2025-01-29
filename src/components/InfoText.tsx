@@ -13,7 +13,7 @@ const InfoText: React.FC<Props> = ({ children, infoText }) => {
       <b
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        className="hover:bg-neutral hover:text-surface cursor-help p-0.5 underline"
+        className="hover:bg-neutral hover:text-surface cursor-help p-0.5 underline hover:no-underline"
       >
         {children}
       </b>

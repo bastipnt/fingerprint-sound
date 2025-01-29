@@ -116,23 +116,25 @@ const Fingerprint: React.FC<Props> = ({
           ))}
         </ul>
       </section>
-      <InfoBox>
-        {!currAttribute ? (
+
+      {!currAttribute ? (
+        <InfoBox onlyWhenMoving>
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
-        ) : (
-          <>
-            <p>{currAttribute.label}</p>
-            <p>{currAttribute.description}</p>
-            {"value" in currAttribute && <p>{currAttribute.value}</p>}
-            {"values" in currAttribute && (
-              <>
-                <img src={currAttribute.values?.geometry} alt="Canvas Geometry" />
-                <img src={currAttribute.values?.text} alt="Canvas Text" />
-              </>
-            )}
-          </>
-        )}
-      </InfoBox>
+        </InfoBox>
+      ) : (
+        <InfoBox>
+          <p>{currAttribute.label}</p>
+          <p>{currAttribute.description}</p>
+          {"value" in currAttribute && <p>{currAttribute.value}</p>}
+          {"values" in currAttribute && (
+            <>
+              <img src={currAttribute.values?.geometry} alt="Canvas Geometry" />
+              <img src={currAttribute.values?.text} alt="Canvas Text" />
+            </>
+          )}
+        </InfoBox>
+      )}
+
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
           className="shaped bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"

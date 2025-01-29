@@ -12,7 +12,42 @@ const Welcome: React.FC = () => {
   const taretedAdvertisingInfo = (
     <>
       <b>Targeted Advertising:</b>
-      <span>Bla</span>
+      <span>Is the practice of...</span>
+    </>
+  );
+
+  const trackingInfo = (
+    <>
+      <b>Tracking:</b>
+      <span>Is the practice of...</span>
+    </>
+  );
+
+  const cookiesInfo = (
+    <>
+      <b>Cookies:</b>
+      <span>Is the practice of...</span>
+    </>
+  );
+
+  const deviceFingerprintingInfo = (
+    <>
+      <b>Device Fingerprint:</b>
+      <span>Is the practice of...</span>
+    </>
+  );
+
+  const javaScriptInfo = (
+    <>
+      <b>JavaScript:</b>
+      <span>Is the practice of...</span>
+    </>
+  );
+
+  const enthropyInfo = (
+    <>
+      <b>Enthropy:</b>
+      <span>Is the practice of...</span>
     </>
   );
 
@@ -22,18 +57,21 @@ const Welcome: React.FC = () => {
         <b>Welcome to Fingerprint Sound!</b>
       </h2>
       <p>
-        This is the main project of my masters thesis about{" "}
-        <InfoText infoText={taretedAdvertisingInfo}>targeted advertising</InfoText> and{" "}
+        This is the main project of my masters thesis about <b>targeted advertising</b> and{" "}
         <b>tracking</b>.
       </p>
       <p>
-        You never heard of <b>targeted advertising</b> or <b>tracking</b>? No problem, you can hover
-        over the terms with your mouse and they will be explained.
+        You never heard of{" "}
+        <InfoText infoText={taretedAdvertisingInfo}>targeted advertising</InfoText> or{" "}
+        <InfoText infoText={trackingInfo}>tracking</InfoText>? No problem, you can hover over the
+        terms with your mouse and they will be explained.
       </p>
       <p>
-        I'm sure you have already heared about <b>cookies</b> tho? Cookies can be used for tracking!
-        But cookies are not cool anymore, the tracking industry came up with a much better approach
-        to track people's online behaviour. Let me introduce to you <b>device fingerprinting</b>.
+        I'm sure you have already heared about <InfoText infoText={cookiesInfo}>cookies</InfoText>{" "}
+        tho? <b>Cookies</b> can be used for <b>tracking</b>! But <b>cookies</b> are not cool
+        anymore, the tracking industry came up with a much better approach to track people's online
+        behaviour. Let me introduce to you{" "}
+        <InfoText infoText={deviceFingerprintingInfo}>device fingerprinting</InfoText>.
       </p>
     </div>,
 
@@ -43,11 +81,16 @@ const Welcome: React.FC = () => {
         real fingerprint in the sense, that both are unique. A <b>device fingerprint</b> is an
         identifier, that can track your used device across multiple web pages. It doesn't need to
         store any information on your computer to be able to do that. This is the great advantage
-        compared to <b>cookies</b>. To create such a <b>fingerprint</b> all there is to do is to
-        combine information about your browser and devide, that can be accest with <b>JavaScript</b>
-        . The information used is chosen wisely in a way, that it doesn't change often and provides
-        maximum <b>enthropie</b>.
+        compared to <InfoText infoText={cookiesInfo}>cookies</InfoText>. To create such a{" "}
+        <b>fingerprint</b> all there is to do is to combine information about your browser and
+        devide, that can be accest with <InfoText infoText={javaScriptInfo}>JavaScript</InfoText>.
+        The information used is chosen wisely in a way, that it doesn't change often and provides
+        maximum <InfoText infoText={enthropyInfo}>enthropy</InfoText>.
       </p>
+    </div>,
+
+    <div>
+      <p>About my project...</p>
     </div>,
   ];
 
