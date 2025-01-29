@@ -123,7 +123,7 @@ const Fingerprint: React.FC<Props> = ({
           ))}
         </ul>
       </section>
-      {/* <section className="border-l p-4">
+      <section className="fixed p-4">
         {!currAttribute ? (
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         ) : (
@@ -139,7 +139,7 @@ const Fingerprint: React.FC<Props> = ({
             )}
           </>
         )}
-      </section> */}
+      </section>
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
           className="shaped bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
