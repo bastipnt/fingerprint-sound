@@ -1,36 +1,26 @@
 import { useContext } from "react";
-import { FPAttributeKeys, FPValue } from "../Fingerprint";
 import { PatternContext } from "../providers/patternProvider";
 
 type Props = {
-  togglePlay: (attributeKey: FPAttributeKeys, value: FPValue) => void;
+  togglePlay: () => void;
   isPlaying: boolean;
-  attributeKey: FPAttributeKeys;
   label: string;
-  hover: (attributeKey: FPAttributeKeys | null) => void;
-  value: FPValue;
+  onHover: (isHover: boolean) => void;
 };
 
-const FPAttribute: React.FC<Props> = ({
-  togglePlay,
-  label,
-  attributeKey,
-  isPlaying,
-  hover,
-  value,
-}) => {
+const FPAttribute: React.FC<Props> = ({ togglePlay, label, isPlaying, onHover }) => {
   const { lightPattern } = useContext(PatternContext);
 
   return (
-    <li
+    <div
       className={`shaped text-surface box-border flex h-32 w-32 flex-col items-center justify-center p-4 text-center`}
-      onClick={() => togglePlay(attributeKey, value)}
-      onMouseEnter={() => hover(attributeKey)}
-      onMouseLeave={() => hover(null)}
+      onClick={() => togglePlay()}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
       style={{ background: isPlaying ? `url(${lightPattern})` : `url(${lightPattern})` }}
     >
       {label}
-    </li>
+    </div>
   );
 };
 

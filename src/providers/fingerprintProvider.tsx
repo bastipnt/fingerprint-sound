@@ -1,6 +1,15 @@
 import FingerprintJS, { type GetResult } from "@fingerprintjs/fingerprintjs";
 import { createContext, useCallback, useEffect, useState, type ReactNode } from "react";
 
+export enum FPAttributes {
+  "timeZone",
+  "screenSize",
+  "colorDepth",
+  "canvas2D",
+  "canvasWebGL",
+  "audioContext",
+}
+
 export type FPComponents = GetResult["components"] & {
   fonts: { value: string[] };
   languages: { value: Array<string[]> };
