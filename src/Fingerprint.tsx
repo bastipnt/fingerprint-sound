@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
+import InfoBox from "./components/InfoBox";
 import fpDescriptions from "./fpDescriptions.json";
 import useCanvas from "./hooks/useCanvas";
 import { FingerprintContext } from "./providers/fingerprintProvider";
@@ -123,7 +124,7 @@ const Fingerprint: React.FC<Props> = ({
           ))}
         </ul>
       </section>
-      <section className="fixed p-4">
+      <InfoBox>
         {!currAttribute ? (
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         ) : (
@@ -139,7 +140,7 @@ const Fingerprint: React.FC<Props> = ({
             )}
           </>
         )}
-      </section>
+      </InfoBox>
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
           className="shaped bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
