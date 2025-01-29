@@ -3,33 +3,16 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-*: initial;
   /* --color-primary: #83c0c1; */
-  --color-primary: rgb(178, 75, 246);
   /* --color-secondary: #6962ad; */
-  --color-secondary: rgb(210, 191, 230);
-  --color-neutral: rgb(25, 22, 25);
   /* --color-neutral: #fff; */
   /* --color-surface: #161a30; */
+
+  --color-*: initial;
+  --color-primary: hsl(276.14, 90.48%, 65%);
+  --color-secondary: hsl(276.14, 90.48%, 80%);
+  --color-neutral: rgb(25, 22, 25);
   --color-surface: rgb(236, 236, 237);
 
   --grid-template-rows-layout: 1fr auto;
-}
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
 }

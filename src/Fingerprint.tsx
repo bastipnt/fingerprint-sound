@@ -1,7 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import fpDescriptions from "./fpDescriptions.json";
+import useCanvas from "./hooks/useCanvas";
 import { FingerprintContext } from "./providers/fingerprintProvider";
+import { PatternContext } from "./providers/patternProvider";
 
 // TODO: instead of Partial use Pick
 export type FPAttributes = Partial<typeof fpDescriptions>;
@@ -40,6 +42,8 @@ const Fingerprint: React.FC<Props> = ({
   });
   const [fpAttributes, setFPAttributes] = useState<FPAttributes>(fpDescriptions);
   const [currAttribute, setCurrAttribute] = useState<FPAttribute | null>(null);
+
+  const { darkPattern } = useContext(PatternContext);
 
   useEffect(() => {
     if (!components || Object.keys(components).length === 0) return;
@@ -86,6 +90,13 @@ const Fingerprint: React.FC<Props> = ({
     [fpAttributes],
   );
 
+  const { start, isInitialized } = useCanvas();
+
+  useEffect(() => {
+    if (!isInitialized) return;
+    start();
+  }, [isInitialized]);
+
   return (
     <div className="grid h-screen grid-cols-[1fr_40vw] justify-center">
       <section className="flex flex-col items-center p-4 pt-12">
@@ -122,11 +133,16 @@ const Fingerprint: React.FC<Props> = ({
           </>
         )}
       </section>
-      <footer className="bg-neutral text-surface fixed bottom-0 left-0 flex w-screen flex-row items-center justify-end gap-4 p-4">
-        <button className="rounded-md border p-2" onClick={toggleGlobalPlay}>
-          Play/Pause
-        </button>
-        <span>{globalIsPlaying ? "Playing" : "Paused"}</span>
+      <footer className="text-surface fixed bottom-20 left-0 flex w-screen flex-row justify-center gap-4 p-4">
+        <div
+          className="bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
+          style={{ background: `url(${darkPattern})` }}
+        >
+          <button className="rounded-md border p-2" onClick={toggleGlobalPlay}>
+            Play/Pause
+          </button>
+          <span>{globalIsPlaying ? "Playing" : "Paused"}</span>
+        </div>
       </footer>
     </div>
   );
