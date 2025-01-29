@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "fonts.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -9,10 +10,14 @@
   /* --color-surface: #161a30; */
 
   --color-*: initial;
-  --color-primary: hsl(276.14, 90.48%, 65%);
-  --color-secondary: hsl(276.14, 90.48%, 80%);
-  --color-neutral: rgb(25, 22, 25);
-  --color-surface: rgb(236, 236, 237);
+  --color-primary: hsl(276.14, 90.48%, 60%);
+  --color-secondary: hsl(276.14, 90.48%, 70%);
+  --color-neutral: hsl(0, 0%, 2%);
+  --color-surface: hsl(276.14, 90.48%, 97%);
 
   --grid-template-rows-layout: 1fr auto;
+
+  --font-heading: "HomeVideo";
+
+  --default-font-family: var(--font-heading);
 }

@@ -43,7 +43,7 @@ const Fingerprint: React.FC<Props> = ({
   const [fpAttributes, setFPAttributes] = useState<FPAttributes>(fpDescriptions);
   const [currAttribute, setCurrAttribute] = useState<FPAttribute | null>(null);
 
-  const { darkPattern } = useContext(PatternContext);
+  const { darkPattern, lightPattern } = useContext(PatternContext);
 
   useEffect(() => {
     if (!components || Object.keys(components).length === 0) return;
@@ -98,11 +98,18 @@ const Fingerprint: React.FC<Props> = ({
   }, [isInitialized]);
 
   return (
-    <div className="grid h-screen grid-cols-[1fr_40vw] justify-center">
-      <section className="flex flex-col items-center p-4 pt-12">
-        <h1>Hello Visitor {visitorId}!</h1>
+    <div className="grid h-screen grid-rows-[30vh_1fr_30vh] flex-col items-center justify-center">
+      <section className="text-surface flex w-screen flex-row justify-center gap-4">
+        <div
+          className="font-heading bg-primary px-8 py-4"
+          style={{ background: `url(${lightPattern})` }}
+        >
+          <h1 className="text-2xl">Hello Visitor {visitorId}!</h1>
+        </div>
+      </section>
+      <section className="flex flex-col items-center">
         {globalIsLoading && <p>Loading...</p>}
-        <ul className="box-border grid grid-cols-3 gap-4 p-4">
+        <ul className="box-border grid grid-cols-3 gap-8 p-4">
           {Object.entries(fpAttributes).map(([key, attribute]) => (
             <FPAttribute
               key={key}
@@ -116,7 +123,7 @@ const Fingerprint: React.FC<Props> = ({
           ))}
         </ul>
       </section>
-      <section className="border-l p-4">
+      {/* <section className="border-l p-4">
         {!currAttribute ? (
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         ) : (
@@ -132,8 +139,8 @@ const Fingerprint: React.FC<Props> = ({
             )}
           </>
         )}
-      </section>
-      <footer className="text-surface fixed bottom-20 left-0 flex w-screen flex-row justify-center gap-4 p-4">
+      </section> */}
+      <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
           className="bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
           style={{ background: `url(${darkPattern})` }}
@@ -143,7 +150,7 @@ const Fingerprint: React.FC<Props> = ({
           </button>
           <span>{globalIsPlaying ? "Playing" : "Paused"}</span>
         </div>
-      </footer>
+      </section>
     </div>
   );
 };
