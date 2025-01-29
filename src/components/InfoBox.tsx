@@ -4,10 +4,11 @@ import { getDimensions } from "../util/canvas";
 
 type Props = {
   children: ReactNode;
+  show?: boolean;
 };
 
-const InfoBox: React.FC<Props> = ({ children }) => {
-  const { lightPattern } = useContext(PatternContext);
+const InfoBox: React.FC<Props> = ({ children, show }) => {
+  const { darkPattern } = useContext(PatternContext);
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [screenPosition, setScreenPosition] = useState(["top", "left"]);
@@ -37,16 +38,20 @@ const InfoBox: React.FC<Props> = ({ children }) => {
   }, []);
 
   return (
-    <div
-      className="shaped pointer-events-none fixed z-30 w-[400px] max-w-[50vw] p-4"
-      style={{
-        background: `url(${lightPattern})`,
-        [screenPosition[0]]: mousePosition.y,
-        [screenPosition[1]]: mousePosition.x,
-      }}
-    >
-      {children}
-    </div>
+    <>
+      {(show === true || show === undefined) && (
+        <span
+          className="shaped text-surface pointer-events-none fixed z-30 w-[400px] max-w-[50vw] p-2"
+          style={{
+            background: `url(${darkPattern})`,
+            [screenPosition[0]]: mousePosition.y,
+            [screenPosition[1]]: mousePosition.x,
+          }}
+        >
+          {children}
+        </span>
+      )}
+    </>
   );
 };
 

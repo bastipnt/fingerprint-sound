@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import CanvasProvider from "./canvasProvider";
 import FingerprintProvider from "./fingerprintProvider";
 import KeyboardProvider from "./keyboardProvider";
 import PatternProvider from "./patternProvider";
@@ -10,9 +11,11 @@ type Props = {
 const Provider: React.FC<Props> = ({ children }) => {
   return (
     <KeyboardProvider>
-      <PatternProvider>
-        <FingerprintProvider>{children}</FingerprintProvider>
-      </PatternProvider>
+      <CanvasProvider>
+        <PatternProvider>
+          <FingerprintProvider>{children}</FingerprintProvider>
+        </PatternProvider>
+      </CanvasProvider>
     </KeyboardProvider>
   );
 };

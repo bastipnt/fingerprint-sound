@@ -2,7 +2,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import InfoBox from "./components/InfoBox";
 import fpDescriptions from "./fpDescriptions.json";
-import useCanvas from "./hooks/useCanvas";
 import { FingerprintContext } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
 
@@ -90,13 +89,6 @@ const Fingerprint: React.FC<Props> = ({
     },
     [fpAttributes],
   );
-
-  const { start, isInitialized } = useCanvas();
-
-  useEffect(() => {
-    if (!isInitialized) return;
-    start();
-  }, [isInitialized]);
 
   return (
     <div className="grid h-screen grid-rows-[30vh_1fr_30vh] flex-col items-center justify-center">

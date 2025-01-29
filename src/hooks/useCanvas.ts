@@ -52,7 +52,7 @@ const useCanvas = () => {
     isPlayingRef.current = false;
   };
 
-  return { start, stop, isInitialized };
+  return { start, stop, isInitialized, canvas: canvasRef.current };
 };
 
 export default useCanvas;

@@ -6,6 +6,7 @@ import useTonejs from "./hooks/useTonejs";
 import Layout from "./Layout";
 // import StoriesWrapper from "./components/StoriesWrapper";
 import Provider from "./providers";
+import Welcome from "./Welcome";
 
 function App() {
   const { init, myToneRef, isLoading } = useTonejs();
@@ -46,6 +47,10 @@ function App() {
       <Layout>
         <Switch>
           <Route path="/">
+            <Welcome />
+          </Route>
+
+          <Route path="/fp-sound">
             <Fingerprint
               toggleGlobalPlay={toggleGlobalPlay}
               toggleAttributePlay={toggleAttributePlay}

@@ -12,8 +12,10 @@
   --color-*: initial;
   --color-primary: hsl(276.14, 90.48%, 60%);
   --color-secondary: hsl(276.14, 90.48%, 70%);
-  --color-neutral: hsl(0, 0%, 2%);
+
   --color-surface: hsl(276.14, 90.48%, 97%);
+  --color-neutral: hsl(0, 0%, 2%);
+  /* --color-neutral: var(--color-surface); */
 
   --grid-template-rows-layout: 1fr auto;
 
