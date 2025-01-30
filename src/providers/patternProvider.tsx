@@ -28,7 +28,7 @@ const PatternProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const patternCanvas = getPatternCanvas(276.14, 90.48, 60, 5, 2, 50, 50);
+    const patternCanvas = getPatternCanvas(276.14, 90.48, 80, 5, 2, 50, 50);
     if (!patternCanvas) return;
 
     setLightPattern(patternCanvas.toDataURL());

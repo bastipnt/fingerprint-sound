@@ -29,7 +29,7 @@ const Fingerprint: React.FC = ({}) => {
 
       <section className="text-surface flex w-screen flex-row justify-center gap-4">
         <div
-          className="shaped font-heading bg-primary px-8 py-4"
+          className="shaped-1 font-heading bg-primary px-8 py-4"
           style={{ background: `url(${lightPattern})` }}
         >
           <h1 className="text-2xl">Hello Visitor {visitorId}!</h1>

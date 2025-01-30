@@ -72,11 +72,8 @@ export const getPattern = (
   return ctx.createPattern(patternCanvas, "repeat");
 };
 
-export const drawBackground = (ctx: CanvasRenderingContext2D) => {
+export const drawRandomBorder = (ctx: CanvasRenderingContext2D) => {
   const { width, height } = getDimensions();
-
-  ctx.fillStyle = getPattern() ?? `hsl(0, 0%, 2%)`;
-  ctx.fillRect(0, 0, width, height);
 
   ctx.beginPath();
   const parts = [25, 35, 20, 55];
@@ -133,9 +130,77 @@ export const drawBackground = (ctx: CanvasRenderingContext2D) => {
   ctx.lineTo(thickness, thickness);
 
   ctx.clip();
+};
 
-  ctx.fillStyle =
-    getPattern(276.14, 90.48, 95, 5, 10, width, height) ?? `hsl(276.14, 90,48%, 96.23%)`;
+const drawBorder = (ctx: CanvasRenderingContext2D) => {
+  const { width, height } = getDimensions();
+
+  ctx.beginPath();
+
+  const matrix = [
+    [5, 7],
+    [15, 7],
+    [16, 6],
+    [16, 3],
+    [17, 2],
+    [30, 2],
+    [31, 3],
+    [64, 3],
+    [65, 2],
+    [90, 2],
+    [91, 3],
+    [91, 6],
+    [92, 7],
+    [95, 7],
+    [97, 9],
+    [97, 20],
+    [99, 20],
+    [99, 40],
+    [94, 45],
+    [94, 53],
+    [95, 54],
+    [95, 70],
+    [99, 73],
+    [99, 98],
+    [98, 99],
+    [80, 99],
+    [78, 97],
+    [54, 97],
+    [53, 98],
+    [33, 98],
+    [30, 95],
+    [5, 95],
+    [4, 94],
+    [4, 65],
+    [5, 64],
+    [5, 43],
+    [3, 41],
+    [3, 33],
+    [4, 32],
+    [4, 8],
+    [5, 7],
+  ];
+
+  matrix.forEach(([xp, yp], i) => {
+    const x = (width * xp) / 100;
+    const y = (height * yp) / 100;
+
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+
+  ctx.clip();
+};
+
+export const drawBackground = (ctx: CanvasRenderingContext2D) => {
+  const { width, height } = getDimensions();
+
+  ctx.fillStyle = getPattern() ?? `hsl(0, 0%, 2%)`;
+  ctx.fillRect(0, 0, width, height);
+
+  drawBorder(ctx);
+
+  ctx.fillStyle = getPattern(0, 0, 90, 10, 1, 50, 50) ?? `hsl(0, 0%, 99%)`;
   ctx.fillRect(0, 0, width, height);
 };
 

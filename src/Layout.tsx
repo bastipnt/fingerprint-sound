@@ -8,7 +8,7 @@ type Props = {
 const Layout: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <nav className="bg-neutral text-surface fixed top-0 left-0 flex flex-row gap-2 p-2 backdrop-blur-sm">
+      <nav className="text-surface fixed top-0 left-0 flex flex-row gap-2 p-4">
         <Link to="/" className={(active) => (active ? "active" : "")}>
           Home
         </Link>{" "}
