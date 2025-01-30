@@ -1,29 +1,17 @@
-import { AmplitudeEnvelope, Sequence, Synth } from "tone";
+import { AmplitudeEnvelope, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
+import sample from "../../assets/samples/creepy-fx-cave-atmo.wav";
 import BaseSound from "./BaseSound";
 
 class AudioSound extends BaseSound {
-  synth = new Synth({
-    oscillator: {
-      type: "custom",
-      partials: [2, 1, 2, 2],
-    },
-    envelope: {
-      attack: 0.005,
-      decay: 0.3,
-      sustain: 0.2,
-      release: 1,
-    },
-    portamento: 0.01,
-    volume: -20,
-  });
+  player = new Player();
 
   seq = new Sequence(
-    (time, note) => {
-      this.synth.triggerAttackRelease(note, "8n", time);
+    (time, pattern: 0 | 1) => {
+      if (pattern === 1) this.player.start(time);
     },
-    ["E4", "F#4", "B4", "C#5", "D5", "F#4", "E4", "C#5", "B4", "F#4", "D5", "C#5"],
-    "8n",
+    [1],
+    "5m",
   );
 
   constructor(envelope: AmplitudeEnvelope, scale: string) {
@@ -31,12 +19,16 @@ class AudioSound extends BaseSound {
   }
 
   connect = () => {
-    this.synth.connect(this.effectChain);
+    this.player.connect(this.effectChain);
   };
 
   disconnect = () => {
-    this.synth.disconnect(this.effectChain);
+    this.player.disconnect(this.effectChain);
   };
+
+  async loadSamples() {
+    await this.player.load(sample);
+  }
 
   play = (time: Time) => {
     this.seq.start(time);
