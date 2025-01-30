@@ -2,7 +2,7 @@ import { AmplitudeEnvelope, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import BaseSound from "./BaseSound";
 
-class LangaugesSound extends BaseSound {
+class WebGLSound extends BaseSound {
   synth = new Synth({
     oscillator: {
       type: "custom",
@@ -47,4 +47,4 @@ class LangaugesSound extends BaseSound {
   };
 }
 
-export default LangaugesSound;
+export default WebGLSound;

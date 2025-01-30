@@ -1,10 +1,11 @@
 import { Gain } from "tone";
+import { FPAttributes } from "../../providers/fingerprintProvider";
 import AudioSound from "../sounds/AudioSound";
 import CanvasSound from "../sounds/CanvasSound";
-import FontsSound from "../sounds/FontsSound";
-import LangaugesSound from "../sounds/LanguagesSound";
-import OsCpuSound from "../sounds/OsCpuSound";
+import ColorDepthSound from "../sounds/ColorDepthSound";
+import ScreenSizeSound from "../sounds/ScreenSizeSound";
 import TimezoneSound from "../sounds/TimezoneSound";
+import WebGLSound from "../sounds/WebGLSound";
 import BaseComposition from "./BaseComposition";
 
 export default class Composition extends BaseComposition {
@@ -16,11 +17,20 @@ export default class Composition extends BaseComposition {
   }
 
   createSounds() {
-    this.fpAttributeSounds.set("fonts", new FontsSound(this.envelope, this.scale));
-    this.fpAttributeSounds.set("audio", new AudioSound(this.envelope, this.scale));
-    this.fpAttributeSounds.set("canvas", new CanvasSound(this.envelope, this.scale));
-    this.fpAttributeSounds.set("languages", new LangaugesSound(this.envelope, this.scale));
-    this.fpAttributeSounds.set("osCpu", new OsCpuSound(this.envelope, this.scale));
-    this.fpAttributeSounds.set("timezone", new TimezoneSound(this.envelope, this.scale));
+    this.fpAttributeSounds.set(
+      FPAttributes.screenSize,
+      new ScreenSizeSound(this.envelope, this.scale),
+    );
+    this.fpAttributeSounds.set(
+      FPAttributes.audioContext,
+      new AudioSound(this.envelope, this.scale),
+    );
+    this.fpAttributeSounds.set(FPAttributes.canvas2D, new CanvasSound(this.envelope, this.scale));
+    this.fpAttributeSounds.set(FPAttributes.canvasWebGL, new WebGLSound(this.envelope, this.scale));
+    this.fpAttributeSounds.set(
+      FPAttributes.colorDepth,
+      new ColorDepthSound(this.envelope, this.scale),
+    );
+    this.fpAttributeSounds.set(FPAttributes.timeZone, new TimezoneSound(this.envelope, this.scale));
   }
 }

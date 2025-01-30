@@ -17,7 +17,7 @@ const FPAttribute: React.FC<Props> = ({ togglePlay, label, isPlaying, onHover })
       onClick={() => togglePlay()}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
-      style={{ background: isPlaying ? `url(${lightPattern})` : `url(${lightPattern})` }}
+      style={{ background: isPlaying ? `black` : `url(${lightPattern})` }}
     >
       {label}
     </div>

@@ -1,14 +1,15 @@
 import { Scale } from "tonal";
 import { AmplitudeEnvelope, type Gain } from "tone";
 import type { Frequency, Time } from "tone/build/esm/core/type/Units";
-import { FPAttributeKeys, FPValue } from "../../Fingerprint";
+import "../../Fingerprint";
+import { FPAttributes } from "../../providers/fingerprintProvider";
 import { mapFloor } from "../../util/number";
 import BaseSound from "../sounds/BaseSound";
 
 export type PatternValues = Array<Array<0 | 1>>;
-export type FPAttributeValues = {
-  [key in FPAttributeKeys]: FPValue;
-};
+// export type FPAttributeValues = {
+//   [key in FPAttributes]: string;
+// };
 
 abstract class BaseComposition {
   scale = "C4 major";
@@ -17,7 +18,7 @@ abstract class BaseComposition {
   readonly mainGain: Gain;
   protected readonly envelope: AmplitudeEnvelope;
 
-  protected fpAttributeSounds = new Map<FPAttributeKeys, BaseSound>();
+  protected fpAttributeSounds = new Map<FPAttributes, BaseSound>();
 
   constructor(mainGain: Gain, attack = 1, release = 1) {
     this.mainGain = mainGain;
@@ -41,25 +42,25 @@ abstract class BaseComposition {
    * @param attributeKey Key of the fingerprint attribute
    * @param value Value of the fingerprint attribute
    */
-  async startFPAttribute(attributeKey: FPAttributeKeys) {
-    console.log("Start:", attributeKey);
+  async startFPAttribute(attributeKey: FPAttributes) {
+    console.log("Start:", FPAttributes[attributeKey]);
 
     this.fpAttributeSounds.get(attributeKey)?.connect();
   }
 
-  setFPAttributeValues(fpAttributeValues: FPAttributeValues) {
-    Object.entries(fpAttributeValues).forEach(([key, value]) =>
-      this.fpAttributeSounds.get(key as FPAttributeKeys)?.setAttributeValue(value),
-    );
-  }
+  // setFPAttributeValues(fpAttributeValues: FPAttributeValues) {
+  //   Object.entries(fpAttributeValues).forEach(([key, value]) =>
+  //     this.fpAttributeSounds.get(key as FPAttributes)?.setAttributeValue(value),
+  //   );
+  // }
 
   /**
    * Stop fp attribute play
    * Only works when global is playing
    * @param attributeKey Key of the fingerprint attribute
    */
-  async stopFPAttribute(attributeKey: FPAttributeKeys) {
-    console.log("Stop:", attributeKey);
+  async stopFPAttribute(attributeKey: FPAttributes) {
+    console.log("Stop:", FPAttributes[attributeKey]);
 
     this.fpAttributeSounds.get(attributeKey)?.disconnect();
   }

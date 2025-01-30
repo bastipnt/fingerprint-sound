@@ -2,7 +2,7 @@ import { AmplitudeEnvelope, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import BaseSound from "./BaseSound";
 
-class OsCpuSound extends BaseSound {
+class ScreenSizeSound extends BaseSound {
   synth = new Synth({
     oscillator: {
       type: "custom",
@@ -47,4 +47,4 @@ class OsCpuSound extends BaseSound {
   };
 }
 
-export default OsCpuSound;
+export default ScreenSizeSound;

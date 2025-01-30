@@ -21,8 +21,6 @@ const useCanvas = () => {
 
     setIsInitialized(true);
 
-    console.log(canvasRef.current, isInitialized);
-
     return () => window.removeEventListener("resize", update);
   }, []);
 

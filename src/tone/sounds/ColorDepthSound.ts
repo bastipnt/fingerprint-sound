@@ -2,7 +2,7 @@ import { AmplitudeEnvelope, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import BaseSound from "./BaseSound";
 
-class FontsSound extends BaseSound {
+class ColorDepthSound extends BaseSound {
   synth = new Synth({
     oscillator: {
       type: "custom",
@@ -47,4 +47,4 @@ class FontsSound extends BaseSound {
   };
 }
 
-export default FontsSound;
+export default ColorDepthSound;

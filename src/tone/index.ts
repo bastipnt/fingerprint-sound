@@ -1,5 +1,6 @@
 import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
-import { FPAttributeKeys } from "../Fingerprint";
+// import "../Fingerprint";
+import { FPAttributes } from "../providers/fingerprintProvider";
 import Composition from "./compositions/2025-01-08";
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
@@ -94,7 +95,7 @@ class MyTone {
    * @param attributeKey Key of the fingerprint attribute
    * @param value Value of the fingerprint attribute
    */
-  async startFPAttribute(attributeKey: FPAttributeKeys) {
+  async startFPAttribute(attributeKey: FPAttributes) {
     if (!MyTone.initialised) return;
     if (getTransport().state !== "started") return;
 
@@ -106,7 +107,7 @@ class MyTone {
    * Only works when global is playing
    * @param attributeKey Key of the fingerprint attribute
    */
-  async stopFPAttribute(attributeKey: FPAttributeKeys) {
+  async stopFPAttribute(attributeKey: FPAttributes) {
     if (!MyTone.initialised) return;
 
     this.composition.stopFPAttribute(attributeKey);

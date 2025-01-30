@@ -1,46 +1,17 @@
-import { useCallback, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import InfoBox from "./components/InfoBox";
+import useTonejs from "./hooks/useTonejs";
 import { FingerprintContext, FPAttributes } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
 
-export type PlayState = {
-  [value in FPAttributes]?: boolean;
-};
-
-type Props = {
-  toggleGlobalPlay: () => void;
-  toggleAttributePlay: (attributeKey: FPAttributes, newState: boolean) => void;
-  globalIsPlaying: boolean;
-  globalIsLoading: boolean;
-};
-
-const Fingerprint: React.FC<Props> = ({
-  toggleGlobalPlay,
-  globalIsPlaying,
-  toggleAttributePlay,
-}) => {
+const Fingerprint: React.FC = ({}) => {
   const { visitorId } = useContext(FingerprintContext);
-  const [playState, setPlayState] = useState<PlayState>({
-    [FPAttributes.audioContext]: false,
-    [FPAttributes.canvas2D]: false,
-    [FPAttributes.canvasWebGL]: false,
-    [FPAttributes.colorDepth]: false,
-    [FPAttributes.screenSize]: false,
-    [FPAttributes.timeZone]: false,
-  });
 
   const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null>(null);
 
-  const togglePlay = useCallback(
-    (attributeKey: FPAttributes) => {
-      const newAttributePlayState = !playState[attributeKey];
-      setPlayState({ ...playState, [attributeKey]: newAttributePlayState });
-      toggleAttributePlay(attributeKey, newAttributePlayState);
-    },
-    [globalIsPlaying, playState],
-  );
+  const { globalIsPlaying, playState, toggleGlobalPlay, toggleAttributePlay } = useTonejs();
 
   const handleHover = (attributeKey: FPAttributes, isHover: boolean) => {
     if (!isHover) return setCurrAttribute(null);
@@ -68,7 +39,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.screenSize]}
-              togglePlay={() => togglePlay(FPAttributes.screenSize)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.screenSize)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.screenSize, isHover)}
               label={FPAttributes[FPAttributes.screenSize]}
             />
@@ -81,7 +52,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.timeZone]}
-              togglePlay={() => togglePlay(FPAttributes.timeZone)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.timeZone)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.timeZone, isHover)}
               label={FPAttributes[FPAttributes.timeZone]}
             />
@@ -94,7 +65,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.colorDepth]}
-              togglePlay={() => togglePlay(FPAttributes.colorDepth)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.colorDepth)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.colorDepth, isHover)}
               label={FPAttributes[FPAttributes.colorDepth]}
             />
@@ -107,7 +78,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.canvas2D]}
-              togglePlay={() => togglePlay(FPAttributes.canvas2D)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.canvas2D)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.canvas2D, isHover)}
               label={FPAttributes[FPAttributes.canvas2D]}
             />
@@ -120,7 +91,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.canvasWebGL]}
-              togglePlay={() => togglePlay(FPAttributes.canvasWebGL)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.canvasWebGL)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.canvasWebGL, isHover)}
               label={FPAttributes[FPAttributes.canvasWebGL]}
             />
@@ -133,7 +104,7 @@ const Fingerprint: React.FC<Props> = ({
           <li>
             <FPAttribute
               isPlaying={!!playState[FPAttributes.audioContext]}
-              togglePlay={() => togglePlay(FPAttributes.audioContext)}
+              togglePlay={() => toggleAttributePlay(FPAttributes.audioContext)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.audioContext, isHover)}
               label={FPAttributes[FPAttributes.audioContext]}
             />
