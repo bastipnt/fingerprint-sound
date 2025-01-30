@@ -11,7 +11,8 @@ const Fingerprint: React.FC = ({}) => {
   const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null>(null);
 
-  const { globalIsPlaying, playState, toggleGlobalPlay, toggleAttributePlay } = useTonejs();
+  const { globalIsPlaying, playState, toggleGlobalPlay, toggleAttributePlay, isLoading } =
+    useTonejs();
 
   const handleHover = (attributeKey: FPAttributes, isHover: boolean) => {
     if (!isHover) return setCurrAttribute(null);
@@ -124,6 +125,7 @@ const Fingerprint: React.FC = ({}) => {
           <button className="bg-surface text-primary p-2" onClick={toggleGlobalPlay}>
             {globalIsPlaying ? "Pause" : "Paly"}
           </button>
+          {isLoading && <span>Loading...</span>}
         </div>
       </section>
     </div>

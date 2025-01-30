@@ -26,6 +26,12 @@ abstract class BaseComposition {
     this.envelope.connect(this.mainGain);
   }
 
+  async loadSamples() {
+    for (const [_, sound] of this.fpAttributeSounds) {
+      await sound.loadSamples();
+    }
+  }
+
   start(time: Time) {
     this.fpAttributeSounds.forEach((sound) => sound.play(time));
     this.envelope.triggerAttack(time);

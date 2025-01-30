@@ -1,12 +1,11 @@
 import { AmplitudeEnvelope, Gain } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { FPValue } from "../../Fingerprint";
 
 abstract class BaseSound {
   readonly scale: string;
 
   protected effectChain: Gain;
-  protected attributeValue: FPValue = "";
+  // protected attributeValue: FPValue = "";
 
   constructor(envelope: AmplitudeEnvelope, scale: string) {
     this.scale = scale;
@@ -19,9 +18,11 @@ abstract class BaseSound {
   abstract play: (time: Time) => void;
   abstract stop: (time: Time) => void;
 
-  setAttributeValue(value: FPValue) {
-    this.attributeValue = value;
-  }
+  async loadSamples() {}
+
+  // setAttributeValue(value: FPValue) {
+  //   this.attributeValue = value;
+  // }
 }
 
 export default BaseSound;

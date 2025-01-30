@@ -1,28 +1,25 @@
-import { AmplitudeEnvelope, Sequence, Synth } from "tone";
+import { AmplitudeEnvelope, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
+import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
 import BaseSound from "./BaseSound";
 
+/**
+ * Maybe size can influence the delay/reverb of this?
+ * Make it sound like a bigger room?
+ *
+ * Sound: hihat (metallic-hyperpop-hat_160bpm)
+ *
+ * Inspiration: https://soundcloud.com/area3000/antidote-world-radio-invites-dj-wayang-girl-tool-7-november-2023 (1:57:00)
+ *
+ */
 class ScreenSizeSound extends BaseSound {
-  synth = new Synth({
-    oscillator: {
-      type: "custom",
-      partials: [2, 1, 2, 2],
-    },
-    envelope: {
-      attack: 0.005,
-      decay: 0.3,
-      sustain: 0.2,
-      release: 1,
-    },
-    portamento: 0.01,
-    volume: -20,
-  });
+  hihatPlayer = new Player();
 
   seq = new Sequence(
-    (time, note) => {
-      this.synth.triggerAttackRelease(note, "8n", time);
+    (time, pattern: 0 | 1) => {
+      if (pattern === 1) this.hihatPlayer.start(time);
     },
-    ["E4", "F#4", "B4", "C#5", "D5", "F#4", "E4", "C#5", "B4", "F#4", "D5", "C#5"],
+    [1, 0, 0, 1, 1, 0, 1, 1],
     "8n",
   );
 
@@ -30,12 +27,16 @@ class ScreenSizeSound extends BaseSound {
     super(envelope, scale);
   }
 
+  async loadSamples() {
+    await this.hihatPlayer.load(hihat);
+  }
+
   connect = () => {
-    this.synth.connect(this.effectChain);
+    this.hihatPlayer.connect(this.effectChain);
   };
 
   disconnect = () => {
-    this.synth.disconnect(this.effectChain);
+    this.hihatPlayer.disconnect(this.effectChain);
   };
 
   play = (time: Time) => {

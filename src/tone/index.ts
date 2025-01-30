@@ -20,6 +20,7 @@ class MyTone {
   private fftVisualisation?: FFTVisualisation;
   private signalVisualisation?: SignalVisualisation;
 
+  private samplesLoaded = false;
   private setIsLoading: (loading: boolean) => void;
 
   /**
@@ -54,6 +55,11 @@ class MyTone {
     this.setIsLoading(true);
 
     const now = toneNow();
+
+    if (!this.samplesLoaded) {
+      await this.composition.loadSamples();
+      this.samplesLoaded = true;
+    }
 
     this.composition.start(now);
     getTransport().start(now);

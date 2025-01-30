@@ -27,7 +27,7 @@ const useTonejs = () => {
     myToneRef.current = new MyTone(setIsLoading);
   };
 
-  const toggleGlobalPlay = async () => {
+  const toggleGlobalPlay = useCallback(async () => {
     if (!isInitialised) {
       await init();
       setIsInitialised(true);
@@ -40,10 +40,10 @@ const useTonejs = () => {
       myTone.stop();
       setGlobalIsPlaying(false);
     } else {
-      myTone.start();
+      await myTone.start();
       setGlobalIsPlaying(true);
     }
-  };
+  }, [globalIsPlaying]);
 
   const toggleAttributePlay = useCallback(
     async (attributeKey: FPAttributes) => {
@@ -56,7 +56,7 @@ const useTonejs = () => {
       const myTone = myToneRef.current;
       if (!myTone) return;
 
-      if (newAttributePlayState) myTone.startFPAttribute(attributeKey);
+      if (newAttributePlayState) await myTone.startFPAttribute(attributeKey);
       else myTone.stopFPAttribute(attributeKey);
     },
     [globalIsPlaying, playState],
