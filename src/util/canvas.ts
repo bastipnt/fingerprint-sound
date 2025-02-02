@@ -3,6 +3,9 @@ export const useResize = (canvas: HTMLCanvasElement) => () => {
   canvas.height = window.innerHeight;
 };
 
+export const awaitAnimationFrame = () =>
+  new Promise((resolve) => window.requestAnimationFrame(resolve));
+
 export const wait = (ms: number = 1000) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);

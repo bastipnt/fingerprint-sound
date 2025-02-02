@@ -5,7 +5,7 @@ import useTonejs from "./hooks/useTonejs";
 import { FingerprintContext, FPAttributes } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
 
-const Fingerprint: React.FC = ({}) => {
+const FingerprintSound: React.FC = ({}) => {
   const { visitorId } = useContext(FingerprintContext);
 
   const { darkPattern, lightPattern } = useContext(PatternContext);
@@ -132,4 +132,4 @@ const Fingerprint: React.FC = ({}) => {
   );
 };
 
-export default Fingerprint;
+export default FingerprintSound;

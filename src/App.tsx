@@ -1,6 +1,6 @@
 import { Route, Switch } from "wouter";
 import StoriesWrapper from "./components/StoriesWrapper";
-import Fingerprint from "./Fingerprint";
+import FingerprintSound from "./FingerprintSound";
 import Layout from "./Layout";
 import Provider from "./providers";
 import Welcome from "./Welcome";
@@ -15,7 +15,7 @@ function App() {
           </Route>
 
           <Route path="/fp-sound">
-            <Fingerprint />
+            <FingerprintSound />
           </Route>
 
           <Route path="/stories" component={StoriesWrapper} />
