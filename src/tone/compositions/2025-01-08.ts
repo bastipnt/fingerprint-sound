@@ -1,5 +1,5 @@
 import { Gain } from "tone";
-import { FPAttributes } from "../../providers/fingerprintProvider";
+import { FPAttributes } from "../../fingerprint";
 import AudioSound from "../sounds/AudioSound";
 import CanvasSound from "../sounds/CanvasSound";
 import ColorDepthSound from "../sounds/ColorDepthSound";

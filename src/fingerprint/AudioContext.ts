@@ -12,7 +12,7 @@ const getHash = (signal: ArrayLike<number>): number => {
  * @see https://github.com/fingerprintjs/fingerprintjs/blob/master/src/sources/audio.ts
  *
  */
-export const getAudioContext = async (): Promise<string> => {
+export const getAudioContext = async (): Promise<[string, Float32Array]> => {
   const hashFromIndex = 4500;
   const hashToIndex = 5000;
   const audioContext = new OfflineAudioContext(1, hashToIndex, 44100);
@@ -35,7 +35,8 @@ export const getAudioContext = async (): Promise<string> => {
   const renderingPromise = audioContext.startRendering();
 
   const audioBuffer = await renderingPromise;
-  const hash = getHash(audioBuffer.getChannelData(0).subarray(hashFromIndex));
+  const audioArr = audioBuffer.getChannelData(0).subarray(hashFromIndex);
+  const hash = getHash(audioArr);
 
-  return hash.toString();
+  return [hash.toString(), audioArr];
 };

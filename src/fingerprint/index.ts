@@ -18,17 +18,23 @@ export enum FPAttributes {
 export default class Fingerprint {
   fingerprintId?: string;
   hashedAttributes = new Map<FPAttributes, string>();
-  attributes = new Map<FPAttributes, string>();
+  attributes = new Map<FPAttributes, string | Float32Array>();
 
   async createFingerprint() {
     this.attributes.set(FPAttributes.timeZone, getTimeZoneFP());
     this.attributes.set(FPAttributes.screenSize, getScreenSize());
     this.attributes.set(FPAttributes.colorDepth, getColorDepth());
     this.attributes.set(FPAttributes.canvas2D, getCanvas2D());
-    this.attributes.set(FPAttributes.canvasWebGL, await getCanvasWebGL());
-    this.attributes.set(FPAttributes.audioContext, await getAudioContext());
+    const [webGLData, webGLImage] = await getCanvasWebGL();
+    this.attributes.set(FPAttributes.canvasWebGL, webGLData);
+    const [audioHash, audioArr] = await getAudioContext();
+    this.attributes.set(FPAttributes.audioContext, audioHash);
 
     this.hashAttributes();
+
+    // overwrite
+    this.attributes.set(FPAttributes.canvasWebGL, webGLImage);
+    this.attributes.set(FPAttributes.audioContext, audioArr);
 
     this.fingerprintId = this.generateFingerprintId();
   }

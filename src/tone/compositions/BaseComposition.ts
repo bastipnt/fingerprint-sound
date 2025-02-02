@@ -1,15 +1,11 @@
 import { Scale } from "tonal";
 import { AmplitudeEnvelope, type Gain } from "tone";
 import type { Frequency, Time } from "tone/build/esm/core/type/Units";
-import "../../Fingerprint";
-import { FPAttributes } from "../../providers/fingerprintProvider";
+import { FPAttributes } from "../../fingerprint";
 import { mapFloor } from "../../util/number";
 import BaseSound from "../sounds/BaseSound";
 
 export type PatternValues = Array<Array<0 | 1>>;
-// export type FPAttributeValues = {
-//   [key in FPAttributes]: string;
-// };
 
 abstract class BaseComposition {
   scale = "C4 major";

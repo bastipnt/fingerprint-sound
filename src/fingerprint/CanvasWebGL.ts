@@ -34,17 +34,17 @@ const getWebGLContext = (canvas: HTMLCanvasElement): WebGLRenderingContext | nul
  * @see https://browserleaks.com/webgl
  *
  */
-export const getCanvasWebGL = async (): Promise<string> => {
+export const getCanvasWebGL = async (): Promise<[string, string]> => {
   const canvas = document.createElement("canvas");
   canvas.width = 256;
   canvas.height = 128;
 
   const gl = getWebGLContext(canvas);
-  if (gl === null) return "No_WebGL";
+  if (gl === null) return ["No_WebGL", ""];
 
   // Vertex shader
   const vertShader = gl.createShader(gl.VERTEX_SHADER);
-  if (!vertShader) return "No_VertShader";
+  if (!vertShader) return ["No_VertShader", ""];
   gl.shaderSource(vertShader, vertexCode);
   gl.compileShader(vertShader);
   const compiledVertShader = gl.getShaderParameter(vertShader, gl.COMPILE_STATUS);
@@ -54,7 +54,7 @@ export const getCanvasWebGL = async (): Promise<string> => {
 
   // Fragment shader
   const fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-  if (!fragShader) return "No_FragShader";
+  if (!fragShader) return ["No_FragShader", ""];
   gl.shaderSource(fragShader, fragmentCode);
   gl.compileShader(fragShader);
   const compiledFragShader = gl.getShaderParameter(fragShader, gl.COMPILE_STATUS);
@@ -64,7 +64,7 @@ export const getCanvasWebGL = async (): Promise<string> => {
 
   // shaderProgram
   const shaderProgram = gl.createProgram();
-  if (!shaderProgram) return "No_ShaderProgram";
+  if (!shaderProgram) return ["No_ShaderProgram", ""];
   gl.attachShader(shaderProgram, vertShader);
   gl.attachShader(shaderProgram, fragShader);
   gl.linkProgram(shaderProgram);
@@ -102,5 +102,5 @@ export const getCanvasWebGL = async (): Promise<string> => {
   gl.readPixels(0, 0, canvas.width, canvas.height, gl.RGBA, gl.UNSIGNED_BYTE, dataArr);
   const dataStr = JSON.stringify(dataArr).replace(/,?"[0-9]+":/g, "");
 
-  return dataStr;
+  return [dataStr, canvas.toDataURL()];
 };

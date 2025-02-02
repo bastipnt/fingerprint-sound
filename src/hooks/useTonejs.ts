@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { FPAttributes } from "../providers/fingerprintProvider";
+import { FPAttributes } from "../fingerprint";
 import type MyTone from "../tone";
 
 export type PlayState = {

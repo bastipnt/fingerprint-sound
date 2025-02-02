@@ -1,4 +1,5 @@
 import { Analyser, getTransport } from "tone";
+import { scale } from "../../util/audoFPCanvas";
 
 class SignalVisualisation {
   private canvas: HTMLCanvasElement;
@@ -39,10 +40,6 @@ class SignalVisualisation {
     });
   }
 
-  private scale(v: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
-    return ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
-  }
-
   private draw(values: Float32Array) {
     if (this.ctx === null) return;
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
@@ -58,8 +55,8 @@ class SignalVisualisation {
     this.ctx.beginPath();
     for (let i = startIndex; i < endIndex; i++) {
       const amplitude = values[i];
-      const x = this.scale(i, startIndex, endIndex, -lineWidth, this.canvasWidth + lineWidth);
-      const y = this.scale(amplitude, max, min, 0, this.canvasHeight - lineWidth);
+      const x = scale(i, startIndex, endIndex, -lineWidth, this.canvasWidth + lineWidth);
+      const y = scale(amplitude, max, min, 0, this.canvasHeight - lineWidth);
 
       this.ctx.lineTo(x, y);
     }

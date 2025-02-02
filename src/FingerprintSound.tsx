@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import InfoBox from "./components/InfoBox";
+import { FPAttributes } from "./fingerprint";
 import useTonejs from "./hooks/useTonejs";
-import { FingerprintContext, FPAttributes } from "./providers/fingerprintProvider";
+import { FingerprintContext } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
+import { getAudioFPImageUrl } from "./util/audoFPCanvas";
 
 const FingerprintSound: React.FC = ({}) => {
-  const { visitorId } = useContext(FingerprintContext);
+  const { visitorId, attributes } = useContext(FingerprintContext);
 
   const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null>(null);
@@ -45,8 +47,9 @@ const FingerprintSound: React.FC = ({}) => {
               label={FPAttributes[FPAttributes.screenSize]}
             />
             <InfoBox show={currAttribute === FPAttributes.screenSize}>
-              <p>Screen Size</p>
+              <h2>Screen Size</h2>
               <p>Desctiption</p>
+              <p>Result: {attributes.get(FPAttributes.screenSize)}</p>
             </InfoBox>
           </li>
 
@@ -60,6 +63,7 @@ const FingerprintSound: React.FC = ({}) => {
             <InfoBox show={currAttribute === FPAttributes.timeZone}>
               <p>TimeZone</p>
               <p>Desctiption</p>
+              <p>Result: {attributes.get(FPAttributes.timeZone)}</p>
             </InfoBox>
           </li>
 
@@ -73,6 +77,7 @@ const FingerprintSound: React.FC = ({}) => {
             <InfoBox show={currAttribute === FPAttributes.colorDepth}>
               <p>TimeZone</p>
               <p>Desctiption</p>
+              <p>Result: {attributes.get(FPAttributes.colorDepth)}</p>
             </InfoBox>
           </li>
 
@@ -86,6 +91,7 @@ const FingerprintSound: React.FC = ({}) => {
             <InfoBox show={currAttribute === FPAttributes.canvas2D}>
               <p>TimeZone</p>
               <p>Desctiption</p>
+              <img src={attributes.get(FPAttributes.canvas2D) as string} alt="canvas 2D image" />
             </InfoBox>
           </li>
 
@@ -99,6 +105,10 @@ const FingerprintSound: React.FC = ({}) => {
             <InfoBox show={currAttribute === FPAttributes.canvasWebGL}>
               <p>TimeZone</p>
               <p>Desctiption</p>
+              <img
+                src={attributes.get(FPAttributes.canvasWebGL) as string}
+                alt="canvas webGL image"
+              />
             </InfoBox>
           </li>
 
@@ -112,6 +122,10 @@ const FingerprintSound: React.FC = ({}) => {
             <InfoBox show={currAttribute === FPAttributes.audioContext}>
               <p>Audio Context</p>
               <p>Desctiption</p>
+              <img
+                src={getAudioFPImageUrl(attributes.get(FPAttributes.audioContext))}
+                alt="canvas webGL image"
+              />
             </InfoBox>
           </li>
         </ul>

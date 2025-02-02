@@ -1,18 +1,12 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import Fingerprint from "../fingerprint";
+import Fingerprint, { FPAttributes } from "../fingerprint";
 
-export enum FPAttributes {
-  "timeZone",
-  "screenSize",
-  "colorDepth",
-  "canvas2D",
-  "canvasWebGL",
-  "audioContext",
-}
 export const FingerprintContext = createContext<{
   visitorId?: string;
+  attributes: Map<FPAttributes, string | Float32Array>;
 }>({
   visitorId: undefined,
+  attributes: new Map<FPAttributes, string | Float32Array>(),
 });
 
 type Props = {
@@ -20,27 +14,27 @@ type Props = {
 };
 
 const FingerprintProvider: React.FC<Props> = ({ children }) => {
-  const createFingerprint = async (): Promise<{
-    visitorId: string;
-  }> => {
+  const createFingerprint = async (): Promise<Fingerprint> => {
     const fingerprint = new Fingerprint();
     await fingerprint.createFingerprint();
-    const visitorId = fingerprint.fingerprintId || "";
-    // const results = fingerprint.hashedAttributes;
 
-    return { visitorId };
+    return fingerprint;
   };
 
   const [visitorId, setVisitorId] = useState<string>();
+  const [attributes, setAttributes] = useState(new Map<FPAttributes, string | Float32Array>());
 
   useEffect(() => {
-    createFingerprint().then((res) => {
-      setVisitorId(res.visitorId);
+    createFingerprint().then((fingerprint) => {
+      setVisitorId(fingerprint.fingerprintId || "No Id");
+      setAttributes(fingerprint.attributes);
     });
   }, []);
 
   return (
-    <FingerprintContext.Provider value={{ visitorId }}>{children}</FingerprintContext.Provider>
+    <FingerprintContext.Provider value={{ visitorId, attributes }}>
+      {children}
+    </FingerprintContext.Provider>
   );
 };
 

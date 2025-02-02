@@ -1,6 +1,5 @@
 import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
-// import "../Fingerprint";
-import { FPAttributes } from "../providers/fingerprintProvider";
+import { FPAttributes } from "../fingerprint";
 import Composition from "./compositions/2025-01-08";
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
