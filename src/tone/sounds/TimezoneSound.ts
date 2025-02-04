@@ -1,6 +1,6 @@
 import { Gain, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { PlayState } from "../../hooks/useTonejs";
+import { PlayState } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class TimezoneSound extends BaseSound {

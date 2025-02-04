@@ -1,7 +1,7 @@
 import { Gain, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import kick from "../../assets/samples/kick-rumble.wav";
-import { PlayState } from "../../hooks/useTonejs";
+import { PlayState } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class ColorDepthSound extends BaseSound {

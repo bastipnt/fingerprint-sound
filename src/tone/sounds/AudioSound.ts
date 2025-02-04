@@ -1,7 +1,7 @@
 import { Gain, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import sample from "../../assets/samples/creepy-fx-cave-atmo.wav";
-import { PlayState } from "../../hooks/useTonejs";
+import { PlayState } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class AudioSound extends BaseSound {

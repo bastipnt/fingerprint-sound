@@ -1,10 +1,9 @@
-import Sample from "./samples/Sample";
-
 import itsGonnaRain from "../assets/samples/its-gonna-rain.mp3";
 import kick from "../assets/samples/kick-rumble.wav";
-import snare from "../assets/samples/phonk-snare_130bpm_C_minor.wav";
 import hihat from "../assets/samples/metallic-hyperpop-hat_160bpm.wav";
+import snare from "../assets/samples/phonk-snare_130bpm_C_minor.wav";
 import MSampler from "./samples/MSampler";
+import Sample from "./samples/Sample";
 
 export enum AvailableSamples {
   rain = "its-gonna-rain",
@@ -17,10 +16,7 @@ class Samples {
   initialised = false;
 
   constructor() {
-    this.samples.set(
-      AvailableSamples.rain,
-      new Sample(itsGonnaRain, AvailableSamples.rain)
-    );
+    this.samples.set(AvailableSamples.rain, new Sample(itsGonnaRain, AvailableSamples.rain));
 
     this.samples.set(
       AvailableSamples.sampler1,
@@ -30,17 +26,15 @@ class Samples {
           { key: "D1", url: snare },
           { key: "E1", url: hihat },
         ],
-        AvailableSamples.sampler1
-      )
+        AvailableSamples.sampler1,
+      ),
     );
   }
 
   async init() {
     if (this.initialised) return;
 
-    await Promise.all(
-      this.use.map((sampleName) => this.samples.get(sampleName)?.init())
-    );
+    await Promise.all(this.use.map((sampleName) => this.samples.get(sampleName)?.init()));
 
     this.initialised = true;
   }
