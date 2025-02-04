@@ -1,6 +1,7 @@
 import { Scale } from "tonal";
 import { AmplitudeEnvelope, type Gain } from "tone";
 import type { Frequency, Time } from "tone/build/esm/core/type/Units";
+import { MVariables } from "..";
 import { FPAttributes } from "../../fingerprint";
 import { mapFloor } from "../../util/number";
 import BaseSound from "../sounds/BaseSound";
@@ -50,11 +51,11 @@ abstract class BaseComposition {
     this.fpAttributeSounds.get(attributeKey)?.connect();
   }
 
-  // setFPAttributeValues(fpAttributeValues: FPAttributeValues) {
-  //   Object.entries(fpAttributeValues).forEach(([key, value]) =>
-  //     this.fpAttributeSounds.get(key as FPAttributes)?.setAttributeValue(value),
-  //   );
-  // }
+  updateVariables(name: MVariables, value: string) {
+    for (const sound of this.fpAttributeSounds.values()) {
+      sound.updateVariables(name, value);
+    }
+  }
 
   /**
    * Stop fp attribute play

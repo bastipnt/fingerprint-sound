@@ -1,6 +1,7 @@
-import { AmplitudeEnvelope, Player, Sequence } from "tone";
+import { Gain, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
+import { MVariables, PlayState } from "../../hooks/useTonejs";
 import BaseSound from "./BaseSound";
 
 /**
@@ -13,39 +14,38 @@ import BaseSound from "./BaseSound";
  *
  */
 class ScreenSizeSound extends BaseSound {
-  hihatPlayer = new Player();
+  player = new Player();
 
   seq = new Sequence(
     (time, pattern: 0 | 1) => {
-      if (pattern === 1) this.hihatPlayer.start(time);
+      if (pattern === 1) this.player.start(time);
     },
     [1, 0, 0, 1, 1, 0, 1, 1],
     "8n",
   );
 
-  constructor(envelope: AmplitudeEnvelope, scale: string) {
-    super(envelope, scale);
+  // reverb = new Reverb(1000);
+
+  constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
+    super(mainGain, setStateCallback);
+    this.player.connect(this.envelope);
   }
 
-  async loadSamples() {
-    await this.hihatPlayer.load(hihat);
+  async load() {
+    await this.player.load(hihat);
   }
 
-  connect = () => {
-    this.hihatPlayer.connect(this.effectChain);
-  };
-
-  disconnect = () => {
-    this.hihatPlayer.disconnect(this.effectChain);
-  };
-
-  play = (time: Time) => {
+  startChild = (time: Time) => {
     this.seq.start(time);
   };
 
-  stop = (time: Time) => {
+  stopChild = (time: Time) => {
     this.seq.stop(time);
   };
+
+  updateVariables(name: MVariables, value: string): void {
+    super.updateVariables(name, value);
+  }
 }
 
 export default ScreenSizeSound;

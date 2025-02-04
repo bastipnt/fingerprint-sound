@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import InfoBox from "./components/InfoBox";
 import { FPAttributes } from "./fingerprint";
-import useTonejs from "./hooks/useTonejs";
+import useTonejs, { PlayState } from "./hooks/useTonejs";
 import { FingerprintContext } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
 import { getAudioFPImageUrl } from "./util/audoFPCanvas";
@@ -13,7 +13,7 @@ const FingerprintSound: React.FC = ({}) => {
   const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null>(null);
 
-  const { globalIsPlaying, playState, toggleGlobalPlay, toggleAttributePlay, isLoading } =
+  const { globalPlayState, soundPlayStates, toggleGlobalPlay, toggleAttributeMute, isLoading } =
     useTonejs();
 
   const handleHover = (attributeKey: FPAttributes, isHover: boolean) => {
@@ -41,8 +41,8 @@ const FingerprintSound: React.FC = ({}) => {
         <ul className="box-border grid grid-cols-3 gap-8 p-4">
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.screenSize]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.screenSize)}
+              isPlaying={soundPlayStates[FPAttributes.screenSize] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.screenSize)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.screenSize, isHover)}
               label={FPAttributes[FPAttributes.screenSize]}
             />
@@ -55,8 +55,8 @@ const FingerprintSound: React.FC = ({}) => {
 
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.timeZone]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.timeZone)}
+              isPlaying={soundPlayStates[FPAttributes.timeZone] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.timeZone)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.timeZone, isHover)}
               label={FPAttributes[FPAttributes.timeZone]}
             />
@@ -69,8 +69,8 @@ const FingerprintSound: React.FC = ({}) => {
 
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.colorDepth]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.colorDepth)}
+              isPlaying={soundPlayStates[FPAttributes.colorDepth] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.colorDepth)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.colorDepth, isHover)}
               label={FPAttributes[FPAttributes.colorDepth]}
             />
@@ -83,8 +83,8 @@ const FingerprintSound: React.FC = ({}) => {
 
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.canvas2D]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.canvas2D)}
+              isPlaying={soundPlayStates[FPAttributes.canvas2D] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.canvas2D)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.canvas2D, isHover)}
               label={FPAttributes[FPAttributes.canvas2D]}
             />
@@ -97,8 +97,8 @@ const FingerprintSound: React.FC = ({}) => {
 
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.canvasWebGL]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.canvasWebGL)}
+              isPlaying={soundPlayStates[FPAttributes.canvasWebGL] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.canvasWebGL)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.canvasWebGL, isHover)}
               label={FPAttributes[FPAttributes.canvasWebGL]}
             />
@@ -114,8 +114,8 @@ const FingerprintSound: React.FC = ({}) => {
 
           <li>
             <FPAttribute
-              isPlaying={!!playState[FPAttributes.audioContext]}
-              togglePlay={() => toggleAttributePlay(FPAttributes.audioContext)}
+              isPlaying={soundPlayStates[FPAttributes.audioContext] === PlayState.STARTED}
+              togglePlay={() => toggleAttributeMute(FPAttributes.audioContext)}
               onHover={(isHover: boolean) => handleHover(FPAttributes.audioContext, isHover)}
               label={FPAttributes[FPAttributes.audioContext]}
             />
@@ -137,9 +137,10 @@ const FingerprintSound: React.FC = ({}) => {
           style={{ background: `url(${darkPattern})` }}
         >
           <button className="bg-surface text-primary p-2" onClick={toggleGlobalPlay}>
-            {globalIsPlaying ? "Pause" : "Paly"}
+            {globalPlayState === PlayState.STARTED ? "Mute" : "Play"}
           </button>
           {isLoading && <span>Loading...</span>}
+          <span>{PlayState[globalPlayState]}</span>
         </div>
       </section>
     </div>

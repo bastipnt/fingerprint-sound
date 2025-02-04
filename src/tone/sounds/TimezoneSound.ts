@@ -1,5 +1,6 @@
-import { AmplitudeEnvelope, Sequence, Synth } from "tone";
+import { Gain, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
+import { PlayState } from "../../hooks/useTonejs";
 import BaseSound from "./BaseSound";
 
 class TimezoneSound extends BaseSound {
@@ -26,23 +27,16 @@ class TimezoneSound extends BaseSound {
     "8n",
   );
 
-  constructor(envelope: AmplitudeEnvelope, scale: string) {
-    super(envelope, scale);
+  constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
+    super(mainGain, setStateCallback);
+    this.synth.connect(this.envelope);
   }
 
-  connect = () => {
-    this.synth.connect(this.effectChain);
-  };
-
-  disconnect = () => {
-    this.synth.disconnect(this.effectChain);
-  };
-
-  play = (time: Time) => {
+  startChild = (time: Time) => {
     this.seq.start(time);
   };
 
-  stop = (time: Time) => {
+  stopChild = (time: Time) => {
     this.seq.stop(time);
   };
 }

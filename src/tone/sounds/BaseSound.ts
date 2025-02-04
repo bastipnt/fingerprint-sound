@@ -1,28 +1,61 @@
-import { AmplitudeEnvelope, Gain } from "tone";
+import { AmplitudeEnvelope, Gain, now as toneNow } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
+import { MVariables, PlayState } from "../../hooks/useTonejs";
 
 abstract class BaseSound {
-  readonly scale: string;
+  private mainGain: Gain;
+  protected envelope: AmplitudeEnvelope;
+  protected musicVariables = new Map<MVariables, string>();
 
-  protected effectChain: Gain;
-  // protected attributeValue: FPValue = "";
+  protected state: PlayState = PlayState.STOPPED;
+  private setStateCallback: (newState: PlayState) => void;
 
-  constructor(envelope: AmplitudeEnvelope, scale: string) {
-    this.scale = scale;
-    this.effectChain = new Gain(1).chain(envelope);
+  constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
+    this.mainGain = mainGain;
+    this.setStateCallback = setStateCallback;
+
+    this.envelope = new AmplitudeEnvelope(0.3, undefined, 1, 0.3);
+    this.envelope.connect(this.mainGain);
   }
 
-  abstract connect: () => void;
-  abstract disconnect: () => void;
+  protected abstract startChild: (time: Time) => void;
+  protected abstract stopChild: (time: Time) => void;
 
-  abstract play: (time: Time) => void;
-  abstract stop: (time: Time) => void;
+  private setState(newState: PlayState) {
+    this.state = newState;
+    this.setStateCallback(newState);
+  }
 
-  async loadSamples() {}
+  start(time: Time) {
+    if (this.state !== PlayState.STOPPED) return;
+    this.startChild(time);
+    this.setState(PlayState.MUTED);
+  }
 
-  // setAttributeValue(value: FPValue) {
-  //   this.attributeValue = value;
-  // }
+  stop(time: Time) {
+    if (this.state === PlayState.STOPPED) return;
+    this.mute();
+    this.stopChild(time);
+    this.setState(PlayState.STOPPED);
+  }
+
+  unMute() {
+    if (this.state !== PlayState.MUTED) return;
+    this.envelope.triggerAttack(toneNow());
+    this.setState(PlayState.STARTED);
+  }
+
+  mute() {
+    if (this.state !== PlayState.STARTED) return;
+    this.envelope.triggerRelease(toneNow());
+    this.setState(PlayState.MUTED);
+  }
+
+  async load() {}
+
+  updateVariables(name: MVariables, value: string) {
+    this.musicVariables.set(name, value);
+  }
 }
 
 export default BaseSound;

@@ -1,6 +1,7 @@
-import { AmplitudeEnvelope, Player, Sequence } from "tone";
+import { Gain, Player, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import sample from "../../assets/samples/creepy-fx-cave-atmo.wav";
+import { PlayState } from "../../hooks/useTonejs";
 import BaseSound from "./BaseSound";
 
 class AudioSound extends BaseSound {
@@ -14,27 +15,20 @@ class AudioSound extends BaseSound {
     "5m",
   );
 
-  constructor(envelope: AmplitudeEnvelope, scale: string) {
-    super(envelope, scale);
+  constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
+    super(mainGain, setStateCallback);
+    this.player.connect(this.envelope);
   }
 
-  connect = () => {
-    this.player.connect(this.effectChain);
-  };
-
-  disconnect = () => {
-    this.player.disconnect(this.effectChain);
-  };
-
-  async loadSamples() {
+  async load() {
     await this.player.load(sample);
   }
 
-  play = (time: Time) => {
+  startChild = (time: Time) => {
     this.seq.start(time);
   };
 
-  stop = (time: Time) => {
+  stopChild = (time: Time) => {
     this.seq.stop(time);
   };
 }

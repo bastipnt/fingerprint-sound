@@ -1,6 +1,13 @@
 import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
 import { FPAttributes } from "../fingerprint";
-import Composition from "./compositions/2025-01-08";
+import { MVariables, PlayState } from "../hooks/useTonejs";
+import AudioSound from "./sounds/AudioSound";
+import BaseSound from "./sounds/BaseSound";
+import CanvasSound from "./sounds/CanvasSound";
+import ColorDepthSound from "./sounds/ColorDepthSound";
+import ScreenSizeSound from "./sounds/ScreenSizeSound";
+import TimezoneSound from "./sounds/TimezoneSound";
+import WebGLSound from "./sounds/WebGLSound";
 import FFTVisualisation from "./visualisation/FFTVisualisation";
 import SignalVisualisation from "./visualisation/SignalVisualisation";
 
@@ -20,7 +27,11 @@ class MyTone {
   private signalVisualisation?: SignalVisualisation;
 
   private samplesLoaded = false;
-  private setIsLoading: (loading: boolean) => void;
+  private setIsLoadingCallback: (loading: boolean) => void;
+  private setGlobalPlayStateCallback: (newPlayState: PlayState) => void;
+  private setSoundPlayStateCallback: (soundName: FPAttributes, newPlayState: PlayState) => void;
+
+  private state: PlayState = PlayState.STOPPED;
 
   /**
    * main Envelope around everything
@@ -33,53 +44,125 @@ class MyTone {
    */
   private mainGain = new Gain().connect(this.mainEnvelope);
 
-  /**
-   * The composition to be played
-   */
-  private composition = new Composition(this.mainGain);
+  private sounds = new Map<FPAttributes, BaseSound>();
 
   /**
    * Tone default class constructor
    * @param setIsLoading
    */
-  constructor(setIsLoading: (loading: boolean) => void) {
+  constructor(
+    setIsLoadingCallback: (loading: boolean) => void,
+    setGlobalPlayStateCallback: (newPlayState: PlayState) => void,
+    setSoundPlayStateCallback: (soundName: FPAttributes, newPlayState: PlayState) => void,
+  ) {
     if (!MyTone.initialised) throw new Error("Tonejs not initialised");
 
-    this.setIsLoading = setIsLoading;
+    this.setIsLoadingCallback = setIsLoadingCallback;
+    this.setGlobalPlayStateCallback = setGlobalPlayStateCallback;
+    this.setSoundPlayStateCallback = setSoundPlayStateCallback;
+
     getTransport().bpm.value = this.tempo;
+
+    this.createSounds();
+  }
+
+  private createSounds() {
+    this.sounds.set(
+      FPAttributes.screenSize,
+      new ScreenSizeSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.screenSize, newState),
+      ),
+    );
+    this.sounds.set(
+      FPAttributes.audioContext,
+      new AudioSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.audioContext, newState),
+      ),
+    );
+    this.sounds.set(
+      FPAttributes.canvas2D,
+      new CanvasSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.canvas2D, newState),
+      ),
+    );
+    this.sounds.set(
+      FPAttributes.canvasWebGL,
+      new WebGLSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.canvasWebGL, newState),
+      ),
+    );
+    this.sounds.set(
+      FPAttributes.colorDepth,
+      new ColorDepthSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.colorDepth, newState),
+      ),
+    );
+    this.sounds.set(
+      FPAttributes.timeZone,
+      new TimezoneSound(this.mainGain, (newState: PlayState) =>
+        this.setSoundPlayStateCallback(FPAttributes.timeZone, newState),
+      ),
+    );
   }
 
   async start() {
     if (!MyTone.initialised) return;
-    this.setIsLoading(true);
-
-    const now = toneNow();
+    if (this.state !== PlayState.STOPPED) return;
 
     if (!this.samplesLoaded) {
-      await this.composition.loadSamples();
+      this.setIsLoadingCallback(true);
+      await this.load();
       this.samplesLoaded = true;
+      this.setIsLoadingCallback(false);
     }
 
-    this.composition.start(now);
+    const now = toneNow();
     getTransport().start(now);
-    this.mainEnvelope.triggerAttack(0);
+    this.mainEnvelope.triggerAttack(now);
 
     this.fftVisualisation?.loop();
     this.signalVisualisation?.loop();
 
-    this.setIsLoading(false);
+    this.sounds.forEach((sound) => sound.start(now));
+    this.setPlayState(PlayState.STARTED);
   }
 
   stop() {
     if (!MyTone.initialised) return;
+    if (this.state === PlayState.STOPPED) return;
     this.mainEnvelope.triggerRelease();
 
     getTransport().stop("+1");
-    this.composition.stop("+2");
+    this.sounds.forEach((sound) => sound.stop("+2"));
+    this.setPlayState(PlayState.STOPPED);
   }
 
-  debugLogTime() {
-    setInterval(() => console.log(toneNow()), 100);
+  mute() {
+    if (!MyTone.initialised) return;
+    if (this.state !== PlayState.STARTED) return;
+    this.mainEnvelope.triggerRelease();
+    this.setPlayState(PlayState.MUTED);
+  }
+
+  unMute() {
+    if (!MyTone.initialised) return;
+    if (this.state !== PlayState.MUTED) return;
+    this.mainEnvelope.triggerAttack(toneNow());
+    this.setPlayState(PlayState.STARTED);
+  }
+
+  async unmuteAll() {
+    if (!MyTone.initialised) return;
+    if (this.state === PlayState.STOPPED) return;
+
+    this.unMute();
+    this.sounds.forEach((sound) => sound.unMute());
+  }
+
+  private async load() {
+    for (const sound of this.sounds.values()) {
+      await sound.load();
+    }
   }
 
   addFFTVisualisation(fftCanvas: HTMLCanvasElement) {
@@ -100,11 +183,10 @@ class MyTone {
    * @param attributeKey Key of the fingerprint attribute
    * @param value Value of the fingerprint attribute
    */
-  async startFPAttribute(attributeKey: FPAttributes) {
+  unMuteSound(attributeKey: FPAttributes) {
     if (!MyTone.initialised) return;
     if (getTransport().state !== "started") return;
-
-    this.composition.startFPAttribute(attributeKey);
+    this.sounds.get(attributeKey)?.unMute();
   }
 
   /**
@@ -112,10 +194,19 @@ class MyTone {
    * Only works when global is playing
    * @param attributeKey Key of the fingerprint attribute
    */
-  async stopFPAttribute(attributeKey: FPAttributes) {
+  muteSound(attributeKey: FPAttributes) {
     if (!MyTone.initialised) return;
+    this.sounds.get(attributeKey)?.mute();
+  }
 
-    this.composition.stopFPAttribute(attributeKey);
+  updateVariables(name: MVariables, value: string) {
+    for (const sound of this.sounds.values()) {
+      sound.updateVariables(name, value);
+    }
+  }
+
+  debugLogTime() {
+    setInterval(() => console.log(toneNow()), 100);
   }
 
   /**
@@ -125,6 +216,11 @@ class MyTone {
   static async init() {
     await start();
     MyTone.initialised = true;
+  }
+
+  private setPlayState(newPlayState: PlayState) {
+    this.state = newPlayState;
+    this.setGlobalPlayStateCallback(newPlayState);
   }
 }
 
