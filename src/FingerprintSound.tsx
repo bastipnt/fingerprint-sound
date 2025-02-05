@@ -5,7 +5,7 @@ import { FPAttributes } from "./fingerprint";
 import { FingerprintContext } from "./providers/fingerprintProvider";
 import { PatternContext } from "./providers/patternProvider";
 import { PlayState, SoundContext } from "./providers/soundProvider";
-import { getAudioFPImageUrl } from "./util/audoFPCanvas";
+import { getAudioFPImageUrl } from "./util/audioFPCanvas";
 
 const FingerprintSound: React.FC = ({}) => {
   const { visitorId, attributes } = useContext(FingerprintContext);

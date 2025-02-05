@@ -1,6 +1,6 @@
 import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
 import { FPAttributes } from "../fingerprint";
-import { PlayState } from "../providers/soundProvider";
+import { FPAttributeName, FPAttributeValue, PlayState } from "../providers/soundProvider";
 import AudioSound from "./sounds/AudioSound";
 import BaseSound from "./sounds/BaseSound";
 import CanvasSound from "./sounds/CanvasSound";
@@ -199,7 +199,7 @@ class MyTone {
     this.sounds.get(attributeKey)?.mute();
   }
 
-  updateVariables(name: FPAttributes, value: string | Float32Array) {
+  updateVariables(name: FPAttributeName, value: FPAttributeValue) {
     for (const sound of this.sounds.values()) {
       sound.updateVariables(name, value);
     }

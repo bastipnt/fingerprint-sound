@@ -1,13 +1,15 @@
-import { ReactNode, createContext, useCallback, useEffect, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 
 export const KeyboardContext = createContext<{
   keysPressed: (key: string | string[]) => boolean;
   keys: Map<string, boolean>;
   setCapture: (capture: boolean) => void;
+  mousePosition: [number, number];
 }>({
   keysPressed: () => false,
   keys: new Map<string, boolean>(),
   setCapture: () => {},
+  mousePosition: [0, 0],
 });
 
 type Props = {
@@ -17,6 +19,7 @@ type Props = {
 const KeyboardProvider: React.FC<Props> = ({ children }) => {
   const [keys, setKeys] = useState<Map<string, boolean>>(new Map<string, boolean>());
   const [capture, setCapture] = useState(true);
+  const [mousePosition, setMousePosition] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
     const innerKeys = new Map<string, boolean>();
@@ -31,12 +34,18 @@ const KeyboardProvider: React.FC<Props> = ({ children }) => {
 
     const handleKeyUp = handleKeyDown;
 
+    function handleMouseMove(e: MouseEvent) {
+      setMousePosition([e.clientX, e.clientY]);
+    }
+
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("mousemove", handleMouseMove);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
+      document.removeEventListener("mousemove", handleMouseMove);
       setKeys(new Map<string, boolean>());
     };
   }, []);
@@ -58,7 +67,7 @@ const KeyboardProvider: React.FC<Props> = ({ children }) => {
 
       return key.map((k) => keys.get(k)).every((value) => value);
     },
-    [keys, capture]
+    [keys, capture],
   );
 
   // useEffect(() => {
@@ -69,7 +78,7 @@ const KeyboardProvider: React.FC<Props> = ({ children }) => {
   // }, [keys]);
 
   return (
-    <KeyboardContext.Provider value={{ keysPressed, setCapture, keys }}>
+    <KeyboardContext.Provider value={{ keysPressed, setCapture, keys, mousePosition }}>
       {children}
     </KeyboardContext.Provider>
   );

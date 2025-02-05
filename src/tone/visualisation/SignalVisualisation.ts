@@ -1,5 +1,5 @@
 import { Analyser, getTransport } from "tone";
-import { scale } from "../../util/audoFPCanvas";
+import { scale } from "../../util/number";
 
 class SignalVisualisation {
   private canvas: HTMLCanvasElement;

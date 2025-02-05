@@ -9,10 +9,20 @@ export const map = (
   in_min: number,
   in_max: number,
   out_min: number,
-  out_max: number
+  out_max: number,
 ): number => {
   const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
   return clamp(mapped, out_min, out_max);
 };
 
 export const mapFloor = (...args: MapArgs) => Math.floor(map(...args));
+
+export const scale = (
+  v: number,
+  inMin: number,
+  inMax: number,
+  outMin: number,
+  outMax: number,
+): number => {
+  return ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
+};

@@ -1,10 +1,4 @@
-export const scale = (
-  v: number,
-  inMin: number,
-  inMax: number,
-  outMin: number,
-  outMax: number,
-): number => ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
+import { scale } from "./number";
 
 export const getAudioFPImageUrl = (values?: Float32Array | string): string => {
   if (!values) return "";

@@ -1,4 +1,5 @@
 import { FFT, getTransport } from "tone";
+import { scale } from "../../util/number";
 
 class FFTVisualisation {
   private canvas: HTMLCanvasElement;
@@ -35,10 +36,6 @@ class FFTVisualisation {
     });
   }
 
-  private scale(v: number, inMin: number, inMax: number, outMin: number, outMax: number): number {
-    return ((v - inMin) / (inMax - inMin)) * (outMax - outMin) + outMin;
-  }
-
   private draw(values: Float32Array) {
     if (this.ctx === null) return;
 
@@ -60,8 +57,8 @@ class FFTVisualisation {
     this.ctx.beginPath();
     for (let i = 0; i < values.length; i++) {
       const v = values[i];
-      const x = this.scale(i, 0, values.length, lineWidth, this.canvasWidth - lineWidth);
-      const y = this.scale(v, max, min, 0, this.canvasHeight - lineWidth);
+      const x = scale(i, 0, values.length, lineWidth, this.canvasWidth - lineWidth);
+      const y = scale(v, max, min, 0, this.canvasHeight - lineWidth);
       if (i === 0) {
         this.ctx.moveTo(x, y);
       } else {

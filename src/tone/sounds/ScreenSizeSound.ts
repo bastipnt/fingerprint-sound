@@ -2,7 +2,8 @@ import { Gain, Panner3D, Player, Reverb, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
 import { FPAttributes } from "../../fingerprint";
-import { PlayState } from "../../providers/soundProvider";
+import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { scale } from "../../util/number";
 import BaseSound from "./BaseSound";
 
 /**
@@ -17,18 +18,15 @@ import BaseSound from "./BaseSound";
  *
  */
 class ScreenSizeSound extends BaseSound {
-  player = new Player();
+  private _decay: number = 3;
 
-  reverb = new Reverb({ decay: 3, wet: 1 });
-  panner = new Panner3D(0, 0, 0.4);
+  private player = new Player();
 
-  seq = new Sequence(
+  private reverb = new Reverb({ decay: this.decay, wet: 1 });
+  private panner = new Panner3D(0, 0, 0.4);
+
+  private seq = new Sequence(
     (time, pattern: 0 | 1) => {
-      this.panner.set({
-        positionX: Math.random() * 10 - 5,
-        positionY: Math.random(),
-        positionZ: Math.sin(Math.random()) * 3,
-      });
       if (pattern === 1) this.player.start(time);
     },
     [1, 0, 0, 1, 1, 0, 1, 1],
@@ -52,12 +50,33 @@ class ScreenSizeSound extends BaseSound {
     this.seq.stop(time);
   };
 
-  updateVariables(name: FPAttributes, value: string): void {
+  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
     super.updateVariables(name, value);
     const screenSize = this.musicVariables.get(FPAttributes.screenSize);
-    if (!screenSize) return;
+    if (!screenSize || typeof screenSize !== "string") return;
 
-    console.log(screenSize);
+    const width = Number(screenSize.split("x")[0]);
+    this.decay = scale(width, 800, 6000, 0, 20);
+
+    const [mouseX, mouseY] = (this.musicVariables.get("mousePosition") as [number, number]) || [
+      0, 0,
+    ];
+    const x = scale(mouseX, 0, window.innerWidth, -1, 1);
+    const y = scale(mouseY, 0, window.innerHeight, -1, 1);
+    this.panner.set({
+      positionX: x,
+      positionY: y,
+    });
+  }
+
+  private get decay() {
+    return this._decay;
+  }
+
+  private set decay(newDecay: number) {
+    if (this._decay === newDecay) return;
+    this._decay = newDecay;
+    this.reverb.set({ decay: newDecay });
   }
 }
 

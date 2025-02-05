@@ -1,7 +1,16 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { FPAttributes } from "../fingerprint";
 import MyTone from "../tone";
 import { FingerprintContext } from "./fingerprintProvider";
+import { KeyboardContext } from "./keyboardProvider";
 
 export enum PlayState {
   STARTED,
@@ -11,7 +20,12 @@ export enum PlayState {
 
 export type SoundPlayState = {
   [value in FPAttributes]?: PlayState;
+} & {
+  mousePosition: [number, number];
 };
+
+export type FPAttributeName = FPAttributes | "mousePosition";
+export type FPAttributeValue = string | Float32Array | [number, number];
 
 export const SoundContext = createContext<{
   globalPlayState: PlayState;
@@ -28,6 +42,7 @@ export const SoundContext = createContext<{
     [FPAttributes.colorDepth]: PlayState.STOPPED,
     [FPAttributes.screenSize]: PlayState.STOPPED,
     [FPAttributes.timeZone]: PlayState.STOPPED,
+    mousePosition: [0, 0],
   },
   isLoading: false,
   toggleGlobalPlay: async () => {},
@@ -51,9 +66,11 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
     [FPAttributes.colorDepth]: PlayState.STOPPED,
     [FPAttributes.screenSize]: PlayState.STOPPED,
     [FPAttributes.timeZone]: PlayState.STOPPED,
+    mousePosition: [0, 0],
   });
 
   const { attributes } = useContext(FingerprintContext);
+  const { mousePosition } = useContext(KeyboardContext);
 
   const setSoundPlayStateCallback = (soundName: FPAttributes, newPlayState: PlayState) => {
     setSoundPlayStates((oldSoundPlayStates) => {
@@ -114,6 +131,13 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
     },
     [globalPlayState, soundPlayStates, updateAttributes],
   );
+
+  useEffect(() => {
+    const myTone = myToneRef.current;
+    if (!myTone) return;
+
+    myTone.updateVariables("mousePosition", mousePosition);
+  }, [mousePosition]);
 
   return (
     <SoundContext.Provider
