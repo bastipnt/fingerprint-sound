@@ -23,7 +23,7 @@ const FingerprintSound: React.FC = ({}) => {
 
   return (
     <div className="grid h-screen grid-rows-[30vh_1fr_30vh] flex-col items-center justify-center">
-      {!currAttribute && (
+      {currAttribute === null && (
         <InfoBox onlyWhenMoving>
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         </InfoBox>

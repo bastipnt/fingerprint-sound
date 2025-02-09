@@ -27,17 +27,22 @@ const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving }) => {
 
   useEffect(() => {
     const updateMousePosition = (event: MouseEvent) => {
+      const offset = 20;
       const { width, height } = getDimensions();
-      let x = event.pageX;
-      let y = event.pageY;
+      const mouseX = event.pageX;
+      const mouseY = event.pageY;
+
+      let x = mouseX + offset;
+      let y = mouseY + offset;
+
       const newScreenPosition = ["top", "left"];
-      if (x > width / 2) {
+      if (mouseX > width / 2) {
         newScreenPosition[1] = "right";
-        x = width - x;
+        x = width - mouseX + offset;
       }
-      if (y > height / 2) {
+      if (mouseY > height / 2) {
         newScreenPosition[0] = "bottom";
-        y = height - y;
+        y = height - mouseY + offset;
       }
 
       setMousePosition({ x, y });
@@ -59,14 +64,17 @@ const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving }) => {
     <>
       {(show === true || show === undefined) && (onlyWhenMoving ? moved : true) && (
         <span
-          className="shaped text-surface pointer-events-none fixed z-30 w-[400px] max-w-[50vw] p-2"
+          className="shaped text-surface pointer-events-none fixed z-10 block w-[400px] max-w-[50vw]"
           style={{
-            background: `url(${darkPattern})`,
             [screenPosition[0]]: mousePosition.y,
             [screenPosition[1]]: mousePosition.x,
           }}
         >
-          {children}
+          <span className="relative z-40 block p-4">{children}</span>
+          <span
+            className="absolute top-0 left-0 z-30 h-100 w-100 opacity-70"
+            style={{ background: `url(${darkPattern})` }}
+          ></span>
         </span>
       )}
     </>
