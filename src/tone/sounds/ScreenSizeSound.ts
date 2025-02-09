@@ -1,4 +1,16 @@
-import { Gain, Panner3D, Player, Reverb, Sequence } from "tone";
+import {
+  AutoPanner,
+  Chorus,
+  Filter,
+  Freeverb,
+  FrequencyShifter,
+  Gain,
+  Noise,
+  Player,
+  Reverb,
+  Sequence,
+  Signal,
+} from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
 import { FPAttributes } from "../../fingerprint";
@@ -20,26 +32,51 @@ import BaseSound from "./BaseSound";
 class ScreenSizeSound extends BaseSound {
   private _decay: number = 3;
 
-  private player = new Player();
+  private player0 = new Player();
+  private player1 = new Player();
 
   private reverb = new Reverb({ decay: this.decay, wet: 1 });
-  private panner = new Panner3D(0, 0, 0.4);
+  private freqShift = new FrequencyShifter(50);
+  private signal = new Signal(0, "number");
+  private noise = new Noise("pink").start();
+  private filter = new Filter(1500, "lowpass");
+  private freeverb = new Freeverb(0.5);
+  private chorus = new Chorus(2, 2.7, 0.7).start();
+  private gain = new Gain(0.1);
+  private autoPan = new AutoPanner("4m").start();
 
   private seq = new Sequence(
-    (time, pattern: 0 | 1) => {
-      if (pattern === 1) this.player.start(time);
+    (time, pattern: number) => {
+      const ramp = scale(Math.random(), 0, 1, -500, 500);
+      const rampFilter = scale(Math.random(), 0, 1, 800, 2000);
+
+      if (pattern) this.signal.rampTo(ramp, "2m", time);
+      this.filter.frequency.rampTo(rampFilter, "4n", "+4n");
     },
-    [1, 0, 0, 1, 1, 0, 1, 1],
-    "8n",
+    [0, 1],
+    "2m",
   );
 
   constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
     super(mainGain, setStateCallback);
-    this.player.chain(this.reverb, this.panner, this.envelope);
+    this.autoPan.set({ wet: 0.7 });
+    this.noise.chain(
+      this.freqShift,
+      this.filter,
+      this.freeverb,
+      this.chorus,
+      this.gain,
+      this.autoPan,
+      this.envelope,
+    );
+
+    this.freeverb.dampening = 1200;
+
+    this.signal.connect(this.freqShift.frequency);
   }
 
   async load() {
-    await Promise.all([this.player.load(hihat), this.reverb.ready]);
+    await Promise.all([this.player0.load(hihat), this.player1.load(hihat), this.reverb.ready]);
   }
 
   startChild = (time: Time) => {
@@ -58,15 +95,10 @@ class ScreenSizeSound extends BaseSound {
     const width = Number(screenSize.split("x")[0]);
     this.decay = scale(width, 800, 6000, 0, 20);
 
-    const [mouseX, mouseY] = (this.musicVariables.get("mousePosition") as [number, number]) || [
-      0, 0,
-    ];
-    const x = scale(mouseX, 0, window.innerWidth, -1, 1);
-    const y = scale(mouseY, 0, window.innerHeight, -1, 1);
-    this.panner.set({
-      positionX: x,
-      positionY: y,
-    });
+    // const [mouseX, mouseY] = (this.musicVariables.get("mousePosition") as [number, number]) || [
+    //   0, 0,
+    // ];
+    // const x = scale(mouseX, 0, window.innerWidth, 0, 1);
   }
 
   private get decay() {
