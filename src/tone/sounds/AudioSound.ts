@@ -1,36 +1,58 @@
-import { Gain, Player, Sequence } from "tone";
-import { Time } from "tone/build/esm/core/type/Units";
-import sample from "../../assets/samples/creepy-fx-cave-atmo.wav";
-import { PlayState } from "../../providers/soundProvider";
+import { AutoFilter, AutoPanner, FrequencyShifter, Gain, getContext, GrainPlayer } from "tone";
+import { FPAttributes } from "../../fingerprint";
+import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class AudioSound extends BaseSound {
-  player = new Player();
+  private audioBuffer?: AudioBuffer;
+  private _audioData?: Float32Array;
 
-  seq = new Sequence(
-    (time, pattern: 0 | 1) => {
-      if (pattern === 1) this.player.start(time);
-    },
-    [1],
-    "5m",
-  );
+  private player?: GrainPlayer;
+
+  private freqShift = new FrequencyShifter(-8000);
+  private autoPan = new AutoPanner("4n").start();
+  private autoFilter = new AutoFilter("1n").start();
+  private gain = new Gain(4);
 
   constructor(mainGain: Gain, setStateCallback: (newState: PlayState) => void) {
     super(mainGain, setStateCallback);
-    this.player.connect(this.envelope);
+    this.freqShift.chain(this.autoPan, this.autoFilter, this.gain, this.envelope);
+    this.autoFilter.set({ wet: 0.7 });
   }
 
-  async load() {
-    await this.player.load(sample);
+  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+    super.updateVariables(name, value);
+    const audioData = this.musicVariables.get(FPAttributes.audioContext) as Float32Array;
+    if (!audioData || typeof audioData !== "object") return;
+
+    this.setAudioBuffer(audioData);
   }
 
-  startChild = (time: Time) => {
-    this.seq.start(time);
-  };
+  startChild = () => {};
 
-  stopChild = (time: Time) => {
-    this.seq.stop(time);
-  };
+  stopChild = () => {};
+
+  setAudioBuffer(newData: Float32Array) {
+    if (newData === this._audioData) return;
+    this._audioData = newData;
+
+    const ctx = getContext();
+
+    const buffer = ctx.createBuffer(1, 4500, ctx.sampleRate);
+    buffer.copyToChannel(newData, 0, 0);
+
+    this.audioBuffer = buffer;
+
+    this.player = new GrainPlayer(this.audioBuffer);
+    this.player.connect(this.freqShift);
+    this.player.set({
+      grainSize: 0.001,
+      loop: true,
+      playbackRate: 0.001,
+      overlap: 0.1,
+    });
+    this.player.start();
+  }
 }
 
 export default AudioSound;
