@@ -1,11 +1,11 @@
 import { AmplitudeEnvelope, Gain, now as toneNow } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 
 abstract class BaseSound {
   private mainGain: Gain;
   protected envelope: AmplitudeEnvelope;
-  protected musicVariables = new Map<FPAttributeName, FPAttributeValue>();
+  protected musicVariables = new Map<SoundVariableKey, SoundVariableValue>();
 
   protected state: PlayState = PlayState.STOPPED;
   private setStateCallback: (newState: PlayState) => void;
@@ -53,7 +53,7 @@ abstract class BaseSound {
 
   async load() {}
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue) {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue) {
     this.musicVariables.set(name, value);
   }
 }

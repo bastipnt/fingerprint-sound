@@ -1,3 +1,5 @@
+import { FPValue } from ".";
+
 /**
  * @returns current timezone string
  *
@@ -5,13 +7,14 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getTimeZones
  *
  */
-export const getTimeZoneFP = (): string => {
+export const getTimeZoneFP = (): FPValue => {
   const DateTimeFormat = window.Intl?.DateTimeFormat;
+  const value: FPValue = { ogValue: "Unknown", ogData: "Unknown" };
 
   if (DateTimeFormat) {
-    const timezone = new DateTimeFormat().resolvedOptions().timeZone;
-    if (timezone) return timezone;
+    const timezone = new DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+    value.ogData = value.ogValue = timezone;
   }
 
-  return "Unknown";
+  return value;
 };

@@ -70,7 +70,7 @@ const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving }) => {
             [screenPosition[1]]: mousePosition.x,
           }}
         >
-          <span className="relative z-40 block p-4">{children}</span>
+          <span className="relative z-40 block p-4 text-left text-base">{children}</span>
           <span
             className="absolute top-0 left-0 z-30 h-100 w-100 opacity-70"
             style={{ background: `url(${darkPattern})` }}

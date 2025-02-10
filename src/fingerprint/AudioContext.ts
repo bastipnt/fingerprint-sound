@@ -1,3 +1,5 @@
+import { FPValue } from ".";
+
 const getHash = (signal: ArrayLike<number>): number => {
   let hash = 0;
   for (let i = 0; i < signal.length; ++i) {
@@ -12,7 +14,9 @@ const getHash = (signal: ArrayLike<number>): number => {
  * @see https://github.com/fingerprintjs/fingerprintjs/blob/master/src/sources/audio.ts
  *
  */
-export const getAudioContext = async (): Promise<[string, Float32Array]> => {
+export const getAudioContext = async (): Promise<FPValue> => {
+  const value: FPValue = { ogValue: "Unknown", ogData: "Unknown" };
+
   const hashFromIndex = 4500;
   const hashToIndex = 5000;
   const audioContext = new OfflineAudioContext(1, hashToIndex, 44100);
@@ -38,5 +42,8 @@ export const getAudioContext = async (): Promise<[string, Float32Array]> => {
   const audioArr = audioBuffer.getChannelData(0).subarray(hashFromIndex);
   const hash = getHash(audioArr);
 
-  return [hash.toString(), audioArr];
+  value.ogData = audioArr;
+  value.ogValue = hash.toString();
+
+  return value;
 };

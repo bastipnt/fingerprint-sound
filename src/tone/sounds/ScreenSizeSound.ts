@@ -14,7 +14,7 @@ import {
 import { Time } from "tone/build/esm/core/type/Units";
 import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import { scale } from "../../util/number";
 import BaseSound from "./BaseSound";
 
@@ -87,9 +87,11 @@ class ScreenSizeSound extends BaseSound {
     this.seq.stop(time);
   };
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
+
     const screenSize = this.musicVariables.get(FPAttributes.screenSize);
+    console.log("update", screenSize);
     if (!screenSize || typeof screenSize !== "string") return;
 
     const width = Number(screenSize.split("x")[0]);

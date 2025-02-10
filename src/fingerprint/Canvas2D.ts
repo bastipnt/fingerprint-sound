@@ -1,15 +1,22 @@
+import { FPValue } from ".";
+
 /**
  * @returns canvas 2d image string
  *
  * @see https://github.com/fingerprintjs/fingerprintjs/blob/master/src/sources/canvas.ts
  *
  */
-export const getCanvas2D = (): string => {
+export const getCanvas2D = (): FPValue => {
+  const value: FPValue = { ogValue: "Unknown", ogData: "Unknown" };
+
   const canvas = document.createElement("canvas");
   canvas.width = 240;
   canvas.height = 60;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return "No_CTX";
+  if (!ctx) {
+    value.ogData = value.ogValue = "No_CTX";
+    return value;
+  }
 
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#f60";
@@ -24,5 +31,7 @@ export const getCanvas2D = (): string => {
   ctx.fillText(printedText, 4, 45);
 
   const dataUrl = canvas.toDataURL();
-  return dataUrl;
+  value.ogData = value.ogValue = dataUrl;
+
+  return value;
 };

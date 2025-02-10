@@ -1,6 +1,6 @@
 import { AutoFilter, AutoPanner, FrequencyShifter, Gain, getContext, GrainPlayer } from "tone";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class AudioSound extends BaseSound {
@@ -20,7 +20,7 @@ class AudioSound extends BaseSound {
     this.autoFilter.set({ wet: 0.7 });
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
     const audioData = this.musicVariables.get(FPAttributes.audioContext) as Float32Array;
     if (!audioData || typeof audioData !== "object") return;

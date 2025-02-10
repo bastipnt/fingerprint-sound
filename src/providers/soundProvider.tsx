@@ -18,32 +18,31 @@ export enum PlayState {
   MUTED,
 }
 
-export type SoundPlayState = {
+export type SoundPlayStates = {
   [value in FPAttributes]?: PlayState;
-} & {
-  mousePosition: [number, number];
 };
 
-export type FPAttributeName = FPAttributes | "mousePosition";
-export type FPAttributeValue = string | Float32Array | [number, number];
+export type SoundVariableKey = FPAttributes | "mousePosition";
+export type SoundVariableValue = string | Float32Array | [number, number];
+
+const initialPlayStates: SoundPlayStates = {
+  [FPAttributes.audioContext]: PlayState.STOPPED,
+  [FPAttributes.canvas2D]: PlayState.STOPPED,
+  [FPAttributes.canvasWebGL]: PlayState.STOPPED,
+  [FPAttributes.colorDepth]: PlayState.STOPPED,
+  [FPAttributes.screenSize]: PlayState.STOPPED,
+  [FPAttributes.timeZone]: PlayState.STOPPED,
+};
 
 export const SoundContext = createContext<{
   globalPlayState: PlayState;
-  soundPlayStates: SoundPlayState;
+  SoundPlayStatess: SoundPlayStates;
   isLoading: boolean;
   toggleGlobalPlay: () => Promise<void>;
   toggleAttributePlay: (soundName: FPAttributes) => Promise<void>;
 }>({
   globalPlayState: PlayState.STOPPED,
-  soundPlayStates: {
-    [FPAttributes.audioContext]: PlayState.STOPPED,
-    [FPAttributes.canvas2D]: PlayState.STOPPED,
-    [FPAttributes.canvasWebGL]: PlayState.STOPPED,
-    [FPAttributes.colorDepth]: PlayState.STOPPED,
-    [FPAttributes.screenSize]: PlayState.STOPPED,
-    [FPAttributes.timeZone]: PlayState.STOPPED,
-    mousePosition: [0, 0],
-  },
+  SoundPlayStatess: initialPlayStates,
   isLoading: false,
   toggleGlobalPlay: async () => {},
   toggleAttributePlay: async () => {},
@@ -59,48 +58,41 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [globalPlayState, setGlobalPlayState] = useState<PlayState>(PlayState.STOPPED);
-  const [soundPlayStates, setSoundPlayStates] = useState<SoundPlayState>({
-    [FPAttributes.audioContext]: PlayState.STOPPED,
-    [FPAttributes.canvas2D]: PlayState.STOPPED,
-    [FPAttributes.canvasWebGL]: PlayState.STOPPED,
-    [FPAttributes.colorDepth]: PlayState.STOPPED,
-    [FPAttributes.screenSize]: PlayState.STOPPED,
-    [FPAttributes.timeZone]: PlayState.STOPPED,
-    mousePosition: [0, 0],
-  });
+  const [SoundPlayStatess, setSoundPlayStatess] = useState<SoundPlayStates>(initialPlayStates);
 
   const { attributes } = useContext(FingerprintContext);
   const { mousePosition } = useContext(KeyboardContext);
 
-  const setSoundPlayStateCallback = (soundName: FPAttributes, newPlayState: PlayState) => {
-    setSoundPlayStates((oldSoundPlayStates) => {
-      const oldPlayState = oldSoundPlayStates[soundName];
-      if (newPlayState === oldPlayState) return oldSoundPlayStates;
+  const setSoundPlayStatesCallback = (soundName: FPAttributes, newPlayState: PlayState) => {
+    setSoundPlayStatess((oldSoundPlayStatess) => {
+      const oldPlayState = oldSoundPlayStatess[soundName];
+      if (newPlayState === oldPlayState) return oldSoundPlayStatess;
 
-      return { ...oldSoundPlayStates, [soundName]: newPlayState };
+      return { ...oldSoundPlayStatess, [soundName]: newPlayState };
     });
   };
 
   const init = async () => {
     const MyTone = (await import("../tone")).default;
     await MyTone.init();
-    myToneRef.current = new MyTone(setIsLoading, setGlobalPlayState, setSoundPlayStateCallback);
+    myToneRef.current = new MyTone(setIsLoading, setGlobalPlayState, setSoundPlayStatesCallback);
     setIsInitialised(true);
   };
 
-  const updateAttributes = useCallback(() => {
+  const updateVariables = useCallback(() => {
     const myTone = myToneRef.current;
     if (!myTone) return;
 
     for (const [name, value] of attributes) {
-      myTone.updateVariables(name, value);
+      const newValue = value.updatedValue || value.ogData;
+      myTone.updateVariables(name, newValue);
     }
   }, [attributes]);
 
   const toggleGlobalPlay = useCallback(async () => {
     if (!isInitialised) {
       await init();
-      updateAttributes();
+      updateVariables();
     }
 
     const myTone = myToneRef.current;
@@ -109,7 +101,7 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
     if (globalPlayState === PlayState.STARTED) myTone.mute();
     else if (globalPlayState === PlayState.STOPPED) await myTone.start();
     else if (globalPlayState === PlayState.MUTED) await myTone.unMute();
-  }, [globalPlayState, updateAttributes]);
+  }, [globalPlayState, updateVariables]);
 
   const toggleAttributePlay = useCallback(
     async (soundName: FPAttributes) => {
@@ -126,22 +118,29 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
       const myTone = myToneRef.current;
       if (!myTone) return;
 
-      if (soundPlayStates[soundName] === PlayState.MUTED) myTone.unMuteSound(soundName);
-      else if (soundPlayStates[soundName] === PlayState.STARTED) myTone.muteSound(soundName);
+      if (SoundPlayStatess[soundName] === PlayState.MUTED) myTone.unMuteSound(soundName);
+      else if (SoundPlayStatess[soundName] === PlayState.STARTED) myTone.muteSound(soundName);
     },
-    [globalPlayState, soundPlayStates, updateAttributes],
+    [globalPlayState, SoundPlayStatess, toggleGlobalPlay],
   );
 
   useEffect(() => {
-    const myTone = myToneRef.current;
-    if (!myTone) return;
-
-    myTone.updateVariables("mousePosition", mousePosition);
+    myToneRef.current?.updateVariables("mousePosition", mousePosition);
   }, [mousePosition]);
+
+  useEffect(() => {
+    updateVariables();
+  }, [attributes]);
 
   return (
     <SoundContext.Provider
-      value={{ globalPlayState, soundPlayStates, isLoading, toggleAttributePlay, toggleGlobalPlay }}
+      value={{
+        globalPlayState,
+        SoundPlayStatess,
+        isLoading,
+        toggleAttributePlay,
+        toggleGlobalPlay,
+      }}
     >
       {children}
     </SoundContext.Provider>

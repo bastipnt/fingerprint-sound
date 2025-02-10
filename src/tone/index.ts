@@ -1,6 +1,6 @@
 import { AmplitudeEnvelope, Gain, getTransport, start, now as toneNow } from "tone";
 import { FPAttributes } from "../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../providers/soundProvider";
 import AudioSound from "./sounds/AudioSound";
 import BaseSound from "./sounds/BaseSound";
 import CanvasSound from "./sounds/CanvasSound";
@@ -29,7 +29,7 @@ class MyTone {
   private samplesLoaded = false;
   private setIsLoadingCallback: (loading: boolean) => void;
   private setGlobalPlayStateCallback: (newPlayState: PlayState) => void;
-  private setSoundPlayStateCallback: (soundName: FPAttributes, newPlayState: PlayState) => void;
+  private setSoundPlayStatesCallback: (soundName: FPAttributes, newPlayState: PlayState) => void;
 
   private state: PlayState = PlayState.STOPPED;
 
@@ -53,13 +53,13 @@ class MyTone {
   constructor(
     setIsLoadingCallback: (loading: boolean) => void,
     setGlobalPlayStateCallback: (newPlayState: PlayState) => void,
-    setSoundPlayStateCallback: (soundName: FPAttributes, newPlayState: PlayState) => void,
+    setSoundPlayStatesCallback: (soundName: FPAttributes, newPlayState: PlayState) => void,
   ) {
     if (!MyTone.initialised) throw new Error("Tonejs not initialised");
 
     this.setIsLoadingCallback = setIsLoadingCallback;
     this.setGlobalPlayStateCallback = setGlobalPlayStateCallback;
-    this.setSoundPlayStateCallback = setSoundPlayStateCallback;
+    this.setSoundPlayStatesCallback = setSoundPlayStatesCallback;
 
     getTransport().bpm.value = this.tempo;
 
@@ -70,37 +70,37 @@ class MyTone {
     this.sounds.set(
       FPAttributes.screenSize,
       new ScreenSizeSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.screenSize, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.screenSize, newState),
       ),
     );
     this.sounds.set(
       FPAttributes.audioContext,
       new AudioSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.audioContext, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.audioContext, newState),
       ),
     );
     this.sounds.set(
       FPAttributes.canvas2D,
       new CanvasSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.canvas2D, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.canvas2D, newState),
       ),
     );
     this.sounds.set(
       FPAttributes.canvasWebGL,
       new WebGLSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.canvasWebGL, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.canvasWebGL, newState),
       ),
     );
     this.sounds.set(
       FPAttributes.colorDepth,
       new ColorDepthSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.colorDepth, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.colorDepth, newState),
       ),
     );
     this.sounds.set(
       FPAttributes.timeZone,
       new TimezoneSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStateCallback(FPAttributes.timeZone, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.timeZone, newState),
       ),
     );
   }
@@ -199,7 +199,7 @@ class MyTone {
     this.sounds.get(attributeKey)?.mute();
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue) {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue) {
     for (const sound of this.sounds.values()) {
       sound.updateVariables(name, value);
     }

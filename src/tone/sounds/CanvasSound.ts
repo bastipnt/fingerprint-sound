@@ -1,7 +1,7 @@
 import { Gain, Oscillator, Sequence, Tremolo } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class CanvasSound extends BaseSound {
@@ -40,7 +40,7 @@ class CanvasSound extends BaseSound {
     this.osc2.connect(this.gain);
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
     const canvasData = this.musicVariables.get(FPAttributes.canvas2D);
     if (!canvasData || typeof canvasData !== "string") return;

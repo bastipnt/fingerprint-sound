@@ -2,7 +2,7 @@ import { AmplitudeEnvelope, Filter, Gain, GrainPlayer, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import kick from "../../assets/samples/kick-rumble.wav";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
 
 class ColorDepthSound extends BaseSound {
@@ -30,7 +30,7 @@ class ColorDepthSound extends BaseSound {
     this.gain.chain(this.amEnv, this.filter, this.envelope);
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
     const colorDepth = this.musicVariables.get(FPAttributes.colorDepth);
     if (!colorDepth || typeof colorDepth !== "string") return;

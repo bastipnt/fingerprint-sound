@@ -1,3 +1,5 @@
+import { FPValue } from ".";
+
 /**
  * @returns client screen size/resolution
  *
@@ -7,9 +9,13 @@
  * Changes when multiple screens (different screen different result)
  *
  */
-export const getScreenSize = (): string => {
-  const resolution = `${screen.width}x${screen.height}`;
-  if (resolution) return resolution;
+export const getScreenSize = (): FPValue => {
+  const value: FPValue = { ogValue: "Unknown", ogData: "Unknown" };
 
-  return "Unknown";
+  const resolution = `${screen.width}x${screen.height}`;
+  if (resolution) {
+    value.ogData = value.ogValue = resolution;
+  }
+
+  return value;
 };

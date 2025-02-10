@@ -1,3 +1,5 @@
+import { FPValue } from ".";
+
 const renderingContexts = [
   "webgl2",
   "experimental-webgl2",
@@ -34,17 +36,26 @@ const getWebGLContext = (canvas: HTMLCanvasElement): WebGLRenderingContext | nul
  * @see https://browserleaks.com/webgl
  *
  */
-export const getCanvasWebGL = async (): Promise<[string, string]> => {
+export const getCanvasWebGL = async (): Promise<FPValue> => {
+  const value: FPValue = { ogValue: "Unknown", ogData: "Unknown" };
+
   const canvas = document.createElement("canvas");
   canvas.width = 256;
   canvas.height = 128;
 
   const gl = getWebGLContext(canvas);
-  if (gl === null) return ["No_WebGL", ""];
+  if (gl === null) {
+    value.ogData = value.ogValue = "No_WebGL";
+    return value;
+  }
 
   // Vertex shader
   const vertShader = gl.createShader(gl.VERTEX_SHADER);
-  if (!vertShader) return ["No_VertShader", ""];
+  if (!vertShader) {
+    value.ogData = value.ogValue = "No_VertShader";
+    return value;
+  }
+
   gl.shaderSource(vertShader, vertexCode);
   gl.compileShader(vertShader);
   const compiledVertShader = gl.getShaderParameter(vertShader, gl.COMPILE_STATUS);
@@ -54,7 +65,11 @@ export const getCanvasWebGL = async (): Promise<[string, string]> => {
 
   // Fragment shader
   const fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-  if (!fragShader) return ["No_FragShader", ""];
+  if (!fragShader) {
+    value.ogData = value.ogValue = "No_FragShader";
+    return value;
+  }
+
   gl.shaderSource(fragShader, fragmentCode);
   gl.compileShader(fragShader);
   const compiledFragShader = gl.getShaderParameter(fragShader, gl.COMPILE_STATUS);
@@ -64,7 +79,11 @@ export const getCanvasWebGL = async (): Promise<[string, string]> => {
 
   // shaderProgram
   const shaderProgram = gl.createProgram();
-  if (!shaderProgram) return ["No_ShaderProgram", ""];
+  if (!shaderProgram) {
+    value.ogData = value.ogValue = "No_ShaderProgram";
+    return value;
+  }
+
   gl.attachShader(shaderProgram, vertShader);
   gl.attachShader(shaderProgram, fragShader);
   gl.linkProgram(shaderProgram);
@@ -102,5 +121,8 @@ export const getCanvasWebGL = async (): Promise<[string, string]> => {
   gl.readPixels(0, 0, canvas.width, canvas.height, gl.RGBA, gl.UNSIGNED_BYTE, dataArr);
   const dataStr = JSON.stringify(dataArr).replace(/,?"[0-9]+":/g, "");
 
-  return [dataStr, canvas.toDataURL()];
+  value.ogData = canvas.toDataURL();
+  value.ogValue = dataStr;
+
+  return value;
 };

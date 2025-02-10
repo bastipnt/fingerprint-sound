@@ -1,7 +1,7 @@
 import { FeedbackDelay, FMSynth, FrequencyShifter, Gain, Reverb, Sequence, Synth } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import { scale } from "../../util/number";
 import BaseSound from "./BaseSound";
 
@@ -87,7 +87,7 @@ class TimezoneSound extends BaseSound {
     this.synth3.connect(this.gain);
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
     const timeZone = this.musicVariables.get(FPAttributes.timeZone);
     if (!timeZone || typeof timeZone !== "string") return;

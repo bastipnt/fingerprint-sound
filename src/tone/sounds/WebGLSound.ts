@@ -1,7 +1,7 @@
 import { AutoWah, Distortion, Filter, Gain, MembraneSynth, Reverb, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
 import { FPAttributes } from "../../fingerprint";
-import { FPAttributeName, FPAttributeValue, PlayState } from "../../providers/soundProvider";
+import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import { scale } from "../../util/number";
 import BaseSound from "./BaseSound";
 
@@ -55,7 +55,7 @@ class WebGLSound extends BaseSound {
     this.synth3.connect(this.rev);
   }
 
-  updateVariables(name: FPAttributeName, value: FPAttributeValue): void {
+  updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
     const webGlData = this.musicVariables.get(FPAttributes.canvasWebGL);
     if (!webGlData || typeof webGlData !== "string") return;
