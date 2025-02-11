@@ -1,0 +1,243 @@
+{
+  "fonts": {
+    "label": "Fonts",
+    "description": "List of installed fonts",
+    "ref": [],
+    "value": ""
+  },
+  "languages": {
+    "label": "Languages",
+    "description": "List of languages used on your computer",
+    "ref": [],
+    "value": ""
+  },
+  "timezone": {
+    "label": "Timezone",
+    "description": "Your current timezone",
+    "ref": [],
+    "value": ""
+  },
+  "osCpu": {
+    "label": "OS CPU",
+    "description": "Identification string for your current operating system.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/oscpu"],
+    "value": ""
+  },
+  "canvas": {
+    "label": "Canvas fingerprint",
+    "description": "Two images are drawn inside of your browser with the help of html canvas. Rendering images can be different on different computers, due to differences in hardware and software. Thats why this is a good method to distinguish devices.",
+    "ref": [],
+    "values": { "text": "", "geometry": "" }
+  },
+  "audio": {
+    "label": "Audio fingerprint",
+    "description": "The audio fingerprint uses the Web Audio API to sample a sound. Differences in hardware can lead to different sampling values. This is a good way to distinguish between different devices.",
+    "ref": [],
+    "value": ""
+  },
+  "domBlockers": {
+    "label": "Dom Blockers",
+    "description": "Checks for common content blockers in the browser.",
+    "ref": [],
+    "value": ""
+  },
+  "fontPreferences": {
+    "label": "Font Preferences",
+    "description": "Renders a text in different fonts and measures the width.",
+    "ref": [],
+    "value": ""
+  },
+  "screenFrame": {
+    "label": "Screen Frame",
+    "description": "Checks the screen size.",
+    "ref": [],
+    "value": ""
+  },
+  "colorDepth": {
+    "label": "Color Depth",
+    "description": "A number, representing the bit depth of the color palette for displaying images.",
+    "ref": [],
+    "value": ""
+  },
+  "deviceMemory": {
+    "label": "Device Memory",
+    "description": "Approximate amount of device memory in gigabytes.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory"],
+    "value": ""
+  },
+  "screenResolution": {
+    "label": "Screen Resolution",
+    "description": "Value of your screen resolution.",
+    "ref": [],
+    "value": ""
+  },
+  "hardwareConcurrency": {
+    "label": "Hardware Concurrency",
+    "description": "Number of logical processors available to your browser. Represents how many processes can be run in parallel.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency"],
+    "value": ""
+  },
+  "sessionStorage": {
+    "label": "Session Storage",
+    "description": "Checks if the session storage api is available.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage"],
+    "value": ""
+  },
+  "localStorage": {
+    "label": "Local Storage",
+    "description": "Checks if the local storage api is available.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"],
+    "value": ""
+  },
+  "indexedDB": {
+    "label": "Indexed DB",
+    "description": "Checks if the indexed DB api is available.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Window/indexedDB"],
+    "value": ""
+  },
+  "openDatabase": {
+    "label": "Open Database",
+    "description": "Checks if the open database api is available.",
+    "ref": [],
+    "value": ""
+  },
+  "cpuClass": {
+    "label": "CPU Class",
+    "description": "String representing the CPU class.",
+    "ref": [
+      "http://help.dottoro.com/ljjsison.php",
+      "https://learn.microsoft.com/en-us/previous-versions/ms531090(v=vs.85)",
+      "https://w3schools.sinsixx.com/htmldom/prop_nav_cpuclass.asp.htm"
+    ],
+    "value": ""
+  },
+  "platform": {
+    "label": "Platform",
+    "description": "Platform on which your browser is running.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/platform"],
+    "value": ""
+  },
+  "plugins": {
+    "label": "Plugins",
+    "description": "List of installed browser plugins.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/plugins"],
+    "value": ""
+  },
+  "touchSupport": {
+    "label": "Touch Support",
+    "description": "Checks if your device supports touch.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/maxTouchPoints"],
+    "value": ""
+  },
+  "vendor": {
+    "label": "Vendor",
+    "description": "Returns the vendor of the browser (only works for apple and google).",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vendor"],
+    "value": ""
+  },
+  "vendorFlavors": {
+    "label": "Vendor Flavors",
+    "description": "Checks for popular browser engines.",
+    "ref": [],
+    "value": ""
+  },
+  "cookiesEnabled": {
+    "label": "Cookies Enabled",
+    "description": "Checks if you have cookies enabled.",
+    "ref": [],
+    "value": ""
+  },
+  "colorGamut": {
+    "label": "Color Gamut",
+    "description": "Tests which color gamut is supported by your browser.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/CSS/@media/color-gamut"],
+    "value": ""
+  },
+  "invertedColors": {
+    "label": "Inverted Colors",
+    "description": "Tests if you have your computer's colors inverted.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/CSS/@media/inverted-colors"],
+    "value": ""
+  },
+  "forcedColors": {
+    "label": "Forced Colors",
+    "description": "Tests if you have a forced color mode activated (e.g. high contrast mode).",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors"],
+    "value": ""
+  },
+  "monochrome": {
+    "label": "Monochrome",
+    "description": "Check if your display is monochrome (e.g. black & white).",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/CSS/@media/monochrome"],
+    "value": ""
+  },
+  "contrast": {
+    "label": "Contrast",
+    "description": "Tests if you prefer more or less color contrast.",
+    "ref": [
+      "https://www.w3.org/TR/mediaqueries-5/#prefers-contrast",
+      "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast"
+    ],
+    "value": ""
+  },
+  "reducedMotion": {
+    "label": "Reduced Motion",
+    "description": "Tests if you prefer a reduced motion mode.",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion"],
+    "value": ""
+  },
+  "hdr": {
+    "label": "HDR",
+    "description": "Tests if your device supports high dynamic range (hdr).",
+    "ref": ["https://www.w3.org/TR/mediaqueries-5/#dynamic-range"],
+    "value": ""
+  },
+  "math": {
+    "label": "Math",
+    "description": "Checks the value of different math functions like sin or cos",
+    "ref": [],
+    "value": ""
+  },
+  "pdfViewerEnabled": {
+    "label": "PDF Viewer Enabled",
+    "description": "Checks if the PDF Viewer is enabled.",
+    "ref": [],
+    "value": ""
+  },
+  "architecture": {
+    "label": "Architecture",
+    "description": "Distinguishes if you computer has a x86/x86-64 or another architecture.",
+    "ref": [],
+    "value": ""
+  },
+  "applePay": {
+    "label": "Apple Pay",
+    "description": "Checks if you browser supports Apple Pay, and if it is enabled.",
+    "ref": [],
+    "value": ""
+  },
+  "privateClickMeasurement": {
+    "label": "Private Click Measurement",
+    "description": "Checks if the Pricacy Perserving Ad Measurement setting is on. (Only works in Safari)",
+    "ref": ["https://webkit.org/blog/11529/introducing-private-click-measurement-pcm/"],
+    "value": ""
+  },
+  "audioBaseLatency": {
+    "label": "Audio Base Latency",
+    "description": "Tests the base latency for your browsers audio context (part of the Web Audio API, only tests for Safari and on Android)",
+    "ref": ["https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/baseLatency"],
+    "value": ""
+  },
+  "webGlBasics": {
+    "label": "webGL Basics",
+    "description": "Checks for webGL hardware and software configurations.",
+    "ref": [],
+    "value": ""
+  },
+  "webGlExtensions": {
+    "label": "webGL Extensions",
+    "description": "Checks multiple webGL extension parameters.",
+    "ref": [],
+    "value": ""
+  }
+}

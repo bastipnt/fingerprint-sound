@@ -89,7 +89,7 @@ class TimezoneSound extends BaseSound {
 
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
-    const timeZone = this.musicVariables.get(FPAttributes.timeZone);
+    const timeZone = this.musicVariables.get(FPAttributes.TIMEZONE);
     if (!timeZone || typeof timeZone !== "string") return;
 
     const timeZoneBinaryStr = atob(timeZone.replace("/", ""));

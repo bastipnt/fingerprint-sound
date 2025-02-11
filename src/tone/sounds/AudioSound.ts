@@ -22,7 +22,7 @@ class AudioSound extends BaseSound {
 
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
-    const audioData = this.musicVariables.get(FPAttributes.audioContext) as Float32Array;
+    const audioData = this.musicVariables.get(FPAttributes.AUDIO_CONTEXT) as Float32Array;
     if (!audioData || typeof audioData !== "object") return;
 
     this.setAudioBuffer(audioData);

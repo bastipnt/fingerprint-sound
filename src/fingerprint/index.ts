@@ -7,17 +7,17 @@ import { getScreenSize } from "./ScreenSize";
 import { getTimeZoneFP } from "./TimeZone";
 
 export enum FPAttributes {
-  "timeZone",
-  "screenSize",
-  "colorDepth",
-  "canvas2D",
-  "canvasWebGL",
-  "audioContext",
+  SCREEN_SIZE = "screenSize",
+  TIMEZONE = "timezone",
+  COLOR_DEPTH = "colorDepth",
+  CANVAS_2D = "canvas2D",
+  CANVAS_WEBGL = "canvasWebGL",
+  AUDIO_CONTEXT = "audioContext",
 }
 
 export type FPUpdateAttributes = Exclude<
   FPAttributes,
-  FPAttributes.canvas2D | FPAttributes.canvasWebGL | FPAttributes.audioContext
+  FPAttributes.CANVAS_2D | FPAttributes.CANVAS_WEBGL | FPAttributes.AUDIO_CONTEXT
 >;
 
 export type FPUpdateAttributesMap = Map<FPUpdateAttributes, string>;
@@ -35,12 +35,12 @@ export default class Fingerprint {
   readonly attributes: FPAttributesMap = new Map();
 
   async createFingerprint() {
-    this.attributes.set(FPAttributes.timeZone, getTimeZoneFP());
-    this.attributes.set(FPAttributes.screenSize, getScreenSize());
-    this.attributes.set(FPAttributes.colorDepth, getColorDepth());
-    this.attributes.set(FPAttributes.canvas2D, getCanvas2D());
-    this.attributes.set(FPAttributes.canvasWebGL, await getCanvasWebGL());
-    this.attributes.set(FPAttributes.audioContext, await getAudioContext());
+    this.attributes.set(FPAttributes.TIMEZONE, getTimeZoneFP());
+    this.attributes.set(FPAttributes.SCREEN_SIZE, getScreenSize());
+    this.attributes.set(FPAttributes.COLOR_DEPTH, getColorDepth());
+    this.attributes.set(FPAttributes.CANVAS_2D, getCanvas2D());
+    this.attributes.set(FPAttributes.CANVAS_WEBGL, await getCanvasWebGL());
+    this.attributes.set(FPAttributes.AUDIO_CONTEXT, await getAudioContext());
   }
 
   updateFingerprint(newFPValues: FPUpdateAttributesMap) {

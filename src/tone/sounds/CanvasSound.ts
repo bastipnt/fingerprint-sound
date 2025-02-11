@@ -42,7 +42,7 @@ class CanvasSound extends BaseSound {
 
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
-    const canvasData = this.musicVariables.get(FPAttributes.canvas2D);
+    const canvasData = this.musicVariables.get(FPAttributes.CANVAS_2D);
     if (!canvasData || typeof canvasData !== "string") return;
 
     const canvasBinaryStr = atob(canvasData.replace(/^data:image\/(png|jpg);base64,/, ""));

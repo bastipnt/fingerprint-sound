@@ -8,9 +8,10 @@ type Props = {
   children: ReactNode;
   show?: boolean;
   onlyWhenMoving?: boolean;
+  offset?: number;
 };
 
-const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving }) => {
+const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving, offset }) => {
   const { darkPattern } = useContext(PatternContext);
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -27,22 +28,22 @@ const InfoBox: React.FC<Props> = ({ children, show, onlyWhenMoving }) => {
 
   useEffect(() => {
     const updateMousePosition = (event: MouseEvent) => {
-      const offset = 20;
+      const edgeOffset = offset || 20;
       const { width, height } = getDimensions();
       const mouseX = event.pageX;
       const mouseY = event.pageY;
 
-      let x = mouseX + offset;
-      let y = mouseY + offset;
+      let x = mouseX + edgeOffset;
+      let y = mouseY + edgeOffset;
 
       const newScreenPosition = ["top", "left"];
       if (mouseX > width / 2) {
         newScreenPosition[1] = "right";
-        x = width - mouseX + offset;
+        x = width - mouseX + edgeOffset;
       }
       if (mouseY > height / 2) {
         newScreenPosition[0] = "bottom";
-        y = height - mouseY + offset;
+        y = height - mouseY + edgeOffset;
       }
 
       setMousePosition({ x, y });

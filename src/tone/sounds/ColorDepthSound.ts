@@ -32,7 +32,7 @@ class ColorDepthSound extends BaseSound {
 
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
-    const colorDepth = this.musicVariables.get(FPAttributes.colorDepth);
+    const colorDepth = this.musicVariables.get(FPAttributes.COLOR_DEPTH);
     if (!colorDepth || typeof colorDepth !== "string") return;
 
     const colorDepthNum = Number(colorDepth);

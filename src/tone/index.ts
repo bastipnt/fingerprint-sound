@@ -68,39 +68,39 @@ class MyTone {
 
   private createSounds() {
     this.sounds.set(
-      FPAttributes.screenSize,
+      FPAttributes.SCREEN_SIZE,
       new ScreenSizeSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.screenSize, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.SCREEN_SIZE, newState),
       ),
     );
     this.sounds.set(
-      FPAttributes.audioContext,
+      FPAttributes.AUDIO_CONTEXT,
       new AudioSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.audioContext, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.AUDIO_CONTEXT, newState),
       ),
     );
     this.sounds.set(
-      FPAttributes.canvas2D,
+      FPAttributes.CANVAS_2D,
       new CanvasSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.canvas2D, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.CANVAS_2D, newState),
       ),
     );
     this.sounds.set(
-      FPAttributes.canvasWebGL,
+      FPAttributes.CANVAS_WEBGL,
       new WebGLSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.canvasWebGL, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.CANVAS_WEBGL, newState),
       ),
     );
     this.sounds.set(
-      FPAttributes.colorDepth,
+      FPAttributes.COLOR_DEPTH,
       new ColorDepthSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.colorDepth, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.COLOR_DEPTH, newState),
       ),
     );
     this.sounds.set(
-      FPAttributes.timeZone,
+      FPAttributes.TIMEZONE,
       new TimezoneSound(this.mainGain, (newState: PlayState) =>
-        this.setSoundPlayStatesCallback(FPAttributes.timeZone, newState),
+        this.setSoundPlayStatesCallback(FPAttributes.TIMEZONE, newState),
       ),
     );
   }

@@ -90,12 +90,12 @@ class ScreenSizeSound extends BaseSound {
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
 
-    const screenSize = this.musicVariables.get(FPAttributes.screenSize);
-    console.log("update", screenSize);
+    const screenSize = this.musicVariables.get(FPAttributes.SCREEN_SIZE);
     if (!screenSize || typeof screenSize !== "string") return;
 
-    const width = Number(screenSize.split("x")[0]);
-    this.decay = scale(width, 800, 6000, 0, 20);
+    const [width, height] = screenSize.split("x");
+    this.decay = scale(Number(width), 800, 6000, 0, 20);
+    this.gain.gain.value = scale(Number(height), 700, 1500, 0.1, 0.7);
 
     // const [mouseX, mouseY] = (this.musicVariables.get("mousePosition") as [number, number]) || [
     //   0, 0,

@@ -57,7 +57,7 @@ class WebGLSound extends BaseSound {
 
   updateVariables(name: SoundVariableKey, value: SoundVariableValue): void {
     super.updateVariables(name, value);
-    const webGlData = this.musicVariables.get(FPAttributes.canvasWebGL);
+    const webGlData = this.musicVariables.get(FPAttributes.CANVAS_WEBGL);
     if (!webGlData || typeof webGlData !== "string") return;
 
     const canvasBinaryStr = atob(webGlData.replace(/^data:image\/(png|jpg);base64,/, ""));
