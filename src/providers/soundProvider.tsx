@@ -40,12 +40,16 @@ export const SoundContext = createContext<{
   isLoading: boolean;
   toggleGlobalPlay: () => Promise<void>;
   toggleAttributePlay: (soundName: FPAttributes) => Promise<void>;
+  unmuteAll: () => Promise<void>;
+  muteAll: () => Promise<void>;
 }>({
   globalPlayState: PlayState.STOPPED,
   soundPlayStates: initialPlayStates,
   isLoading: false,
   toggleGlobalPlay: async () => {},
   toggleAttributePlay: async () => {},
+  unmuteAll: async () => {},
+  muteAll: async () => {},
 });
 
 type Props = {
@@ -103,6 +107,23 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
     else if (globalPlayState === PlayState.MUTED) await myTone.unMute();
   }, [globalPlayState, updateVariables]);
 
+  const unmuteAll = async () => {
+    if (globalPlayState === PlayState.STOPPED) {
+      await toggleGlobalPlay();
+    }
+
+    const myTone = myToneRef.current;
+    if (!myTone) return;
+    myTone.unmuteAll();
+  };
+
+  const muteAll = async () => {
+    const myTone = myToneRef.current;
+    if (!myTone) return;
+
+    myTone.muteAll();
+  };
+
   const toggleAttributePlay = useCallback(
     async (soundName: FPAttributes) => {
       if (globalPlayState === PlayState.STOPPED) {
@@ -140,6 +161,8 @@ const SoundProvider: React.FC<Props> = ({ children }) => {
         isLoading,
         toggleAttributePlay,
         toggleGlobalPlay,
+        unmuteAll,
+        muteAll,
       }}
     >
       {children}

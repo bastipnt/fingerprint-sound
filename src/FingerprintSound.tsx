@@ -16,8 +16,15 @@ const FingerprintSound: React.FC = ({}) => {
   const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null | "info">(null);
 
-  const { globalPlayState, soundPlayStates, toggleGlobalPlay, toggleAttributePlay, isLoading } =
-    useContext(SoundContext);
+  const {
+    globalPlayState,
+    soundPlayStates,
+    unmuteAll,
+    muteAll,
+    toggleGlobalPlay,
+    toggleAttributePlay,
+    isLoading,
+  } = useContext(SoundContext);
 
   const handleHover = (attributeKey: FPAttributes | "info", isHover: boolean) => {
     if (!isHover) return setCurrAttribute(null);
@@ -114,6 +121,12 @@ const FingerprintSound: React.FC = ({}) => {
         >
           <button className="bg-surface text-primary p-2" onClick={toggleGlobalPlay}>
             {globalPlayState === PlayState.STARTED ? "Mute" : "Play"}
+          </button>
+          <button className="bg-surface text-primary p-2" onClick={unmuteAll}>
+            Play all
+          </button>
+          <button className="bg-surface text-primary p-2" onClick={muteAll}>
+            Stop all
           </button>
           {isLoading && <span>Loading...</span>}
           <span>{globalPlayState}</span>

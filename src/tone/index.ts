@@ -151,12 +151,18 @@ class MyTone {
     this.setPlayState(PlayState.STARTED);
   }
 
-  async unmuteAll() {
+  unmuteAll() {
     if (!MyTone.initialised) return;
     if (this.state === PlayState.STOPPED) return;
 
     this.unMute();
     this.sounds.forEach((sound) => sound.unMute());
+  }
+
+  muteAll() {
+    if (!MyTone.initialised) return;
+
+    this.sounds.forEach((sound) => sound.mute());
   }
 
   private async load() {
