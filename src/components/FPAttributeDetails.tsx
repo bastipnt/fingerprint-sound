@@ -35,13 +35,13 @@ const FPAttributeDetails: React.FC<Props> = ({
   }, [attributes]);
 
   return (
-    <div className="grid-rows[auto_1fr_auto] grid h-full gap-2">
+    <div className="grid h-full grid-rows-3 gap-2">
       <h2>{attributeName}</h2>
 
       {options && (
         <select
           onChange={(e) => handleAttributeChange(e)}
-          className="cursor-pointer"
+          className="w-full cursor-pointer border px-2 overflow-ellipsis"
           name={attributeName}
           value={attributeValue?.updatedValue || attributeValue?.ogValue}
         >

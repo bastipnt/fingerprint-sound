@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useCallback, useContext, useState } from "react";
 import FPAttribute from "./components/FPAttribute";
 import FPAttributeDetails from "./components/FPAttributeDetails";
 import InfoBox from "./components/InfoBox";
@@ -51,6 +51,26 @@ const FingerprintSound: React.FC = ({}) => {
     else return attributes.get(attributeName)?.ogValue;
   };
 
+  const getAttributeOptions = useCallback(
+    (attributeName: FPAttributes): string[] | undefined => {
+      let options: string[] = [];
+      const attributeInfos = fpDesctiptions[attributeName];
+
+      if (attributeName === FPAttributes.TIMEZONE) {
+        options = Intl.supportedValuesOf("timeZone").filter(
+          (timezone) => timezone !== attributes.get(attributeName)?.ogValue,
+        );
+      } else if ("options" in attributeInfos) {
+        options = attributeInfos.options;
+      } else {
+        return undefined;
+      }
+
+      return options.filter((option) => option !== attributes.get(attributeName)?.ogValue);
+    },
+    [attributes],
+  );
+
   const visitorIdInfo = (
     <>
       <span>This is the visitor ID, created from your device fingerprint.</span>
@@ -99,7 +119,7 @@ const FingerprintSound: React.FC = ({}) => {
                       attributeName={attributeName}
                       toggleAttributePlay={toggleAttributePlay}
                       state={playState}
-                      options={"options" in attributeInfos ? attributeInfos.options : undefined}
+                      options={getAttributeOptions(attributeName)}
                     />
                   </FPAttribute>
                   <InfoBox show={currAttribute === attributeName} offset={50}>

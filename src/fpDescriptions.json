@@ -8,14 +8,13 @@
   "timezone": {
     "label": "Timezone",
     "description": "Your current timezone",
-    "ref": [],
-    "options": ["Europe/Paris"]
+    "ref": []
   },
   "colorDepth": {
     "label": "Color Depth",
     "description": "A number, representing the bit depth of the color palette for displaying images.",
     "ref": [],
-    "options": ["10"]
+    "options": ["1", "4", "8", "15", "16", "24", "32", "48"]
   },
   "canvas2D": {
     "label": "Canvas fingerprint",
