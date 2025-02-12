@@ -1,6 +1,6 @@
 import { Route, Switch } from "wouter";
-import StoriesWrapper from "./components/StoriesWrapper";
 import FingerprintSound from "./FingerprintSound";
+import Info from "./Info";
 import Layout from "./Layout";
 import Provider from "./providers";
 import Welcome from "./Welcome";
@@ -10,16 +10,9 @@ function App() {
     <Provider>
       <Layout>
         <Switch>
-          <Route path="/">
-            <Welcome />
-          </Route>
-
-          <Route path="/fp-sound">
-            <FingerprintSound />
-          </Route>
-
-          <Route path="/stories" component={StoriesWrapper} />
-
+          <Route path="/" component={Welcome} />
+          <Route path="/fp-sound" component={FingerprintSound} />
+          <Route path="/info" component={Info} />
           <Route>404: No such page!</Route>
         </Switch>
       </Layout>

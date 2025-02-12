@@ -13,7 +13,7 @@ const Layout: React.FC<Props> = ({ children }) => {
           Home
         </Link>{" "}
         |
-        <Link to="/stories" className={(active) => (active ? "active" : "")}>
+        <Link to="/info" className={(active) => (active ? "active" : "")}>
           Info
         </Link>
       </nav>
