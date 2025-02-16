@@ -20,13 +20,13 @@ const FPAttribute: React.FC<Props> = ({ togglePlay, label, isPlaying, onHover, c
 
   return (
     <div
-      className={`shaped text-surface box-border flex h-40 w-40 flex-col items-center justify-center p-4 text-center`}
+      className={`shaped text-surface box-border flex h-40 w-40 flex-col items-center justify-center text-center`}
       onClick={() => togglePlay && togglePlay()}
       onMouseEnter={() => toggleHover(true)}
       onMouseLeave={() => toggleHover(false)}
       style={{ background: isPlaying ? `black` : `url(${lightPattern})` }}
     >
-      {isHover ? children : label}
+      {isHover ? children : <h3 className="text-xl">{label}</h3>}
     </div>
   );
 };

@@ -6,14 +6,11 @@ import InfoText from "./components/InfoText";
 import { FPAttributes } from "./fingerprint";
 import fpDesctiptions from "./fpDescriptions.json";
 import { FingerprintContext } from "./providers/fingerprintProvider";
-import { PatternContext } from "./providers/patternProvider";
 import { PlayState, SoundContext } from "./providers/soundProvider";
 import { getAudioFPImageUrl } from "./util/audioFPCanvas";
 
 const FingerprintSound: React.FC = ({}) => {
   const { visitorId, attributes } = useContext(FingerprintContext);
-
-  const { darkPattern, lightPattern } = useContext(PatternContext);
   const [currAttribute, setCurrAttribute] = useState<FPAttributes | null | "info">(null);
 
   const {
@@ -78,28 +75,24 @@ const FingerprintSound: React.FC = ({}) => {
   );
 
   return (
-    <div className="grid h-screen grid-rows-[auto_1fr_auto] flex-col items-center justify-center py-24">
+    <div className="grid h-screen grid-cols-[1fr_400px] grid-rows-[auto_1fr_auto] justify-center gap-8 p-24">
       {currAttribute === null && (
         <InfoBox offset={50} onlyWhenMoving>
           <p>Hover your mouse over a fingerprint attribute to see it's value.</p>
         </InfoBox>
       )}
 
-      <section className="text-surface flex w-screen flex-row justify-center gap-4">
-        <div
-          className="font-heading bg-primary px-8 py-4"
-          style={{ background: `url(${lightPattern})` }}
-        >
-          <h1 className="text-center text-2xl">
-            Hello Visitor
-            <br />
+      <section className="text-surface col-span-2 flex w-screen flex-row justify-center gap-4">
+        <div className="edge-bottom-right edge-sm text-neutral flex flex-col gap-2 p-8">
+          <h1 className="text-4xl">Hello Visitor:</h1>
+          <h2 className="text-2xl">
             <InfoText
               onHover={(isHover: boolean) => handleHover("info", isHover)}
               infoText={visitorIdInfo}
             >
               {visitorId}
             </InfoText>
-          </h1>
+          </h2>
         </div>
       </section>
       <section className="flex flex-col items-center">
@@ -134,24 +127,26 @@ const FingerprintSound: React.FC = ({}) => {
         </ul>
       </section>
 
-      <section className="text-surface flex w-screen flex-row justify-center gap-4">
-        <div
-          className="shaped bg-neutral flex w-[60vw] flex-row items-center gap-2 bg-repeat px-8 py-4"
-          style={{ background: `url(${darkPattern})` }}
-        >
-          <button className="bg-surface text-primary p-2" onClick={toggleGlobalPlay}>
+      <section className="border-4">Infooooo</section>
+
+      <section className="col-span-2 flex w-screen flex-row justify-center gap-4">
+        <div className="flex flex-row items-center gap-2 px-8 py-4">
+          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={toggleGlobalPlay}>
             {globalPlayState === PlayState.STARTED ? "Mute" : "Play"}
           </button>
-          <button className="bg-surface text-primary p-2" onClick={unmuteAll}>
+          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={unmuteAll}>
             Play all
           </button>
-          <button className="bg-surface text-primary p-2" onClick={muteAll}>
+          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={muteAll}>
             Stop all
           </button>
           {isLoading && <span>Loading...</span>}
-          <span>{globalPlayState}</span>
         </div>
       </section>
+
+      <div className="fixed right-24 bottom-12">
+        <p className="text-3xl">{globalPlayState}</p>
+      </div>
     </div>
   );
 };

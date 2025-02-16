@@ -2,21 +2,21 @@ import { useCallback, useContext, useState } from "react";
 import { Link } from "wouter";
 import InfoText from "./components/InfoText";
 import { PatternContext } from "./providers/patternProvider";
+import "./Welcome.css";
 
 const Welcome: React.FC = () => {
-  const { darkPattern, secondaryPattern } = useContext(PatternContext);
   const [currentPage, setCurrentPage] = useState(0);
 
   const taretedAdvertisingInfo = (
     <>
-      <b>Targeted Advertising:</b>{" "}
+      <i>Targeted Advertising:</i>{" "}
       <span>Is a form of advertising, that is tailored to a specific group or person.</span>
     </>
   );
 
   const trackingInfo = (
     <>
-      <b>Tracking:</b>{" "}
+      <i>Tracking:</i>{" "}
       <span>
         Is the practice of collecting, storing, and sharing information about website visitors.
       </span>
@@ -25,7 +25,7 @@ const Welcome: React.FC = () => {
 
   const cookiesInfo = (
     <>
-      <b>Cookies:</b>{" "}
+      <i>Cookies:</i>{" "}
       <span>
         Small blocks of data, created by a web server, stored in a users browser when visiting a
         website.
@@ -35,7 +35,7 @@ const Welcome: React.FC = () => {
 
   const deviceFingerprintingInfo = (
     <>
-      <b>Device Fingerprint:</b>{" "}
+      <i>Device Fingerprint:</i>{" "}
       <span>
         Information collected about the software and hardware of a device for the purpose of
         identification.
@@ -45,13 +45,13 @@ const Welcome: React.FC = () => {
 
   const javaScriptInfo = (
     <>
-      <b>JavaScript:</b> <span>Is a programming language and core technology of the Web.</span>
+      <i>JavaScript:</i> <span>Is a programming language and core technology of the Web.</span>
     </>
   );
 
   const enthropyInfo = (
     <>
-      <b>Enthropy:</b>{" "}
+      <i>Enthropy:</i>{" "}
       <span>
         Can quantify the information associated with a variable. The lower, the more uncertain is an
         information.
@@ -62,12 +62,12 @@ const Welcome: React.FC = () => {
   const pages = [
     <>
       <span>
-        <h1 className="mb-2 text-2xl">Hello Visitor...</h1>
+        <h1 className="mb-2 text-4xl">Hello Visitor...</h1>
         <h2 className="text-xl">Welcome to Fingerprint Sound!</h2>
       </span>
       <p>
-        This website is the main project of my masters thesis about <b>targeted advertising</b> and{" "}
-        <b>tracking</b>.
+        This website is the main project of my masters thesis about <i>targeted advertising</i> and{" "}
+        <i>tracking</i>.
       </p>
       <p>
         You never heard of{" "}
@@ -77,7 +77,7 @@ const Welcome: React.FC = () => {
       </p>
       <p>
         I'm sure you have already heared about <InfoText infoText={cookiesInfo}>cookies</InfoText>{" "}
-        tho? <b>Cookies</b> can be used for <b>tracking</b>! But <b>cookies</b> are not cool
+        tho? <i>Cookies</i> can be used for <i>tracking</i>! But <i>cookies</i> are not cool
         anymore, the tracking industry came up with a much better approach to track people's online
         behaviour. Let me introduce to you{" "}
         <InfoText infoText={deviceFingerprintingInfo}>device fingerprinting</InfoText> on the next
@@ -87,7 +87,7 @@ const Welcome: React.FC = () => {
 
     <>
       <span>
-        <h1 className="mb-2 text-2xl">Device Fingerprinting...</h1>
+        <h1 className="mb-2 text-4xl">Device Fingerprinting...</h1>
         <h2 className="text-xl">A sneaky tracking method</h2>
       </span>
       <p>
@@ -100,7 +100,7 @@ const Welcome: React.FC = () => {
       </p>
       <p>
         This is the great advantage compared to <InfoText infoText={cookiesInfo}>cookies</InfoText>.
-        To create such a <b>fingerprint</b> all there is to do is to combine information about your
+        To create such a <i>fingerprint</i> all there is to do is to combine information about your
         browser and device, that can be accest with{" "}
         <InfoText infoText={javaScriptInfo}>JavaScript</InfoText>. The information used is chosen
         wisely in a way, that it doesn't change often and provides maximum{" "}
@@ -110,7 +110,7 @@ const Welcome: React.FC = () => {
 
     <>
       <span>
-        <h1 className="mb-2 text-2xl">About my Project...</h1>
+        <h1 className="mb-2 text-4xl">About my Project...</h1>
       </span>
       <p>
         The aim of this website is providing a non technical way to teach about web tracking and
@@ -136,29 +136,18 @@ const Welcome: React.FC = () => {
 
   return (
     <>
-      <main className="box-border flex h-screen w-screen max-w-[80vw] flex-col items-center justify-center gap-12 p-12 pt-28">
-        <div
-          className="text-surface flex w-fit flex-col gap-8 p-8"
-          style={{ background: `url(${darkPattern})` }}
-        >
+      <main className="box-border flex h-screen w-screen max-w-3xl flex-col items-center justify-center gap-12 p-12 pt-28">
+        <div className="edge-bottom-right flex w-fit flex-col gap-8 p-8 pr-12">
           {pages[currentPage]}
         </div>
 
         <div className="flex w-full flex-col items-end justify-end p-2">
           {currentPage === pages.length - 1 ? (
-            <Link
-              className="text-surface shaped w-fit cursor-pointer p-4"
-              style={{ background: `url(${secondaryPattern})` }}
-              to="/fp-sound"
-            >
+            <Link className="edgy-btn w-fit cursor-pointer p-4 text-lg" to="/fp-sound">
               Next
             </Link>
           ) : (
-            <button
-              className="text-surface shaped w-fit cursor-pointer p-4"
-              style={{ background: `url(${secondaryPattern})` }}
-              onClick={next}
-            >
+            <button className="edgy-btn w-fit cursor-pointer px-8 py-2 text-lg" onClick={next}>
               Next
             </button>
           )}

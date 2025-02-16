@@ -35,27 +35,32 @@ const FPAttributeDetails: React.FC<Props> = ({
   }, [attributes]);
 
   return (
-    <div className="grid h-full grid-rows-3 gap-2">
-      <h2>{attributeName}</h2>
+    <div className="flex h-full w-full flex-col justify-between gap-4">
+      <h3 className="pt-4 text-xl">{attributeName}</h3>
 
       {options && (
-        <select
-          onChange={(e) => handleAttributeChange(e)}
-          className="w-full cursor-pointer border px-2 overflow-ellipsis"
-          name={attributeName}
-          value={attributeValue?.updatedValue || attributeValue?.ogValue}
-        >
-          <option value={attributeValue?.ogValue}>{attributeValue?.ogValue}</option>
-          <option disabled>──────────</option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <div className="px-4">
+          <select
+            onChange={(e) => handleAttributeChange(e)}
+            className="w-full cursor-pointer border p-2 overflow-ellipsis"
+            name={attributeName}
+            value={attributeValue?.updatedValue || attributeValue?.ogValue}
+          >
+            <option value={attributeValue?.ogValue}>{attributeValue?.ogValue}</option>
+            <option disabled>──────────</option>
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
 
-      <button className="cursor-pointer" onClick={() => toggleAttributePlay(attributeName)}>
+      <button
+        className="bg-primary cursor-pointer p-2"
+        onClick={() => toggleAttributePlay(attributeName)}
+      >
         {state === PlayState.STARTED ? "Pause" : "Play"}
       </button>
     </div>

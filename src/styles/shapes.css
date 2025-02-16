@@ -1,0 +1,104 @@
+.edge-bottom-right {
+  --inset: 10px;
+  --insetY: calc(2 * var(--inset));
+  --edge-width: 0.6px;
+
+  --border-width: 2px;
+  --edge-size: 50px;
+
+  position: relative;
+
+  &.edge-sm {
+    --edge-size: 30px;
+  }
+}
+
+.edge-bottom-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: black;
+  clip-path: polygon(
+    var(--inset) var(--insetY),
+    100% var(--insetY),
+    100% calc(100% - var(--edge-size)),
+    calc(100% - var(--edge-size)) 100%,
+    var(--inset) 100%,
+    var(--inset) var(--insetY),
+    var(--inset) calc(100% - var(--border-width) - var(--inset)),
+    calc(var(--border-width) + var(--inset)) calc(100% - var(--border-width) - var(--inset)),
+    calc(var(--border-width) + var(--inset)) calc(100% - var(--border-width)),
+    calc(100% - var(--edge-size) - var(--edge-width)) calc(100% - var(--border-width)),
+    calc(100% - var(--border-width)) calc(100% - var(--edge-size) - var(--edge-width)),
+    calc(100% - var(--border-width)) calc(var(--border-width) + var(--insetY)),
+    calc(100% - var(--border-width) - var(--inset)) calc(var(--border-width) + var(--insetY)),
+    calc(100% - var(--border-width) - var(--inset)) var(--insetY),
+    var(--inset) var(--insetY)
+  );
+}
+
+.edge-bottom-right::after {
+  --border-inset: calc(var(--border-width) + var(--inset));
+  --edge-inset: calc(var(--edge-size) - var(--inset) / 2);
+
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: black;
+  clip-path: polygon(
+    0% var(--inset),
+    calc(100% - var(--inset)) var(--inset),
+    calc(100% - var(--inset)) calc(100% - var(--edge-inset) - var(--inset)),
+    calc(100% - var(--edge-inset) - var(--inset)) calc(100% - var(--inset)),
+    0% calc(100% - var(--inset)),
+    0% var(--inset),
+    calc(var(--border-inset) - var(--inset)) var(--border-inset),
+    calc(var(--border-inset) - var(--inset)) calc(100% - var(--border-inset)),
+    calc(100% - var(--inset) - var(--edge-inset) - var(--edge-width))
+      calc(100% - var(--border-inset)),
+    calc(100% - var(--border-inset))
+      calc(100% - var(--inset) - var(--edge-inset) - var(--edge-width)),
+    calc(100% - var(--border-inset)) var(--border-inset),
+    0% var(--border-inset)
+  );
+}
+
+.edgy-btn {
+  --border-width: 4px;
+  --edge-size: 15px;
+  --edge-correct: 2px;
+  --line-color: var(--color-neutral);
+
+  position: relative;
+
+  &.line-surface {
+    --line-color: var(--color-surface);
+  }
+}
+
+.edgy-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--line-color);
+
+  clip-path: polygon(
+    0 50%,
+    var(--edge-size) 0,
+    calc(100% - var(--edge-size)) 0,
+    100% 50%,
+    calc(100% - var(--edge-size)) 100%,
+    var(--edge-size) 100%,
+    0 50%,
+
+    var(--border-width) 50%,
+    calc(var(--edge-size) + var(--border-width) - var(--edge-correct))
+      calc(100% - var(--border-width)),
+    calc(100% - var(--edge-size) - var(--border-width) + var(--edge-correct))
+      calc(100% - var(--border-width)),
+    calc(100% - var(--border-width)) 50%,
+    calc(100% - var(--edge-size) - var(--border-width) + var(--edge-correct)) var(--border-width),
+    calc(var(--edge-size) + var(--border-width) - var(--edge-correct)) var(--border-width),
+    var(--border-width) 50%
+  );
+}
