@@ -64,15 +64,20 @@
 }
 
 .edgy-btn {
-  --border-width: 4px;
+  --border-width-mult: 4;
+  --border-width: calc(1px * var(--border-width-mult));
   --edge-size: 15px;
-  --edge-correct: 2px;
+  --edge-correct: calc(1px * sqrt(var(--border-width-mult)));
   --line-color: var(--color-neutral);
 
   position: relative;
 
   &.line-surface {
     --line-color: var(--color-surface);
+  }
+
+  &.line-2 {
+    --border-width-mult: 2;
   }
 }
 

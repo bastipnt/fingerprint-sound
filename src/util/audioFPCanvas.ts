@@ -5,8 +5,8 @@ export const getAudioFPImageUrl = (values?: Float32Array | string): string => {
   if (typeof values === "string") return "";
 
   const canvas = document.createElement("canvas");
-  const width = 300;
-  const height = 200;
+  const width = 500;
+  const height = 100;
   canvas.width = width;
   canvas.height = height;
 
@@ -32,7 +32,7 @@ export const getAudioFPImageUrl = (values?: Float32Array | string): string => {
     ctx.lineTo(x, y);
   }
   ctx.lineCap = "round";
-  ctx.strokeStyle = "white";
+  ctx.strokeStyle = "black";
   ctx.stroke();
 
   return canvas.toDataURL();

@@ -2,33 +2,34 @@
   "screenSize": {
     "label": "Screen Size",
     "description": "Value of your screen resolution.",
+    "valueHint": "[width x height]",
     "ref": [],
     "options": ["1920x1080", "1366x768", "1536x864", "1280x720"]
   },
   "timezone": {
     "label": "Timezone",
-    "description": "Your current timezone",
+    "description": "Your current timezone.",
     "ref": []
   },
   "colorDepth": {
     "label": "Color Depth",
-    "description": "A number, representing the bit depth of the color palette for displaying images.",
+    "description": "A number, representing the bit depth of the color palette for displaying images in your browser.",
     "ref": [],
     "options": ["1", "4", "8", "15", "16", "24", "32", "48"]
   },
   "canvas2D": {
     "label": "Canvas fingerprint",
-    "description": "Two images are drawn inside of your browser with the help of html canvas. Rendering images can be different on different computers, due to differences in hardware and software. Thats why this is a good method to distinguish devices.",
+    "description": "Two images are drawn inside of your browser with the help of html canvas. Rendering images can be different on different computers, this can be used to identify you.",
     "ref": []
   },
   "canvasWebGL": {
     "label": "WebGl Fingerprint",
-    "description": "TODO:",
+    "description": "Image drawn inside your browser with the help of your graphics card. There are different results for different hardware configurations.",
     "ref": []
   },
   "audioContext": {
     "label": "Audio fingerprint",
-    "description": "The audio fingerprint uses the Web Audio API to sample a sound. Differences in hardware can lead to different sampling values. This is a good way to distinguish between different devices.",
+    "description": "The audio fingerprint uses the Web Audio API to sample a sound. Differences in hardware can lead to different sampling values, and thus identify your computer.",
     "ref": []
   }
 }

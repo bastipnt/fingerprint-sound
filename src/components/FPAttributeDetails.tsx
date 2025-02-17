@@ -35,14 +35,14 @@ const FPAttributeDetails: React.FC<Props> = ({
   }, [attributes]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between gap-4">
-      <h3 className="pt-4 text-xl">{attributeName}</h3>
+    <div className="flex h-full w-full flex-col items-center justify-between gap-4 px-2 py-4">
+      <h3 className="text-xl">{attributeName}</h3>
 
       {options && (
-        <div className="px-4">
+        <div>
           <select
             onChange={(e) => handleAttributeChange(e)}
-            className="w-full cursor-pointer border p-2 overflow-ellipsis"
+            className="w-full cursor-pointer border-2 p-2 overflow-ellipsis"
             name={attributeName}
             value={attributeValue?.updatedValue || attributeValue?.ogValue}
           >
@@ -58,7 +58,7 @@ const FPAttributeDetails: React.FC<Props> = ({
       )}
 
       <button
-        className="bg-primary cursor-pointer p-2"
+        className="edgy-btn line-surface line-2 w-fit cursor-pointer px-8"
         onClick={() => toggleAttributePlay(attributeName)}
       >
         {state === PlayState.STARTED ? "Pause" : "Play"}
