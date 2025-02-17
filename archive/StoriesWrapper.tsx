@@ -1,8 +1,6 @@
-import { KeyboardContext } from "../providers/keyboardProvider";
-import Test1 from "../stories/Test1";
-import Welcome from "../stories/Welcome";
-import StoriesProgressBar from "./StoryProgressBar";
 import { ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import StoriesProgressBar from "../src/components/StoryProgressBar";
+import { KeyboardContext } from "../src/providers/keyboardProvider";
 
 type Story = {
   id: string;
@@ -16,10 +14,10 @@ const StoriesWrapper: React.FC = () => {
   const [stories] = useState<Story[]>([
     {
       id: crypto.randomUUID(),
-      value: <Welcome />,
+      value: <h1>Hello</h1>,
       duration: 3000,
     },
-    { id: crypto.randomUUID(), value: <Test1 />, duration: 5000 },
+    { id: crypto.randomUUID(), value: <h2>Lol</h2>, duration: 5000 },
   ]);
 
   const [currentStoryId, setCurrentStoryId] = useState<string>();
@@ -56,7 +54,7 @@ const StoriesWrapper: React.FC = () => {
 
   return (
     <section>
-      <div className="grid grid-flow-col p-4 gap-4">
+      <div className="grid grid-flow-col gap-4 p-4">
         {stories.map(({ id, duration }, i) => (
           <StoriesProgressBar
             key={id}
