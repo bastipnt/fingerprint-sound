@@ -35,7 +35,7 @@ const KeyboardProvider: React.FC<Props> = ({ children }) => {
     const handleKeyUp = handleKeyDown;
 
     function handleMouseMove(e: MouseEvent) {
-      // setMousePosition([e.clientX, e.clientY]);
+      setMousePosition([e.clientX, e.clientY]);
     }
 
     document.addEventListener("keydown", handleKeyDown);
