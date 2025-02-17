@@ -63,7 +63,7 @@ const FingerprintSound: React.FC = ({}) => {
           </h2>
         </div>
       </section>
-      <section className="flex flex-col items-center">
+      <section className="flex flex-col items-center self-center">
         <ul className="box-border grid grid-cols-3 gap-8 p-4">
           {(Object.entries(FPAttributes) as Array<[keyof typeof FPAttributes, FPAttributes]>).map(
             ([attributeKey, attributeName]) => {
@@ -91,22 +91,20 @@ const FingerprintSound: React.FC = ({}) => {
 
       <FPInfoSection attribute={currAttribute} />
 
-      <section className="col-span-2 flex flex-row justify-center gap-4">
-        <div className="flex flex-row items-center gap-2 px-8 py-4">
-          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={toggleGlobalPlay}>
-            {globalPlayState === PlayState.STARTED
-              ? "Mute"
-              : globalPlayState === PlayState.STOPPED
-                ? "Start"
-                : "Unmute"}
-          </button>
-          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={unmuteAll}>
-            Play all
-          </button>
-          <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={muteAll}>
-            Pause all
-          </button>
-        </div>
+      <section className="col-span-2 flex flex-row items-center justify-center gap-8">
+        <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={toggleGlobalPlay}>
+          {globalPlayState === PlayState.STARTED
+            ? "Mute"
+            : globalPlayState === PlayState.STOPPED
+              ? "Start"
+              : "Unmute"}
+        </button>
+        <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={unmuteAll}>
+          Play all
+        </button>
+        <button className="edgy-btn cursor-pointer px-8 py-2 text-lg" onClick={muteAll}>
+          Pause all
+        </button>
       </section>
 
       <div className="fixed right-12 bottom-8">

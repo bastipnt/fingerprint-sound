@@ -1,7 +1,6 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "wouter";
 import InfoText from "./components/InfoText";
-import { PatternContext } from "./providers/patternProvider";
 import "./Welcome.css";
 
 const Welcome: React.FC = () => {
