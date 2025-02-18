@@ -1,6 +1,6 @@
 import { AmplitudeEnvelope, Filter, Gain, GrainPlayer, Sequence } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import kick from "../../assets/samples/kick-rumble.wav";
+// import kick from "../../assets/samples/kick-rumble.wav";
 import { FPAttributes } from "../../fingerprint";
 import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import BaseSound from "./BaseSound";
@@ -46,23 +46,23 @@ class ColorDepthSound extends BaseSound {
     // const x = scale(mouseX, 0, window.innerWidth, 0, 1);
   }
 
-  async load() {
-    await new Promise((resolve) => {
-      this.player = new GrainPlayer(kick, () => resolve(null));
-    });
+  // async load() {
+  //   await new Promise((resolve) => {
+  //     this.player = new GrainPlayer(kick, () => resolve(null));
+  //   });
 
-    this.player?.set({
-      grainSize: 0.005,
-      loop: true,
-      overlap: 0.05,
-      loopStart: 0.1,
-      loopEnd: 0.2,
-      playbackRate: 0.1 - this.depth * 0.001,
-      detune: 2,
-    });
-    this.player?.connect(this.gain);
-    this.player?.start();
-  }
+  //   this.player?.set({
+  //     grainSize: 0.005,
+  //     loop: true,
+  //     overlap: 0.05,
+  //     loopStart: 0.1,
+  //     loopEnd: 0.2,
+  //     playbackRate: 0.1 - this.depth * 0.001,
+  //     detune: 2,
+  //   });
+  //   this.player?.connect(this.gain);
+  //   this.player?.start();
+  // }
 
   startChild = (time: Time) => {
     this.seq.start(time);
