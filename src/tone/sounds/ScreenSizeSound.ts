@@ -6,13 +6,12 @@ import {
   FrequencyShifter,
   Gain,
   Noise,
-  Player,
   Reverb,
   Sequence,
   Signal,
 } from "tone";
 import { Time } from "tone/build/esm/core/type/Units";
-import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
+// import hihat from "../../assets/samples/metallic-hyperpop-hat_160bpm.wav";
 import { FPAttributes } from "../../fingerprint";
 import { PlayState, SoundVariableKey, SoundVariableValue } from "../../providers/soundProvider";
 import { scale } from "../../util/number";
@@ -32,8 +31,8 @@ import BaseSound from "./BaseSound";
 class ScreenSizeSound extends BaseSound {
   private _decay: number = 3;
 
-  private player0 = new Player();
-  private player1 = new Player();
+  // private player0 = new Player();
+  // private player1 = new Player();
 
   private reverb = new Reverb({ decay: this.decay, wet: 1 });
   private freqShift = new FrequencyShifter(50);
@@ -75,9 +74,9 @@ class ScreenSizeSound extends BaseSound {
     this.signal.connect(this.freqShift.frequency);
   }
 
-  async load() {
-    await Promise.all([this.player0.load(hihat), this.player1.load(hihat), this.reverb.ready]);
-  }
+  // async load() {
+  //   await Promise.all([this.player0.load(hihat), this.player1.load(hihat), this.reverb.ready]);
+  // }
 
   startChild = (time: Time) => {
     this.seq.start(time);
