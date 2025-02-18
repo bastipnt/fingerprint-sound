@@ -62,7 +62,7 @@ const FPInfoSection: React.FC<Props> = ({ attribute }) => {
   );
 
   return (
-    <section className="grid grid-rows-[auto_1fr] overflow-hidden border-4">
+    <section className="grid h-full max-h-96 grid-rows-[auto_1fr] self-center overflow-hidden border-4">
       <h2 className="border-b-4 px-2 text-2xl">
         Info:{attribute !== null && " " + fpDesctiptions[attribute].label}
       </h2>
