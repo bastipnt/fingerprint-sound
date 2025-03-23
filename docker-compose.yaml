@@ -1,0 +1,24 @@
+services:
+  online-privacy-website:
+    image: caddy:latest
+    restart: unless-stopped
+    networks:
+      - caddy
+    labels:
+      caddy: fingerprint-sound.bastipnt.de
+      caddy.reverse_proxy: "{{upstreams}}"
+      caddy.header: /*
+      caddy.header.Strict-Transport-Security: '"max-age=15552000;"'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./dist:/srv
+      - online_privacy_data:/data
+      - online_privacy_config:/config
+
+volumes:
+  online_privacy_data:
+  online_privacy_config:
+
+networks:
+  caddy:
+    external: true

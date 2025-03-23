@@ -22,7 +22,7 @@ concurrency:
 jobs:
   build:
     environment:
-      name: github-pages
+      name: website-deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "latest"
+          bun-version: "1.0.36"
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Restore cache
@@ -47,17 +47,32 @@ jobs:
       - name: Build with Bun
         run: bun run build
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          path: dist
+          name: fingerprint-sound-website
+          path: |
+            dist
+            Caddyfile
+            docker-compose.yaml
+          overwrite: true
 
   deploy:
     environment:
-      name: github-pages
+      name: website-deploy
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
     needs: build
+    env:
+      HETZNER_SERVER: 95.217.159.233
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fingerprint-sound-website
+      - name: Deploy to Hetzner
+        uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.HCOLUD_SSH }}
+      - run: mkdir -p ~/.ssh/ && ssh-keyscan -H $HETZNER_SERVER >> ~/.ssh/known_hosts
+      - run: scp -r * root@$HETZNER_SERVER:/root/fingerprint-sound
+      - run: ssh root@$HETZNER_SERVER "cd fingerprint-sound; docker compose up -d;"
