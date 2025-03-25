@@ -3,7 +3,7 @@ services:
     image: caddy:latest
     restart: unless-stopped
     networks:
-      - caddy
+      - caddy_network
     labels:
       caddy: fingerprint-sound.bastipnt.de
       caddy.reverse_proxy: "{{upstreams}}"
@@ -20,5 +20,5 @@ volumes:
   online_privacy_config:
 
 networks:
-  caddy:
+  caddy_network:
     external: true
