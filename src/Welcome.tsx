@@ -9,7 +9,7 @@ const Welcome: React.FC = () => {
   const taretedAdvertisingInfo = (
     <>
       <i>Targeted Advertising:</i>{" "}
-      <span>Is a form of advertising, that is tailored to a specific group or person.</span>
+      <span>Is a form of advertising that is tailored to a specific group or person.</span>
     </>
   );
 
@@ -65,8 +65,8 @@ const Welcome: React.FC = () => {
         <h2 className="text-xl">Welcome to Fingerprint Sound!</h2>
       </span>
       <p>
-        This website is the main project of my masters thesis about <i>targeted advertising</i> and{" "}
-        <i>tracking</i>.
+        This website is a draft for a project of my masters thesis about <i>targeted advertising</i>{" "}
+        and <i>tracking</i>.
       </p>
       <p>
         You never heard of{" "}
@@ -75,10 +75,10 @@ const Welcome: React.FC = () => {
         terms with your mouse and they will be explained.
       </p>
       <p>
-        I'm sure you have already heared about <InfoText infoText={cookiesInfo}>cookies</InfoText>{" "}
-        tho? <i>Cookies</i> can be used for <i>tracking</i>! But <i>cookies</i> are not cool
-        anymore, the tracking industry came up with a much better approach to track people's online
-        behaviour. Let me introduce to you{" "}
+        I'm sure you have already heared about <InfoText infoText={cookiesInfo}>cookies</InfoText>?{" "}
+        <i>Cookies</i> can be used for <i>tracking</i>! But <i>cookies</i> are not cool anymore, the
+        tracking industry came up with a much better approach to track people's online behaviour.
+        Let me introduce to you{" "}
         <InfoText infoText={deviceFingerprintingInfo}>device fingerprinting</InfoText> on the next
         page.
       </p>
@@ -91,19 +91,19 @@ const Welcome: React.FC = () => {
       </span>
       <p>
         You can imagine a device fingerprint (also called browser fingerprint) similar to a real
-        fingerprint in the sense, that both are unique.
+        fingerprint in the sense that both are unique.
       </p>
       <p>
-        A device fingerprint is an identifier, that can track your used device across multiple web
+        A device fingerprint is an identifier that can track your used device across multiple web
         pages. It doesn't need to store any information on your computer to be able to do that.
       </p>
       <p>
         This is the great advantage compared to <InfoText infoText={cookiesInfo}>cookies</InfoText>.
-        To create such a <i>fingerprint</i> all there is to do is to combine information about your
-        browser and device, that can be accest with{" "}
+        To create a <i>fingerprint</i> all that needs to be done is to combine information about
+        your browser and device, that can be accessed with{" "}
         <InfoText infoText={javaScriptInfo}>JavaScript</InfoText>. The information used is chosen
-        wisely in a way, that it doesn't change often and provides maximum{" "}
-        <InfoText infoText={enthropyInfo}>enthropy</InfoText>.
+        wisely in a way that it doesn't change often and provides maximum{" "}
+        <InfoText infoText={enthropyInfo}>entropy</InfoText>.
       </p>
     </>,
 
@@ -117,13 +117,13 @@ const Welcome: React.FC = () => {
       </p>
       <p>
         After this introduction you can experience the often invisible device fingerprint yourself.
-        I picked six attributes, that are commingly used for device fingerprinting. These attributes
+        I picked six attributes that are usually used for device fingerprinting. These attributes
         can be used on the next page to create sounds and visuals.
       </p>
       <p>
-        Each attribute alone will sound boring, but all attributes together will create a whole
-        composition. Just like attributes in a device fingerprint don't provide much value alone,
-        but in combination can identify a person.
+        Each attribute may sound boring on its own but all attributes together will create a whole
+        composition. Just as attributes in a device fingerprint don't provide much value on their
+        own, combined they can identify a person.
       </p>
     </>,
   ];

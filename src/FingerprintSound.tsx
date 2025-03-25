@@ -49,7 +49,7 @@ const FingerprintSound: React.FC = ({}) => {
 
   const visitorIdInfo = (
     <>
-      <span>This is the visitor ID, created from your device fingerprint.</span>
+      <span>This is the visitor ID created from your device fingerprint.</span>
     </>
   );
 
